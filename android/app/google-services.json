@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "182732287783",
+    "project_id": "plancation-a1e81",
+    "storage_bucket": "plancation-a1e81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182732287783:android:592550c79179722e608302",
+        "android_client_info": {
+          "package_name": "com.example.plancation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "182732287783-1m08sa5q86n6bddhvha42meq2lp8rv48.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKfq68u1m4APyn4lgWWGANh4IiBcM5KJg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182732287783-1m08sa5q86n6bddhvha42meq2lp8rv48.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
