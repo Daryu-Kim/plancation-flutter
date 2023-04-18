@@ -50,9 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void handleLogin() {
     final form = formKey.currentState;
-    if (form.validate()) {
-      form.save();
-    }
+    print(_email);
+    print(_password);
   }
 
   @override
@@ -78,16 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    decoration: new InputDecoration(labelText: "Email"),
-                    validator: (value) =>
-                    value.isEmpty ? 'Password can\'t be empty' : null,
+                    decoration: const InputDecoration(labelText: "Email"),
                     onSaved: (value) => _email = value!,
                   ),
                   TextFormField(
                     obscureText: true,
-                    decoration: new InputDecoration(labelText: "Password"),
-                    validator: (value) =>
-                    value.isEmpty ? 'Password can\'t be empty' : null,
+                    decoration: const InputDecoration(labelText: "Password"),
                     onSaved: (value) => _password = value!,
                   ),
                   FilledButton(
