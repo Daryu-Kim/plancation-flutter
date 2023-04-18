@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:plancation/image_picker.dart';
 import 'firebase_options.dart';
+import 'firebase_login.dart';
+import "package:google_sign_in/google_sign_in.dart";
+import "package:image_picker/image_picker.dart";
 
 void main() {
   runApp(const MyApp());
@@ -49,9 +53,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void handleLogin() {
-    final form = formKey.currentState;
-    print(_email);
-    print(_password);
+    // print(_email);
+    // print(_password);
+    // AuthManage().signIn(_email, _password);
+    // AuthManage().signInWithGoogle();
+
+    ImageSelector().getImage(ImageSource.camera);
   }
 
   @override
@@ -78,12 +85,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   TextFormField(
                     decoration: const InputDecoration(labelText: "Email"),
-                    onSaved: (value) => _email = value!,
+                    onChanged: (value) => _email = value,
                   ),
                   TextFormField(
                     obscureText: true,
+                    onChanged: (value) => _password = value,
                     decoration: const InputDecoration(labelText: "Password"),
-                    onSaved: (value) => _password = value!,
                   ),
                   FilledButton(
                       onPressed: handleLogin,
