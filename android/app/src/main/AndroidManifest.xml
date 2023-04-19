@@ -22,6 +22,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <data android:scheme="832accb12e772f529ef4b1a1e529e8c9" android:host="oauth" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

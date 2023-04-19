@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>832accb12e772f529ef4b1a1e529e8c9</string>
+      </array>
+      </dict>
+    </array>
     <key>NSCameraUsageDescription</key>
     <string>Used to demonstrate image picker plugin</string>
     <key>NSMicrophoneUsageDescription</key>
