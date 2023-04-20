@@ -6,7 +6,6 @@ class SecureStorage {
   Future<bool> saveStorage(String _key, String _value) async {
     await storage.write(key: _key, value: _value);
     return true;
-
   }
 
   Future<String?> readStorage(String _key) async {
