@@ -16,49 +16,32 @@ class LoginMainPage extends StatelessWidget {
             SizedBox(),
             Column(
               children: [
-                // 로고
-                SizedBox(
-                  width: 216,
-                  height: 216,
+                Container(
+                  width: 192,
+                  height: 192,
                   child: Theme.of(context).brightness == Brightness.light
-                      ? Container(
-                          child: SvgPicture.asset('assets/svgs/logo-light.svg'),
-                        )
-                      : Container(
-                          child: SvgPicture.asset('assets/svgs/logo-dark.svg'),
-                        ),
+                      ? SvgPicture.asset('assets/svgs/logo-light.svg')
+                      : SvgPicture.asset('assets/svgs/logo-dark.svg')
                 ),
-                SizedBox(height: 36),
+                SizedBox(height: 72),
                 // 로그인 / 가입 버튼
                 Column(
                   children: [
+                    const Text(
+                      'Welcome !',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 18,),
+                    ),
+                    SizedBox(height: 28),
                     SizedBox(
                       width: double.infinity,
                       height: 42,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: const GradientBoxBorder(
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [Color(0xFFFBACDB), Color(0xFF763CF0)],
-                              ),
-                              width: 2,
-                            )
-                        ),
-                        child: MaterialButton(
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(8)
-                              )
-                          ),
-                          onPressed: () => Navigator.pushNamed(context, '/join'),
-                          child: const Text(
-                            '가입',
-                            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
-                          ),
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pushNamed(context, '/join'),
+                        child: const Text(
+                          '가입',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 16),
                         ),
                       ),
                     ),
@@ -66,37 +49,14 @@ class LoginMainPage extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       height: 42,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          gradient: const LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [Color(0xFFFBACDB), Color(0xFF763CF0)],
-                          )
-                        ),
-                        child: MaterialButton(
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(8)
-                            )
-                          ),
-                          onPressed: () {},
-                          child: const Text(
-                            '로그인',
-                            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Colors.white),
-                          ),
+                      child: FilledButton(
+                        onPressed: () {},
+                        child: const Text(
+                          '로그인',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 16),
                         ),
                       ),
-                      // child: FilledButton(
-                      //   onPressed: () {},
-                      //   child: const Text(
-                      //     '로그인',
-                      //     style: TextStyle(
-                      //         fontWeight: FontWeight.w900, fontSize: 14),
-                      //   ),
-                      // ),
                     ),
                   ],
                 )
@@ -111,7 +71,9 @@ class LoginMainPage extends StatelessWidget {
                 spacingByWrap: true,
                 spacing: 2,
                 style: TextStyle(
-                    fontWeight: FontWeight.w500, fontSize: 12, fontFamily: 'Pretendard'),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12,
+                    fontFamily: 'Pretendard'),
               ),
             ),
           ],

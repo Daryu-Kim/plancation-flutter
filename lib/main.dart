@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'modules/color_schemes.g.dart';
 import 'modules/firebase_options.dart';
 import 'routes.dart';
 
-void main() => runApp(const MyApp());
+void main() => initializeDateFormatting().then((value) => runApp(const MyApp()));
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(colorScheme: lightColorScheme, useMaterial3: true, fontFamily: 'Pretendard'),
       darkTheme: ThemeData(colorScheme: darkColorScheme, useMaterial3: true, fontFamily: 'Pretendard'),
       routes: routes,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
