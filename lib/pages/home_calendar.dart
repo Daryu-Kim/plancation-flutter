@@ -10,10 +10,8 @@ class HomeCalendarComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Calendar(),
-      ),
+    return const Scaffold(
+      body: Calendar(),
     );
   }
 }
