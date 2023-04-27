@@ -1,20 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:plancation/modules/another.dart';
+import 'package:plancation/modules/firebase_firestore.dart';
 
 class AuthManage{
   /// 회원가입
-  Future<bool> createUser(String email, String pw) async{
+  Future<bool> createUser(String email, String pw, BuildContext context) async{
     try {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: pw,
       );
+      await StoreManage().createUser(credential.user!.uid, context);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        Logger().w('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        Logger().w('The account already exists for that email.');
+      Logger().e(e.message);
+      if (e.message!.contains('auth/weak-password')) {
+        errorSnackBar(context, "더 강력한 비밀번호를 입력해주세요!");
+      } else if (e.message!.contains('auth/email-already-in-use')) {
+        errorSnackBar(context, "이미 가입되어 있는 이메일입니다!");
       }
     } catch (e) {
       Logger().e(e);
