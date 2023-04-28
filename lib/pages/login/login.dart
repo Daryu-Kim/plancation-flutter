@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:plancation/modules/firebase_login.dart';
 import 'login.style.dart';
 
 class LoginPage extends StatefulWidget {
@@ -9,9 +10,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String _inputID = "";
+  String _inputPW = "";
+  
+  handleBtnClick() {
+    AuthManage().signIn(_inputID, _inputPW, context);
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         alignment: AlignmentDirectional.center,
         child: Padding(
@@ -33,6 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 52,
                       child: TextField(
+                        onChanged: (text) => _inputID = text,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -58,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 52,
                       child: TextField(
+                        onChanged: (text) => _inputPW = text,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -88,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: double.infinity,
                       height: 52,
                       child: FilledButton(
-                        onPressed: () {},
+                        onPressed: handleBtnClick,
                         child: const Text(
                           '로그인',
                           style: btnTextStyle,

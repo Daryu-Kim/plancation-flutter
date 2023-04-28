@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
 
 class StoreManage {
-  Future<bool> createUser(String uid, BuildContext context) async{
+  Future<bool> createUser(String uid, String name, BuildContext context) async{
     try {
       final credential = await FirebaseFirestore.instance
           .collection("Users")
@@ -12,7 +12,17 @@ class StoreManage {
           .set({
         'userID': uid
       });
-      Navigator.pushNamed(context, '/home');
+      final updateCredential = await FirebaseFirestore.instance
+      .collection("Users")
+      .doc(uid)
+      .update({
+        'userName': name
+      });
+      final calendar = await FirebaseFirestore.instance
+      .collection("Calendars")
+      .add({
+        'users': [uid]
+      });
     } catch (e) {
       Logger().e(e);
       return false;

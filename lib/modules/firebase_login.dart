@@ -7,19 +7,25 @@ import 'package:plancation/modules/firebase_firestore.dart';
 
 class AuthManage{
   /// 회원가입
-  Future<bool> createUser(String email, String pw, BuildContext context) async{
+  Future<bool> createUser(String email, String pw, String name, BuildContext context) async{
     try {
+      loadingSnackbar(context, "회원가입 중입니다!");
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: pw,
       );
-      await StoreManage().createUser(credential.user!.uid, context);
+      await updateProfileName(name);
+      await StoreManage().createUser(credential.user!.uid, name, context);
+      dismissSnackBar(context);
+      Navigator.pushNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
       Logger().e(e.message);
       if (e.message!.contains('auth/weak-password')) {
         errorSnackBar(context, "더 강력한 비밀번호를 입력해주세요!");
       } else if (e.message!.contains('auth/email-already-in-use')) {
         errorSnackBar(context, "이미 가입되어 있는 이메일입니다!");
+      } else {
+        errorSnackBar(context, "알 수 없는 오류입니다! 오류 코드: ${e.message}");
       }
     } catch (e) {
       Logger().e(e);
@@ -30,17 +36,26 @@ class AuthManage{
   }
 
   /// 로그인
-  Future<bool> signIn(String email, String pw) async{
+  Future<bool> signIn(String email, String pw, BuildContext context) async{
     try {
+      loadingSnackbar(context, "로그인 중입니다!");
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: pw
       );
+      dismissSnackBar(context);
+      Navigator.pushNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        Logger().w('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        Logger().w('Wrong password provided for that user.');
+      dismissSnackBar(context);
+      Logger().e(e.message);
+      if (e.message!.contains('auth/user-not-found')) {
+        errorSnackBar(context, "가입되어 있는 정보가 없습니다!");
+      } else if (e.message!.contains('auth/wrong-password')) {
+        errorSnackBar(context, "비밀번호가 일치하지 않습니다!");
+      } else if (e.message!.contains('auth/invalid-email')) {
+        errorSnackBar(context, "이메일 형식이 맞지 않습니다!");
+      } else {
+        errorSnackBar(context, "알 수 없는 오류입니다! 오류 코드: ${e.message}");
       }
     } catch (e) {
       Logger().e(e);

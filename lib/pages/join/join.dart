@@ -16,22 +16,28 @@ class _JoinPageState extends State<JoinPage> {
   String _inputID = "";
   String _inputPW = "";
   String _inputPWC = "";
+  String _inputName = "";
 
   handleJoinBtn() {
     if (_inputID.isNotEmpty) {
       if (isValidEmailFormat(_inputID)) {
-        if (_inputPW.isNotEmpty) {
-          if (_inputPWC.isNotEmpty) {
-            if (_inputPW == _inputPWC) {
-              AuthManage().createUser(_inputID, _inputPW, context);
+        if (_inputName.isNotEmpty) {
+          if (_inputPW.isNotEmpty) {
+            if (_inputPWC.isNotEmpty) {
+              if (_inputPW == _inputPWC) {
+                AuthManage()
+                    .createUser(_inputID, _inputPW, _inputName, context);
+              } else {
+                errorSnackBar(context, "비밀번호가 일치하지 않습니다!");
+              }
             } else {
-              errorSnackBar(context, "비밀번호가 일치하지 않습니다!");
+              errorSnackBar(context, "비밀번호 확인을 입력해주세요!");
             }
           } else {
-            errorSnackBar(context, "비밀번호 확인을 입력해주세요!");
+            errorSnackBar(context, "비밀번호를 입력해주세요!");
           }
         } else {
-          errorSnackBar(context, "비밀번호를 입력해주세요!");
+          errorSnackBar(context, "이름을 입력해주세요!");
         }
       } else {
         errorSnackBar(context, "이메일 형식이 맞지 않습니다!");
@@ -44,8 +50,9 @@ class _JoinPageState extends State<JoinPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(168),
+        preferredSize: const Size.fromHeight(168),
         child: AppBar(
             toolbarHeight: 168,
             centerTitle: true,
@@ -80,11 +87,11 @@ class _JoinPageState extends State<JoinPage> {
                     ],
                   ),
                   SizedBox(
-                    width: 128,
-                    height: 128,
+                    width: 84,
+                    height: 84,
                     child: Theme.of(context).brightness == Brightness.light
-                        ? SvgPicture.asset('assets/svgs/logo-light.svg')
-                        : SvgPicture.asset('assets/svgs/logo-dark.svg'),
+                        ? SvgPicture.asset('assets/svgs/logo-light-symbol.svg')
+                        : SvgPicture.asset('assets/svgs/logo-dark-symbol.svg'),
                   )
                 ],
               ),
@@ -120,6 +127,35 @@ class _JoinPageState extends State<JoinPage> {
                                   width: 2,
                                   strokeAlign: BorderSide.strokeAlignOutside)),
                           labelText: '이메일',
+                          labelStyle: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  SizedBox(
+                    height: 52,
+                    child: TextField(
+                      onChanged: (text) {
+                        setState(() {
+                          _inputName = text;
+                        });
+                      },
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      decoration: InputDecoration(
+                          alignLabelWithHint: true,
+                          // filled: true,
+                          // fillColor: Colors.red,
+                          isDense: true,
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  width: 2,
+                                  strokeAlign: BorderSide.strokeAlignOutside)),
+                          labelText: '이름',
                           labelStyle: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w500)),
                     ),

@@ -10,6 +10,7 @@ class LoginMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.only(left: 36, right: 36, top: 24, bottom: 24),

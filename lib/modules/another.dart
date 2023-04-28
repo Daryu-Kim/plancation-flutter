@@ -17,3 +17,17 @@ errorSnackBar(BuildContext context, String msg) {
     behavior: SnackBarBehavior.fixed,
   ));
 }
+
+loadingSnackbar(BuildContext context, String msg) {
+  return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(msg,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+    duration: Duration.zero,
+    behavior: SnackBarBehavior.fixed,
+  ));
+}
+
+dismissSnackBar(BuildContext context) {
+  return ScaffoldMessenger.of(context).hideCurrentSnackBar();
+}
