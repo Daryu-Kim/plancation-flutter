@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/modules/firebase_login.dart';
+import 'package:plancation/pages/home_my/home_my.dart';
 import 'home.style.dart';
-import "home_calendar.dart";
+import 'home_calendar/home_calendar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     Text("할 일"),
     Text("AI"),
     Text("다이어리"),
-    Text("MY"),
+    HomeMyComponent(),
   ];
 
   @override
@@ -29,46 +30,6 @@ class _HomePageState extends State<HomePage> {
     }
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(72),
-        child:
-          Container(
-            height: 72,
-            child:
-              CupertinoNavigationBar(
-                automaticallyImplyLeading: false,
-                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-                middle: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                          onPressed: (){},
-                          iconSize: 36,
-                          padding: EdgeInsets.all(0),
-                          icon: SvgPicture.asset(
-                            'assets/svgs/menu_icon.svg',
-                          )
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('April', style: containerTitleTextStyle),
-                          Text('2023'),
-                        ],
-                      ),
-                      IconButton(
-                          onPressed: (){},
-                        iconSize: 36,
-                        padding: EdgeInsets.all(0),
-                          icon: Icon(Icons.account_circle),
-                      ),
-                    ],
-                  ),
-              ),
-          ),
-      ),
       body: Center(
         child: body_item.elementAt(current_index),
       ),
