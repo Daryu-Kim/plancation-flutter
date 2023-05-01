@@ -9,59 +9,37 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
-  DateTime? selectedDay;
+  // CalendarController _calendarController = CalendarController();
+  // Map<DateTime, List<EventsModel>> _events;
+  DateTime? _selectedDay;
 
   @override
   Widget build(BuildContext context) {
-    final defaultBoxDeco = BoxDecoration(
-      color: Colors.grey[200],
-      borderRadius: BorderRadius.circular(6.0),
-    );
+    void _onDaySelected(DateTime day, List e) {
+      setState(() {
+        _selectedDay = day;
+        // e.isEmpty ? _selectedEvents = [] : _selectedEvents = e;
+      });
+    }
 
-    final defaultTextStyle = TextStyle(
-      color: Colors.grey[600],
-      fontWeight: FontWeight.w700,
-    );
+    CalendarBuilders calendarBuilders() {
+      return CalendarBuilders(
+        holidayBuilder: (context, date, _) {
+          return
+        }
+      );
+    }
 
     return TableCalendar(
-      locale: 'ko-KR',
-      focusedDay: DateTime.now(),
-      firstDay: DateTime(1800),
-      lastDay: DateTime(3000),
-      headerStyle: const HeaderStyle(
-        formatButtonVisible: true,
+        locale: 'ko-KR',
+        focusedDay: DateTime.now(),
+        firstDay: DateTime(1800),
+        lastDay: DateTime(3000),
 
-        // titleCentered: true,
-        titleTextStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
-      ),
-      // calendarStyle: CalendarStyle(
-      //   isTodayHighlighted: false,
-      //   outsideDecoration: BoxDecoration(shape: BoxShape.rectangle),
-      //   defaultDecoration: defaultBoxDeco,
-      //   weekendDecoration: defaultBoxDeco,
-      //   selectedDecoration: BoxDecoration(
-      //     color: Theme.of(context).colorScheme.primary,
-      //     borderRadius: BorderRadius.circular(100),
-      //     // border: Border.all(color: Theme.of(context).colorScheme.primary, width: 1.0),
-      //   ),
-      //   defaultTextStyle: defaultTextStyle,
-      //   weekendTextStyle: defaultTextStyle.copyWith(color: Theme.of(context).colorScheme.error),
-      //   // selectedTextStyle: defaultTextStyle.copyWith(color: Theme.of(context).colorScheme.primary),
-      // ),
-      onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
-        setState(() {
-          this.selectedDay = selectedDay;
-        });
-      },
-      selectedDayPredicate: (DateTime date) {
-        if (selectedDay == null) {
-          return false;
-        }
+        // headerVisible: false,
+      availableGestures: AvailableGestures.all,
+      // onDaySelected: _onDaySelected,
 
-        return date.year == selectedDay!.year &&
-            date.month == selectedDay!.month &&
-            date.day == selectedDay!.day;
-      },
     );
   }
 }
