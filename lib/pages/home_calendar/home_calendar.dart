@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/pages/home_calendar/home_calendar.style.dart';
-import '../../components/calendar.dart';
+import '../../components/calendar/calendar.dart';
 
 class HomeCalendarComponent extends StatelessWidget {
   const HomeCalendarComponent({super.key});
@@ -56,7 +56,13 @@ class HomeCalendarComponent extends StatelessWidget {
           ),
         ),
       ),
-      body: Calendar(),
+      body: Padding(
+        child: Calendar(),
+        padding: EdgeInsetsDirectional.symmetric(
+          horizontal: 24,
+          vertical: 16
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
           onPressed: () => Logger().d("Add!"),
           child: Icon(Icons.add, color: Theme.of(context).colorScheme.inversePrimary),
