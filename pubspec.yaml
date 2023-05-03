@@ -52,6 +52,7 @@ dependencies:
   get: ^4.6.5
   url_strategy: ^0.2.0
   cloud_firestore: ^4.5.2
+  flutter_speed_dial: ^6.2.0
 
 dev_dependencies:
   flutter_test:
