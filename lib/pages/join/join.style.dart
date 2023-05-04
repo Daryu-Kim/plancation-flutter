@@ -3,23 +3,25 @@ import 'package:flutter/material.dart';
 
 const btnTextStyle = TextStyle(fontWeight: FontWeight.w700, fontSize: 18);
 btnOutlineStyle(context) {
-  var _btnOutlineStyle = ButtonStyle(
+  var btnOutlineStyle = ButtonStyle(
       side: MaterialStateProperty.all(
           BorderSide(color: Theme.of(context).colorScheme.primary, width: 2)));
-  return _btnOutlineStyle;
+  return btnOutlineStyle;
 }
 
 socialBtnTextStyle(context) {
-  var _socialBtnTextStyle = TextStyle(fontWeight: FontWeight.w700, fontSize: 18,
-      color: Theme.of(context).colorScheme.inverseSurface);
-  return _socialBtnTextStyle;
-}
-anotherTextStyle(context) {
-  var _anotherTextStyle = TextStyle(
+  var socialBtnTextStyle = TextStyle(
       fontWeight: FontWeight.w700,
-      color: Theme.of(context).colorScheme.outline
-  );
-  return _anotherTextStyle;
+      fontSize: 18,
+      color: Theme.of(context).colorScheme.inverseSurface);
+  return socialBtnTextStyle;
+}
+
+anotherTextStyle(context) {
+  var anotherTextStyle = TextStyle(
+      fontWeight: FontWeight.w700,
+      color: Theme.of(context).colorScheme.outline);
+  return anotherTextStyle;
 }
 
 const joinBtnTextStyle = TextStyle(

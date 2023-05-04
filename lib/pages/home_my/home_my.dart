@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:logger/logger.dart';
-import '../../components/calendar/calendar.dart';
 
 class HomeMyComponent extends StatefulWidget {
+  const HomeMyComponent({super.key});
+
   @override
   _HomeMyComponent createState() => _HomeMyComponent();
 }
@@ -15,11 +13,11 @@ class _HomeMyComponent extends State<HomeMyComponent> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(72),
+        preferredSize: const Size.fromHeight(72),
         child: Container(
           color: Theme.of(context).colorScheme.primaryContainer,
           height: 72,
-          child: Center(
+          child: const Center(
             child: Text(
               '내 계정',
               style: TextStyle(
@@ -34,12 +32,12 @@ class _HomeMyComponent extends State<HomeMyComponent> {
           child: Flexible(
         flex: 1,
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Column(
+              const Column(
                 children: [Text('data')],
               ),
               Column(
@@ -49,17 +47,17 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                     height: 48,
                     child: OutlinedButton(
                       onPressed: () {},
-                      child: Text(
+                      child: const Text(
                         '로그아웃',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: double.infinity,
                     height: 48,
                     child: FilledButton(

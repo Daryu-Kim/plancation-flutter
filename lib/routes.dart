@@ -6,7 +6,7 @@ import 'pages/login_main/login_main.dart';
 import 'pages/home.dart';
 
 final routes = {
-  '/': (BuildContext context) => LoginMainPage(),
+  '/': (BuildContext context) => const LoginMainPage(),
   '/join': (BuildContext context) => JoinPage(),
   '/home': (BuildContext context) => HomePage(),
   '/login': (BuildContext context) => LoginPage(),
