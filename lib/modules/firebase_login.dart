@@ -5,12 +5,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
 
-class AuthManage{
+class AuthManage {
   /// 회원가입
-  Future<bool> createUser(String email, String pw, String name, BuildContext context) async{
+  Future<bool> createUser(
+      String email, String pw, String name, BuildContext context) async {
     try {
       loadingSnackbar(context, "회원가입 중입니다!");
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: pw,
       );
@@ -36,13 +38,11 @@ class AuthManage{
   }
 
   /// 로그인
-  Future<bool> signIn(String email, String pw, BuildContext context) async{
+  Future<bool> signIn(String email, String pw, BuildContext context) async {
     try {
       loadingSnackbar(context, "로그인 중입니다!");
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: pw
-      );
+      final credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: pw);
       dismissSnackBar(context);
       Navigator.pushNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
@@ -64,23 +64,25 @@ class AuthManage{
     // authPersistence(); // 인증 영속
     return true;
   }
+
   /// 로그아웃
-  void signOut() async{
+  void signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
   /// 회원가입, 로그인시 사용자 영속
-  void authPersistence() async{
+  void authPersistence() async {
     await FirebaseAuth.instance.setPersistence(Persistence.NONE);
   }
+
   /// 유저 삭제
-  Future<void> deleteUser(String email) async{
+  Future<void> deleteUser(String email) async {
     final user = FirebaseAuth.instance.currentUser;
     await user?.delete();
   }
 
   /// 현재 유저 정보 조회
-  User? getUser(){
+  User? getUser() {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       // Name, email address, and profile photo URL
@@ -98,8 +100,9 @@ class AuthManage{
     }
     return user;
   }
+
   /// 공급자로부터 유저 정보 조회
-  User? getUserFromSocial(){
+  User? getUserFromSocial() {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       for (final providerProfile in user.providerData) {
@@ -117,20 +120,23 @@ class AuthManage{
     }
     return user;
   }
+
   /// 유저 이름 업데이트
-  Future<void> updateProfileName(String name) async{
+  Future<void> updateProfileName(String name) async {
     final user = FirebaseAuth.instance.currentUser;
     await user?.updateDisplayName(name);
   }
+
   /// 유저 url 업데이트
-  Future<void> updateProfileUrl(String url) async{
+  Future<void> updateProfileUrl(String url) async {
     final user = FirebaseAuth.instance.currentUser;
     await user?.updatePhotoURL(url);
   }
+
   /// 비밀번호 초기화 메일보내기
-  Future<void> sendPasswordResetEmail(String email) async{
+  Future<void> sendPasswordResetEmail(String email) async {
     await FirebaseAuth.instance.setLanguageCode("kr");
-    await FirebaseAuth.instance.sendPasswordResetEmail(email:email);
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
 
   /// 구글 로그인 구현
@@ -139,7 +145,8 @@ class AuthManage{
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -150,5 +157,4 @@ class AuthManage{
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
-
 }

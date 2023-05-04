@@ -16,93 +16,96 @@ class HomeCalendarComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(72),
-        child:
-        Container(
-          height: 72,
-          child:
-          CupertinoNavigationBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-            middle: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                    onPressed: (){},
+        resizeToAvoidBottomInset: false,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(72),
+          child: SizedBox(
+            height: 72,
+            child: CupertinoNavigationBar(
+              automaticallyImplyLeading: false,
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              middle: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                      onPressed: () {},
+                      iconSize: 36,
+                      padding: const EdgeInsets.all(0),
+                      icon: SvgPicture.asset(
+                        'assets/svgs/menu_icon.svg',
+                      )),
+                  const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('April', style: containerTitleTextStyle),
+                      Text('2023'),
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () {},
                     iconSize: 36,
-                    padding: EdgeInsets.all(0),
-                    icon: SvgPicture.asset(
-                      'assets/svgs/menu_icon.svg',
-                    )
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text('April', style: containerTitleTextStyle),
-                    Text('2023'),
-                  ],
-                ),
-                IconButton(
-                  onPressed: (){},
-                  iconSize: 36,
-                  padding: EdgeInsets.all(0),
-                  icon: Icon(Icons.account_circle),
-                ),
-              ],
+                    padding: const EdgeInsets.all(0),
+                    icon: const Icon(Icons.account_circle),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      body: Padding(
-        child: Calendar(),
-        padding: EdgeInsetsDirectional.symmetric(
-          horizontal: 24,
-          vertical: 16
+        body: const Padding(
+          padding:
+              EdgeInsetsDirectional.symmetric(horizontal: 24, vertical: 16),
+          child: Calendar(),
         ),
-      ),
-      floatingActionButton: SpeedDial(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        child: Icon(Icons.add, color: Theme.of(context).colorScheme.surface,),
-        activeChild: Icon(Icons.close, color: Theme.of(context).colorScheme.surface,),
-        spacing: 20,
-        onOpen: () => Logger().d("열림"),
-        onClose: () => Logger().d("닫힘"),
-        children: [
-          SpeedDialChild(
-            shape: CircleBorder(),
-            label: "  할일 추가  ",
-            labelStyle: TextStyle(
-              color: Theme.of(context).colorScheme.surface,
-              fontSize: 16,
-              fontWeight: FontWeight.w500
-            ),
-            labelBackgroundColor: Theme.of(context).colorScheme.primary,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: CupertinoColors.white,
-            child: SvgPicture.asset('assets/svgs/todo_add.svg', color: Theme.of(context).colorScheme.surface,),
-            onTap: () => Logger().d("할일 추가 클릭됨."),
+        floatingActionButton: SpeedDial(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          activeChild: Icon(
+            Icons.close,
+            color: Theme.of(context).colorScheme.surface,
           ),
-          SpeedDialChild(
-            shape: CircleBorder(),
-            label: "  일정 추가  ",
-            labelStyle: TextStyle(
+          spacing: 20,
+          onOpen: () => Logger().d("열림"),
+          onClose: () => Logger().d("닫힘"),
+          children: [
+            SpeedDialChild(
+              shape: const CircleBorder(),
+              label: "  할일 추가  ",
+              labelStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.surface,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500),
+              labelBackgroundColor: Theme.of(context).colorScheme.primary,
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: CupertinoColors.white,
+              child: SvgPicture.asset(
+                'assets/svgs/todo_add.svg',
                 color: Theme.of(context).colorScheme.surface,
-                fontSize: 16,
-                fontWeight: FontWeight.w500
+              ),
+              onTap: () => Logger().d("할일 추가 클릭됨."),
             ),
-            labelBackgroundColor: Theme.of(context).colorScheme.primary,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: CupertinoColors.white,
-            child: SvgPicture.asset('assets/svgs/calendar_add.svg', color: Theme.of(context).colorScheme.surface,),
-            onTap: () => Logger().d("일정 추가 클릭됨."),
+            SpeedDialChild(
+              shape: const CircleBorder(),
+              label: "  일정 추가  ",
+              labelStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.surface,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500),
+              labelBackgroundColor: Theme.of(context).colorScheme.primary,
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: CupertinoColors.white,
+              child: SvgPicture.asset(
+                'assets/svgs/calendar_add.svg',
+                color: Theme.of(context).colorScheme.surface,
+              ),
+              onTap: () => Logger().d("일정 추가 클릭됨."),
+            ),
+          ],
+          child: Icon(
+            Icons.add,
+            color: Theme.of(context).colorScheme.surface,
           ),
-        ],
-      )
-
-    );
+        ));
   }
 }

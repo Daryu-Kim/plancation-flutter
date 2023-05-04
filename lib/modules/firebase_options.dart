@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '33008958055',
     projectId: 'plancation-74a7a',
     storageBucket: 'plancation-74a7a.appspot.com',
-    iosClientId: '33008958055-hd9hr2lpqis7s5t1pco1bvl0ojsa60fi.apps.googleusercontent.com',
+    iosClientId:
+        '33008958055-hd9hr2lpqis7s5t1pco1bvl0ojsa60fi.apps.googleusercontent.com',
     iosBundleId: 'com.example.plancation',
   );
 }

@@ -7,7 +7,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'calendar.style.dart';
 
 class Event {
-  final DateTime date ;
+  final DateTime date;
   Event({required this.date});
 }
 
@@ -29,17 +29,16 @@ class _CalendarState extends State<Calendar> {
   final _events = LinkedHashMap(
     equals: isSameDay,
   )..addAll({
-    DateTime(2022, 8, 4) : Event(date: DateTime(2022, 8, 4)),
-    DateTime(2022, 8, 6) : Event(date: DateTime(2022, 8, 6)),
-    DateTime(2022, 8, 7) : Event(date: DateTime(2022, 8, 7)),
-    DateTime(2022, 8, 9) : Event(date: DateTime(2022, 8, 9)),
-    DateTime(2022, 8, 11) : Event(date: DateTime(2022, 8, 11)),
-    DateTime(2022, 8, 14) : Event(date: DateTime(2022, 8, 14)),
-  }) ;
+      DateTime(2022, 8, 4): Event(date: DateTime(2022, 8, 4)),
+      DateTime(2022, 8, 6): Event(date: DateTime(2022, 8, 6)),
+      DateTime(2022, 8, 7): Event(date: DateTime(2022, 8, 7)),
+      DateTime(2022, 8, 9): Event(date: DateTime(2022, 8, 9)),
+      DateTime(2022, 8, 11): Event(date: DateTime(2022, 8, 11)),
+      DateTime(2022, 8, 14): Event(date: DateTime(2022, 8, 14)),
+    });
 
   @override
   Widget build(BuildContext context) {
-
     Logger().w(DateTime.timestamp().microsecondsSinceEpoch);
     return TableCalendar(
       firstDay: DateTime(_now.year, _now.month, 1),
@@ -80,11 +79,11 @@ class _CalendarState extends State<Calendar> {
       },
       calendarBuilders: CalendarBuilders(
         dowBuilder: (context, day) {
-          return Center(child: Text(days[day.weekday])) ;
+          return Center(child: Text(days[day.weekday]));
         },
         markerBuilder: (context, date, events) {
-          DateTime _date = DateTime(date.year, date.month, date.day);
-          if ( isSameDay(_date, _events[_date] )) {
+          DateTime date = DateTime(date.year, date.month, date.day);
+          if (isSameDay(date, _events[date])) {
             return Container(
               width: MediaQuery.of(context).size.width * 0.11,
               padding: const EdgeInsets.only(bottom: 5),
@@ -94,6 +93,7 @@ class _CalendarState extends State<Calendar> {
               ),
             );
           }
+          return null;
         },
       ),
     );

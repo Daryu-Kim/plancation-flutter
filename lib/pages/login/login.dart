@@ -5,6 +5,8 @@ import 'package:plancation/modules/firebase_login.dart';
 import 'login.style.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -12,11 +14,11 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String _inputID = "";
   String _inputPW = "";
-  
+
   handleBtnClick() {
     AuthManage().signIn(_inputID, _inputPW, context);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         alignment: AlignmentDirectional.center,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 42, vertical: 28),
+          padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 28),
           child: Column(
             children: [
               Flexible(
@@ -38,16 +40,16 @@ class _LoginPageState extends State<LoginPage> {
                         child: Theme.of(context).brightness == Brightness.light
                             ? SvgPicture.asset('assets/svgs/logo-light.svg')
                             : SvgPicture.asset('assets/svgs/logo-dark.svg')),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     SizedBox(
                       height: 52,
                       child: TextField(
                         onChanged: (text) => _inputID = text,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             alignLabelWithHint: true,
                             // filled: true,
                             // fillColor: Colors.red,
@@ -62,18 +64,18 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 16, fontWeight: FontWeight.w500)),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     SizedBox(
                       height: 52,
                       child: TextField(
                         onChanged: (text) => _inputPW = text,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             alignLabelWithHint: true,
                             // filled: true,
                             // fillColor: Colors.red,
@@ -88,11 +90,12 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 16, fontWeight: FontWeight.w500)),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 24,
                     ),
-                    TextButton(onPressed: () {}, child: Text('비밀번호를 잊어버리셨나요?')),
-                    SizedBox(
+                    TextButton(
+                        onPressed: () {}, child: const Text('비밀번호를 잊어버리셨나요?')),
+                    const SizedBox(
                       height: 24,
                     ),
                     SizedBox(
@@ -115,28 +118,35 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Flexible(child: SizedBox(
+                      Flexible(
+                          child: SizedBox(
                         height: 1,
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.outline
-                          ),
+                              color: Theme.of(context).colorScheme.outline),
                         ),
                       )),
-                      SizedBox(width: 8,),
-                      Text('다른 방법으로 로그인', style: anotherTextStyle(context),),
-                      SizedBox(width: 8,),
-                      Flexible(child: SizedBox(
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        '다른 방법으로 로그인',
+                        style: anotherTextStyle(context),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Flexible(
+                          child: SizedBox(
                         height: 1,
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.outline
-                          ),
+                              color: Theme.of(context).colorScheme.outline),
                         ),
                       )),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
                   SizedBox(
@@ -154,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: SvgPicture.asset(
                                   'assets/svgs/google_icon.svg'),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
                             Text(
@@ -164,15 +174,22 @@ class _LoginPageState extends State<LoginPage> {
                           ],
                         )),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('계정이 없으세요?'),
-                      SizedBox(width: 8,),
-                      TextButton(onPressed: (){}, child: Text('회원가입 하러가기', style: joinBtnTextStyle,))
+                      const Text('계정이 없으세요?'),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            '회원가입 하러가기',
+                            style: joinBtnTextStyle,
+                          ))
                     ],
                   )
                 ],

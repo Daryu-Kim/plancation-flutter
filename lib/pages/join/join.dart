@@ -8,6 +8,8 @@ import '../../modules/another.dart';
 import '../../modules/firebase_login.dart';
 
 class JoinPage extends StatefulWidget {
+  const JoinPage({super.key});
+
   @override
   _JoinPageState createState() => _JoinPageState();
 }
@@ -59,12 +61,12 @@ class _JoinPageState extends State<JoinPage> {
             automaticallyImplyLeading: false,
             backgroundColor: Theme.of(context).colorScheme.primary,
             title: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -98,7 +100,7 @@ class _JoinPageState extends State<JoinPage> {
             )),
       ),
       body: Padding(
-        padding: EdgeInsets.only(top: 8, bottom: 48, left: 24, right: 24),
+        padding: const EdgeInsets.only(top: 8, bottom: 48, left: 24, right: 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -113,11 +115,11 @@ class _JoinPageState extends State<JoinPage> {
                           _inputID = text;
                         });
                       },
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           alignLabelWithHint: true,
                           // filled: true,
                           // fillColor: Colors.red,
@@ -131,7 +133,7 @@ class _JoinPageState extends State<JoinPage> {
                               fontSize: 16, fontWeight: FontWeight.w500)),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   SizedBox(
@@ -142,11 +144,11 @@ class _JoinPageState extends State<JoinPage> {
                           _inputName = text;
                         });
                       },
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           alignLabelWithHint: true,
                           // filled: true,
                           // fillColor: Colors.red,
@@ -160,17 +162,17 @@ class _JoinPageState extends State<JoinPage> {
                               fontSize: 16, fontWeight: FontWeight.w500)),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   SizedBox(
                     height: 52,
                     child: TextField(
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           alignLabelWithHint: true,
                           // filled: true,
                           // fillColor: Colors.red,
@@ -189,17 +191,17 @@ class _JoinPageState extends State<JoinPage> {
                       },
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   SizedBox(
                     height: 52,
                     child: TextField(
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           alignLabelWithHint: true,
                           // filled: true,
                           // fillColor: Colors.red,
@@ -223,20 +225,20 @@ class _JoinPageState extends State<JoinPage> {
             ),
             Column(
               children: [
-                WordBreakText(
+                const WordBreakText(
                   '가입하기 버튼을 누르면, 플랜케이션의 서비스 이용약관과 개인정보처리방침 를 읽고 동의했음으로 간주합니다.',
                   wrapAlignment: WrapAlignment.center,
                   spacingByWrap: true,
                   spacing: 2,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 SizedBox(
                   height: 52,
                   child: FilledButton(
                       onPressed: () => handleJoinBtn(),
-                      child: SizedBox(
+                      child: const SizedBox(
                         width: double.infinity,
                         child: Text(
                           '가입하기',
