@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -82,8 +81,8 @@ class _CalendarState extends State<Calendar> {
           return Center(child: Text(days[day.weekday]));
         },
         markerBuilder: (context, date, events) {
-          DateTime date = DateTime(date.year, date.month, date.day);
-          if (isSameDay(date, _events[date])) {
+          DateTime dateTime = DateTime(date.year, date.month, date.day);
+          if (isSameDay(dateTime, _events[date])) {
             return Container(
               width: MediaQuery.of(context).size.width * 0.11,
               padding: const EdgeInsets.only(bottom: 5),
