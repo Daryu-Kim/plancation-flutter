@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-Future<void> signOut() async {
-  await FirebaseAuth.instance.signOut();
-  print('logout!!');
-}
+import 'package:plancation/modules/firebase_login.dart';
 
 class HomeMyComponent extends StatefulWidget {
   const HomeMyComponent({super.key});
@@ -53,7 +49,7 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                     height: 48,
                     child: OutlinedButton(
                       onPressed: () {
-                        signOut();
+                        AuthManage().signOut();
                         Navigator.pushNamed(context, '/login');
                       },
                       child: const Text(
