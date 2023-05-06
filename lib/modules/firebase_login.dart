@@ -44,7 +44,7 @@ class AuthManage {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: pw);
       dismissSnackBar(context);
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
     } on FirebaseAuthException catch (e) {
       dismissSnackBar(context);
       Logger().e(e.message);

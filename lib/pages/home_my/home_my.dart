@@ -50,7 +50,7 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                     child: OutlinedButton(
                       onPressed: () {
                         AuthManage().signOut();
-                        Navigator.pushNamed(context, '/login');
+                        Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
                       },
                       child: const Text(
                         '로그아웃',
