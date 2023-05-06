@@ -39,7 +39,7 @@ class _HomeMyComponent extends State<HomeMyComponent> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Column(
+              Column(
                 children: [Text('data')],
               ),
               Column(

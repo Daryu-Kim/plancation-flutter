@@ -35,7 +35,7 @@ class HomeCalendarComponent extends StatelessWidget {
                       icon: SvgPicture.asset(
                         'assets/svgs/menu_icon.svg',
                       )),
-                  const Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [

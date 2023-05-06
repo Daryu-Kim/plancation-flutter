@@ -38,7 +38,6 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    Logger().w(DateTime.timestamp().microsecondsSinceEpoch);
     return TableCalendar(
       firstDay: DateTime(_now.year, _now.month, 1),
       lastDay: DateTime(_now.year, _now.month + 1, 0),
