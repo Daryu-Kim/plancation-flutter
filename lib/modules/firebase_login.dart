@@ -17,6 +17,8 @@ class AuthManage {
         password: pw,
       );
       await updateProfileName(name);
+      await updateProfileUrl(
+          "https://firebasestorage.googleapis.com/v0/b/plancation-74a7a.appspot.com/o/Apps%2Fdefault_user_image.png?alt=media&token=24c09b27-9fd8-4604-8900-3f9c16c14452");
       await StoreManage().createUser(credential.user!.uid, name, context);
       dismissSnackBar(context);
       Navigator.pushNamed(context, '/home');
