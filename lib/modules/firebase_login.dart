@@ -135,6 +135,12 @@ class AuthManage {
     await user?.updatePhotoURL(url);
   }
 
+  /// 유저 Email 업데이트
+  Future<void> updateProfileEmail(String email) async {
+    final user = FirebaseAuth.instance.currentUser;
+    await user?.updateEmail(email);
+  }
+
   /// 비밀번호 초기화 메일보내기
   Future<void> sendPasswordResetEmail(String email) async {
     await FirebaseAuth.instance.setLanguageCode("kr");

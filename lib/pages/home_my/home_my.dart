@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +23,7 @@ class _HomeMyComponent extends State<HomeMyComponent> {
 
   String userName = AuthManage().getUser()!.displayName.toString();
   String userEmail = AuthManage().getUser()!.email.toString();
+  File? userImage;
 
   late final TextEditingController nameFieldController = TextEditingController(text: userName);
   late final TextEditingController emailFieldController = TextEditingController(text: userEmail);
@@ -65,12 +68,35 @@ class _HomeMyComponent extends State<HomeMyComponent> {
     }
   }
 
-  submitEditProfile() {
-    if (isNameChanged || isEmailChanged || isPhotoChanged) {
-      return true;
-    } else {
-      return null;
+  Future<void> photoChanged() async {
+    var selectedImage = await ImageSelector().getImage(ImageSource.gallery);
+    if (selectedImage?.path != null) {
+      setState(() {
+        isPhotoChanged = true;
+        userImage = File(selectedImage.path);
+      });
     }
+  }
+
+  image() {
+
+  }
+
+  submitEditProfile() {
+
+
+    AuthManage().updateProfileName(nameFieldController.text);
+    AuthManage().updateProfileEmail(emailFieldController.text);
+    AuthManage().updateProfileUrl("url");
+
+    setState(() {
+      userName = nameFieldController.text;
+      userEmail = emailFieldController.text;
+
+      isNameChanged = false;
+      isEmailChanged = false;
+      isPhotoChanged = false;
+    });
   }
 
   @override
@@ -115,23 +141,14 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                               SizedBox(
                                 width: 80,
                                 height: 80,
-                                child: CircleAvatar(
-                                  backgroundColor: CupertinoColors.white,
-                                  backgroundImage:
-                                      AuthManage().getUser()?.photoURL?.length != 0
-                                          ? NetworkImage(AuthManage()
-                                              .getUser()!
-                                              .photoURL
-                                              .toString())
-                                          : NetworkImage("https://firebasestorage.googleapis.com/v0/b/plancation-74a7a.appspot.com/o/Apps%2Fdefault_user_image.png?alt=media&token=24c09b27-9fd8-4604-8900-3f9c16c14452"),
+                                child: Image(
+                                  image: userImage != null ? Image.file(userImage!) as ImageProvider : AssetImage('assets/images/default_user_image_dark.png'),
                                 ),
                               ),
                               SizedBox(
                                 height: 8,
                               ),
-                              TextButton(onPressed: () {
-                                ImageSelector().getImage(ImageSource.gallery);
-                              }, child: Text("변경"))
+                              TextButton(onPressed: photoChanged, child: Text("변경"))
                             ],
                           ),
                         ),
