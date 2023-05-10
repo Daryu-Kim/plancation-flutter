@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plancation/modules/firebase_login.dart';
@@ -94,7 +93,9 @@ class _LoginPageState extends State<LoginPage> {
                       height: 24,
                     ),
                     TextButton(
-                        onPressed: () {}, child: const Text('비밀번호를 잊어버리셨나요?')),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, '/find_pw'),
+                        child: const Text('비밀번호를 잊어버리셨나요?')),
                     const SizedBox(
                       height: 24,
                     ),
@@ -185,7 +186,8 @@ class _LoginPageState extends State<LoginPage> {
                         width: 8,
                       ),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () =>
+                              Navigator.pushNamed(context, '/join'),
                           child: const Text(
                             '회원가입 하러가기',
                             style: joinBtnTextStyle,
