@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
+import 'package:plancation/modules/firebase_firestore.dart';
 import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/modules/image_picker.dart';
 
@@ -25,7 +26,8 @@ class _HomeMyComponent extends State<HomeMyComponent> {
 
   String userName = AuthManage().getUser()!.displayName.toString();
   String userEmail = AuthManage().getUser()!.email.toString();
-  Uint8List? userImage;
+  String userImage = AuthManage().getUser()!.photoURL.toString();
+  Uint8List? userImageBytes;
 
   late final TextEditingController nameFieldController =
       TextEditingController(text: userName);
@@ -72,18 +74,22 @@ class _HomeMyComponent extends State<HomeMyComponent> {
     var selectedImage = await ImageSelector().getImage();
     setState(() {
       isPhotoChanged = true;
-      userImage = selectedImage;
+      userImageBytes = selectedImage;
     });
   }
 
-  submitEditProfile() {
+  Future<void> submitEditProfile() async {
+    final downloadURL = await StoreManage().updateUserImage(userImageBytes!);
+    Logger().e(downloadURL);
+
     AuthManage().updateProfileName(nameFieldController.text);
     AuthManage().updateProfileEmail(emailFieldController.text);
-    AuthManage().updateProfileUrl("url");
+    AuthManage().updateProfileUrl(downloadURL);
 
     setState(() {
       userName = nameFieldController.text;
       userEmail = emailFieldController.text;
+      userImage = downloadURL;
 
       isNameChanged = false;
       isEmailChanged = false;
@@ -93,6 +99,7 @@ class _HomeMyComponent extends State<HomeMyComponent> {
 
   @override
   Widget build(BuildContext context) {
+    Logger().w(AuthManage().getUser());
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
@@ -135,8 +142,9 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                                 height: 80,
                                 child: CircleAvatar(
                                   backgroundColor: Theme.of(context).colorScheme.primary,
-                                  child: userImage == null
+                                  child: userImage.length < 10 ? userImageBytes == null
                                       ? Text(
+                                          userName.length < 3 ? userName :
                                           userName.substring(0, 3),
                                           style: TextStyle(
                                               fontSize: 20,
@@ -146,8 +154,9 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                                         )
                                       : ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
-                                    child: Image.memory(userImage!, height: 80, width: 80, fit: BoxFit.cover),
+                                    child: Image.memory(userImageBytes!, height: 80, width: 80, fit: BoxFit.cover),
                                   )
+                                      : Image.network(userName)
                                   ,
                                 ),
                               ),
