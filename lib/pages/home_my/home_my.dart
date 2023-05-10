@@ -156,7 +156,7 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                                     borderRadius: BorderRadius.circular(100),
                                     child: Image.memory(userImageBytes!, height: 80, width: 80, fit: BoxFit.cover),
                                   )
-                                      : Image.network(userName)
+                                      : Image.network(userImage.toString())
                                   ,
                                 ),
                               ),
