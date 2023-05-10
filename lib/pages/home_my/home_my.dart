@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
@@ -23,25 +25,25 @@ class _HomeMyComponent extends State<HomeMyComponent> {
 
   String userName = AuthManage().getUser()!.displayName.toString();
   String userEmail = AuthManage().getUser()!.email.toString();
-  File? userImage;
+  Uint8List? userImage;
 
-  late final TextEditingController nameFieldController = TextEditingController(text: userName);
-  late final TextEditingController emailFieldController = TextEditingController(text: userEmail);
+  late final TextEditingController nameFieldController =
+      TextEditingController(text: userName);
+  late final TextEditingController emailFieldController =
+      TextEditingController(text: userEmail);
 
   nameChanged(String name) {
     if (name == userName) {
       nameFieldController.text = name;
       nameFieldController.selection = TextSelection.fromPosition(
-        TextPosition(offset: nameFieldController.text.length)
-      );
+          TextPosition(offset: nameFieldController.text.length));
       setState(() {
         isNameChanged = false;
       });
     } else {
       nameFieldController.text = name;
       nameFieldController.selection = TextSelection.fromPosition(
-          TextPosition(offset: nameFieldController.text.length)
-      );
+          TextPosition(offset: nameFieldController.text.length));
       setState(() {
         isNameChanged = true;
       });
@@ -52,16 +54,14 @@ class _HomeMyComponent extends State<HomeMyComponent> {
     if (email == userEmail) {
       emailFieldController.text = email;
       emailFieldController.selection = TextSelection.fromPosition(
-        TextPosition(offset: emailFieldController.text.length)
-      );
+          TextPosition(offset: emailFieldController.text.length));
       setState(() {
         isEmailChanged = false;
       });
     } else {
       emailFieldController.text = email;
       emailFieldController.selection = TextSelection.fromPosition(
-          TextPosition(offset: emailFieldController.text.length)
-      );
+          TextPosition(offset: emailFieldController.text.length));
       setState(() {
         isEmailChanged = true;
       });
@@ -69,22 +69,14 @@ class _HomeMyComponent extends State<HomeMyComponent> {
   }
 
   Future<void> photoChanged() async {
-    var selectedImage = await ImageSelector().getImage(ImageSource.gallery);
-    if (selectedImage?.path != null) {
-      setState(() {
-        isPhotoChanged = true;
-        userImage = File(selectedImage.path);
-      });
-    }
-  }
-
-  image() {
-
+    var selectedImage = await ImageSelector().getImage();
+    setState(() {
+      isPhotoChanged = true;
+      userImage = selectedImage;
+    });
   }
 
   submitEditProfile() {
-
-
     AuthManage().updateProfileName(nameFieldController.text);
     AuthManage().updateProfileEmail(emailFieldController.text);
     AuthManage().updateProfileUrl("url");
@@ -141,14 +133,29 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                               SizedBox(
                                 width: 80,
                                 height: 80,
-                                child: Image(
-                                  image: userImage != null ? Image.file(userImage!) as ImageProvider : AssetImage('assets/images/default_user_image_dark.png'),
+                                child: CircleAvatar(
+                                  backgroundColor: Theme.of(context).colorScheme.primary,
+                                  child: userImage == null
+                                      ? Text(
+                                          userName.substring(0, 3),
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .background),
+                                        )
+                                      : ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.memory(userImage!, height: 80, width: 80, fit: BoxFit.cover),
+                                  )
+                                  ,
                                 ),
                               ),
                               SizedBox(
                                 height: 8,
                               ),
-                              TextButton(onPressed: photoChanged, child: Text("변경"))
+                              TextButton(
+                                  onPressed: photoChanged, child: Text("변경"))
                             ],
                           ),
                         ),
@@ -160,7 +167,13 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 6, horizontal: 16),
-                            child: Text("가입정보", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.primary),),
+                            child: Text(
+                              "가입정보",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
                           ),
                           Divider(
                             height: 1,
@@ -183,7 +196,7 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                                 Flexible(
                                   flex: 1,
                                   child: TextField(
-                                    onChanged: nameChanged,
+                                      onChanged: nameChanged,
                                       controller: nameFieldController,
                                       decoration: InputDecoration(
                                           border: InputBorder.none)),
@@ -255,7 +268,10 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                     width: double.infinity,
                     height: 48,
                     child: FilledButton(
-                        onPressed: isNameChanged || isEmailChanged || isPhotoChanged ? () => submitEditProfile() : null,
+                        onPressed:
+                            isNameChanged || isEmailChanged || isPhotoChanged
+                                ? () => submitEditProfile()
+                                : null,
                         child: Text(
                           '수정 완료',
                           style: TextStyle(

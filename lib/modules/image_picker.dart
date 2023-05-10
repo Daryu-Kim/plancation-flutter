@@ -1,11 +1,9 @@
-import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 
 class ImageSelector {
-  final picker = ImagePicker();
-
-  Future getImage(ImageSource imageSource) async {
+  getImage() {
     /// getImage(ImageSource.camera) && getImage(ImageSource.gallery)
-    final image = await picker.pickImage(source: imageSource);
+    final image = ImagePickerWeb.getImageAsBytes();
     return image;
   }
 }

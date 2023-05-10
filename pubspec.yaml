@@ -53,6 +53,8 @@ dependencies:
   url_strategy: ^0.2.0
   cloud_firestore: ^4.5.2
   flutter_speed_dial: ^6.2.0
+  image_picker_web: ^3.0.0+1
+  file_picker: ^5.3.0
 
 dev_dependencies:
   flutter_test:
