@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:js_interop';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
 import 'package:plancation/modules/firebase_login.dart';
+import 'package:plancation/modules/firebase_storage.dart';
 import 'package:plancation/modules/image_picker.dart';
 
 class HomeMyComponent extends StatefulWidget {
@@ -27,6 +29,7 @@ class _HomeMyComponent extends State<HomeMyComponent> {
   String userName = AuthManage().getUser()!.displayName.toString();
   String userEmail = AuthManage().getUser()!.email.toString();
   String userImage = AuthManage().getUser()!.photoURL.toString();
+  Type userImageType = AuthManage().getUser()!.photoURL.runtimeType;
   Uint8List? userImageBytes;
 
   late final TextEditingController nameFieldController =
@@ -79,12 +82,17 @@ class _HomeMyComponent extends State<HomeMyComponent> {
   }
 
   Future<void> submitEditProfile() async {
-    final downloadURL = await StoreManage().updateUserImage(userImageBytes!);
-    Logger().e(downloadURL);
+    String downloadURL = "";
+    if (!userImageBytes.isNull) {
+      downloadURL = await StorageManage().uploadUserImage(userImageBytes!);
+    } else {
+      await StorageManage().removeUserImage();
+    }
 
     AuthManage().updateProfileName(nameFieldController.text);
     AuthManage().updateProfileEmail(emailFieldController.text);
     AuthManage().updateProfileUrl(downloadURL);
+    StoreManage().updateUserImage(downloadURL);
 
     setState(() {
       userName = nameFieldController.text;
@@ -99,7 +107,6 @@ class _HomeMyComponent extends State<HomeMyComponent> {
 
   @override
   Widget build(BuildContext context) {
-    Logger().w(AuthManage().getUser());
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
@@ -138,28 +145,53 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                           child: Column(
                             children: [
                               SizedBox(
-                                width: 80,
-                                height: 80,
-                                child: CircleAvatar(
-                                  backgroundColor: Theme.of(context).colorScheme.primary,
-                                  child: userImage.length < 10 ? userImageBytes == null
-                                      ? Text(
-                                          userName.length < 3 ? userName :
-                                          userName.substring(0, 3),
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .background),
-                                        )
-                                      : ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Image.memory(userImageBytes!, height: 80, width: 80, fit: BoxFit.cover),
-                                  )
-                                      : Image.network(userImage.toString())
-                                  ,
-                                ),
-                              ),
+                                  width: 80,
+                                  height: 80,
+                                  child: CircleAvatar(
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
+                                    child: isPhotoChanged
+                                        ? userImageBytes.isNull
+                                            ? Text(
+                                                userName.length < 3
+                                                    ? userName
+                                                    : userName.substring(0, 3),
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .background),
+                                              )
+                                            : ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                child: Image.memory(
+                                                    userImageBytes!,
+                                                    height: 80,
+                                                    width: 80,
+                                                    fit: BoxFit.cover),
+                                              )
+                                        : userImage.isNotEmpty && userImage != "null"
+                                            ? ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                child: Image.network(
+                                                    userImage.toString(),
+                                                    height: 80,
+                                                    width: 80,
+                                                    fit: BoxFit.cover),
+                                              )
+                                            : Text(
+                                                userName.length < 3
+                                                    ? userName
+                                                    : userName.substring(0, 3),
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .background),
+                                              ),
+                                  )),
                               SizedBox(
                                 height: 8,
                               ),

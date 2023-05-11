@@ -1,3 +1,4 @@
+import 'dart:js_interop';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,16 +29,16 @@ class StoreManage {
     return true;
   }
 
-  Future<String> updateUserImage(Uint8List file) async {
+  Future<bool> updateUserImage(String path) async {
     try {
-      final userID = AuthManage().getUser()?.uid;
-      final userImageRef = FirebaseStorage.instance.ref().child("Users/$userID/profile_image.png");
-      final credential = await userImageRef.putData(file);
-      final downloadURL = await userImageRef.getDownloadURL();
-      return downloadURL;
-    } on FirebaseException catch (e) {
+      await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(AuthManage().getUser()?.uid.toString())
+          .update({'userImagePath': path});
+      return true;
+    } catch (e) {
       Logger().e(e);
-      return "";
+      return false;
     }
   }
 }
