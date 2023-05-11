@@ -8,7 +8,11 @@ import 'modules/color_schemes.g.dart';
 import 'modules/firebase_options.dart';
 import 'routes.dart';
 
-void main() => initializeDateFormatting().then((value) {
+void main() => initializeDateFormatting().then((value) async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
       setPathUrlStrategy();
       runApp(const MyApp());
     });
@@ -18,12 +22,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    KakaoSdk.init(
-        nativeAppKey: '832accb12e772f529ef4b1a1e529e8c9',
-        javaScriptAppKey: 'fb8af3ca919e510985f8fbefa2599e8e');
-    Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    ).then((value) => print(value));
 
     return MaterialApp(
       title: 'Plancation',

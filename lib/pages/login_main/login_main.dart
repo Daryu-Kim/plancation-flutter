@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:plancation/modules/firebase_login.dart';
 import 'package:word_break_text/word_break_text.dart';
 import 'login_main.style.dart';
 
@@ -9,6 +10,11 @@ class LoginMainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (AuthManage().getUser() != null) {
+      Future.delayed(Duration.zero, () {
+        Navigator. pushNamed(context, "/home");
+      });
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(

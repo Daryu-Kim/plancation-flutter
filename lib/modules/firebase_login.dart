@@ -68,7 +68,7 @@ class AuthManage {
   }
 
   /// 로그아웃
-  void signOut() async {
+  Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 

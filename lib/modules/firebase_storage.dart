@@ -1,5 +1,4 @@
-import 'dart:js_interop';
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -8,7 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:plancation/modules/firebase_login.dart';
 
 class StorageManage {
-  Future<String> uploadUserImage(Uint8List file) async {
+  Future<String> uploadUserImage(File? file) async {
     Logger().e("Type is $file");
     try {
       final userID = AuthManage().getUser()?.uid;
@@ -16,10 +15,10 @@ class StorageManage {
           .ref()
           .child("Users/$userID/profile_image.png");
       String downloadURL = "";
-      if (file.isNull) {
+      if (file == null) {
         await userImageRef.delete();
       } else {
-        await userImageRef.putData(file);
+        await userImageRef.putFile(file);
         downloadURL = await userImageRef.getDownloadURL();
       }
 
