@@ -10,15 +10,54 @@ class HomeDiaryPage extends StatefulWidget {
 }
 
 class _HomeDiaryPageState extends State<HomeDiaryPage> {
+  addDiaryPressed() {
+    if (this.mounted) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/diary_new', (_) => false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       resizeToAvoidBottomInset: false,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(72),
+        child: SafeArea(
+          child: Container(
+            color: Theme.of(context).colorScheme.secondary,
+            height: 72,
+            child: const Center(
+              child: Text(
+                '기록',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: CupertinoColors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
       body: Container(
+        color: Theme.of(context).colorScheme.background,
         alignment: AlignmentDirectional.center,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 28),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: addDiaryPressed,
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).colorScheme.surface,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(100)
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
     );
   }

@@ -37,4 +37,17 @@ class StoreManage {
       return false;
     }
   }
+
+  Future<bool> updateUserName(String name) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(AuthManage().getUser()?.uid.toString())
+          .update({'userName': name});
+      return true;
+    } catch (e) {
+      Logger().e(e);
+      return false;
+    }
+  }
 }

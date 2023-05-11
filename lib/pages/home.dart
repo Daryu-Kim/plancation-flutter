@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/modules/firebase_login.dart';
+import 'package:plancation/pages/home_diary/home_diary.dart';
 import 'package:plancation/pages/home_my/home_my.dart';
 import 'home_calendar/home_calendar.dart';
 
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     const HomeCalendarComponent(),
     const Text("할 일"),
     const Text("AI"),
-    const Text("다이어리"),
+    const HomeDiaryPage(),
     const HomeMyComponent(),
   ];
 

@@ -40,14 +40,14 @@ class _HomeMyComponent extends State<HomeMyComponent> {
       nameFieldController.text = name;
       nameFieldController.selection = TextSelection.fromPosition(
           TextPosition(offset: nameFieldController.text.length));
-      this.mounted ?? setState(() {
+      setState(() {
         isNameChanged = false;
       });
     } else {
       nameFieldController.text = name;
       nameFieldController.selection = TextSelection.fromPosition(
           TextPosition(offset: nameFieldController.text.length));
-      this.mounted ?? setState(() {
+      setState(() {
         isNameChanged = true;
       });
     }
@@ -58,14 +58,14 @@ class _HomeMyComponent extends State<HomeMyComponent> {
       emailFieldController.text = email;
       emailFieldController.selection = TextSelection.fromPosition(
           TextPosition(offset: emailFieldController.text.length));
-      this.mounted ?? setState(() {
+      setState(() {
         isEmailChanged = false;
       });
     } else {
       emailFieldController.text = email;
       emailFieldController.selection = TextSelection.fromPosition(
           TextPosition(offset: emailFieldController.text.length));
-      this.mounted ?? setState(() {
+      setState(() {
         isEmailChanged = true;
       });
     }
@@ -73,7 +73,8 @@ class _HomeMyComponent extends State<HomeMyComponent> {
 
   Future<void> photoChanged() async {
     File? selectedImage = await ImageSelector().getImage(ImageSource.gallery);
-    this.mounted ?? setState(() {
+    Logger().w(selectedImage);
+    setState(() {
       isPhotoChanged = true;
       userImageFile = selectedImage;
     });
@@ -90,9 +91,11 @@ class _HomeMyComponent extends State<HomeMyComponent> {
     AuthManage().updateProfileName(nameFieldController.text);
     AuthManage().updateProfileEmail(emailFieldController.text);
     AuthManage().updateProfileUrl(downloadURL);
+
+    StoreManage().updateUserName(nameFieldController.text);
     StoreManage().updateUserImage(downloadURL);
 
-    this.mounted ?? setState(() {
+    setState(() {
       userName = nameFieldController.text;
       userEmail = emailFieldController.text;
       userImage = downloadURL;

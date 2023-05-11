@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:plancation/pages/diary_new/diary_new.dart';
 
 import 'pages/login/login.dart';
 import 'pages/join/join.dart';
@@ -12,4 +13,5 @@ final routes = {
   '/home': (BuildContext context) => const HomePage(),
   '/login': (BuildContext context) => const LoginPage(),
   '/find_pw': (BuildContext context) => const FindPwPage(),
+  '/diary_new': (BuildContext context) => const DiaryNew(),
 };
