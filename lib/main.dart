@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:plancation/pages/login_main/login_main.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'modules/color_schemes.g.dart';
 import 'modules/firebase_options.dart';
@@ -27,8 +28,8 @@ class MyApp extends StatelessWidget {
       title: 'Plancation',
       theme: ThemeData(useMaterial3: true, fontFamily: 'Pretendard', colorScheme: lightColorScheme),
       darkTheme: ThemeData(useMaterial3: true, fontFamily: 'Pretendard', colorScheme: darkColorScheme),
-      routes: routes,
       debugShowCheckedModeBanner: false,
+      home: const LoginMainPage(),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:plancation/pages/diary_new/diary_new.dart';
 import 'home_diary.style.dart';
 
 class HomeDiaryPage extends StatefulWidget {
@@ -11,9 +12,9 @@ class HomeDiaryPage extends StatefulWidget {
 
 class _HomeDiaryPageState extends State<HomeDiaryPage> {
   addDiaryPressed() {
-    if (this.mounted) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/diary_new', (_) => false);
+    if (mounted) {
+      Navigator.push(
+          context, CupertinoPageRoute(builder: (context) => const DiaryNew(), fullscreenDialog: true));
     }
   }
 
@@ -27,7 +28,7 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
         child: SafeArea(
           child: Container(
             color: Theme.of(context).colorScheme.secondary,
-            height: 72,
+            height: 60,
             child: const Center(
               child: Text(
                 '기록',

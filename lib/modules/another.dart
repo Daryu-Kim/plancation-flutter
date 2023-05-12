@@ -21,6 +21,20 @@ errorSnackBar(BuildContext context, String msg) {
   ));
 }
 
+infoSnackBar(BuildContext context, String msg) {
+  return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(msg,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Theme.of(context).colorScheme.inverseSurface)),
+    duration: const Duration(milliseconds: 1500),
+    backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+    behavior: SnackBarBehavior.fixed,
+  ));
+}
+
 loadingSnackbar(BuildContext context, String msg) {
   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(msg,

@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
+import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/pages/home_diary/home_diary.dart';
 import 'package:plancation/pages/home_my/home_my.dart';
@@ -26,13 +28,35 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime? backbuttonpressedTime;
+
     if (FirebaseAuth.instance.currentUser != null) {
       Logger().d(AuthManage().getUser());
     }
+
+    Future<bool> onWillPop() async {
+      DateTime currentTime = DateTime.now();
+
+      //Statement 1 Or statement2
+      bool backButton = backbuttonpressedTime == null ||
+          currentTime.difference(backbuttonpressedTime!) > Duration(seconds: 3);
+
+      if (backButton) {
+        backbuttonpressedTime = currentTime;
+        infoSnackBar(context, "한번 더 뒤로가기를 누르면 종료됩니다.");
+        return false;
+      }
+      return true;
+      SystemNavigator.pop();
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Center(
-        child: body_item.elementAt(current_index),
+      body: WillPopScope(
+        onWillPop: onWillPop,
+        child: Center(
+          child: body_item.elementAt(current_index),
+        ),
       ),
       bottomNavigationBar: SizedBox(
         height: 72,

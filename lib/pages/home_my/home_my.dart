@@ -12,6 +12,7 @@ import 'package:plancation/modules/firebase_firestore.dart';
 import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/modules/firebase_storage.dart';
 import 'package:plancation/modules/image_picker.dart';
+import 'package:plancation/pages/login_main/login_main.dart';
 
 class HomeMyComponent extends StatefulWidget {
   const HomeMyComponent({super.key});
@@ -116,7 +117,7 @@ class _HomeMyComponent extends State<HomeMyComponent> {
         child: SafeArea(
           child: Container(
             color: Theme.of(context).colorScheme.secondary,
-            height: 72,
+            height: 60,
             child: const Center(
               child: Text(
                 '내 계정',
@@ -298,9 +299,9 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                         child: OutlinedButton(
                           onPressed: () async {
                             await AuthManage().signOut();
-                            if (this.mounted) {
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, '/', (_) => false);
+                            if (mounted) {
+                              Navigator.pushAndRemoveUntil(
+                                  context, CupertinoPageRoute(builder: (context) => const LoginMainPage()), (_) => false);
                             }
                           },
                           child: const Text(
