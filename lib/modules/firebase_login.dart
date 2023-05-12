@@ -1,14 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
+import 'package:plancation/pages/home.dart';
 
 class AuthManage {
   /// 회원가입
   Future<bool> createUser(
-      String email, String pw, String name, BuildContext context) async {
+      String email, String pw, String name, context) async {
     try {
       loadingSnackbar(context, "회원가입 중입니다!");
       final credential =
@@ -17,11 +19,9 @@ class AuthManage {
         password: pw,
       );
       await updateProfileName(name);
-      await updateProfileUrl(
-          "https://firebasestorage.googleapis.com/v0/b/plancation-74a7a.appspot.com/o/Apps%2Fdefault_user_image.png?alt=media&token=24c09b27-9fd8-4604-8900-3f9c16c14452");
       await StoreManage().createUser(credential.user!.uid, name, context);
       dismissSnackBar(context);
-      Navigator.pushNamed(context, '/home');
+      Navigator.push(context, CupertinoPageRoute(builder: (context) => const HomePage()));
     } on FirebaseAuthException catch (e) {
       Logger().e(e.message);
       if (e.message!.contains('auth/weak-password')) {
@@ -40,13 +40,13 @@ class AuthManage {
   }
 
   /// 로그인
-  Future<bool> signIn(String email, String pw, BuildContext context) async {
+  Future<bool> signIn(String email, String pw, context) async {
     try {
       loadingSnackbar(context, "로그인 중입니다!");
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: pw);
       dismissSnackBar(context);
-      Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+      Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => const HomePage()), (_) => false);
     } on FirebaseAuthException catch (e) {
       dismissSnackBar(context);
       Logger().e(e.message);
@@ -68,7 +68,7 @@ class AuthManage {
   }
 
   /// 로그아웃
-  void signOut() async {
+  Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 

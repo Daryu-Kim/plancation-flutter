@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plancation/modules/firebase_login.dart';
+import 'package:plancation/pages/find_pw/find_pw.dart';
+import 'package:plancation/pages/join/join.dart';
 import 'login.style.dart';
 
 class LoginPage extends StatefulWidget {
@@ -94,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     TextButton(
                         onPressed: () =>
-                            Navigator.pushNamed(context, '/find_pw'),
+                            Navigator.push(context, CupertinoPageRoute(builder: (context) => const FindPwPage())),
                         child: const Text('비밀번호를 잊어버리셨나요?')),
                     const SizedBox(
                       height: 24,
@@ -187,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       TextButton(
                           onPressed: () =>
-                              Navigator.pushNamed(context, '/join'),
+                              Navigator.push(context, CupertinoPageRoute(builder: (context) => const JoinPage())),
                           child: const Text(
                             '회원가입 하러가기',
                             style: joinBtnTextStyle,
