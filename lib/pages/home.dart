@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime? backbuttonpressedTime;
+    DateTime? backPressedTime;
 
     if (FirebaseAuth.instance.currentUser != null) {
       Logger().d(AuthManage().getUser());
@@ -38,11 +38,11 @@ class _HomePageState extends State<HomePage> {
       DateTime currentTime = DateTime.now();
 
       //Statement 1 Or statement2
-      bool backButton = backbuttonpressedTime == null ||
-          currentTime.difference(backbuttonpressedTime!) > Duration(seconds: 3);
+      bool backButton = backPressedTime == null ||
+          currentTime.difference(backPressedTime!) > Duration(seconds: 3);
 
       if (backButton) {
-        backbuttonpressedTime = currentTime;
+        backPressedTime = currentTime;
         infoSnackBar(context, "한번 더 뒤로가기를 누르면 종료됩니다.");
         return false;
       }

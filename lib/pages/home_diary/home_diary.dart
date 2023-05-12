@@ -1,6 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+import 'package:plancation/modules/another.dart';
+import 'package:plancation/modules/firebase_firestore.dart';
+import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/pages/diary_new/diary_new.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home_diary.style.dart';
 
 class HomeDiaryPage extends StatefulWidget {
@@ -18,8 +24,11 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    Logger().e(StoreManage().getDiaryItems());
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondary,
       resizeToAvoidBottomInset: false,
@@ -47,6 +56,28 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
         alignment: AlignmentDirectional.center,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 28),
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection("Calendars").doc(getCalendarID().toString()).collection("Posts").snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              }
+
+              return ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (ctx, index) => Container(
+                  padding: EdgeInsets.all(8),
+                  child: Row(
+                    children: [
+                      Text(snapshot.data!.docs[index].toString())
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
