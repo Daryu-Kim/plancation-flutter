@@ -142,10 +142,24 @@ class AuthManage {
   }
 
   /// 비밀번호 초기화 메일보내기
-  Future<void> sendPasswordResetEmail(String email) async {
-    await FirebaseAuth.instance.setLanguageCode("kr");
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-  }
+  Future<void> sendPasswordResetEmail(
+      String email, BuildContext context) async {
+    try {
+      loadingSnackbar(context, "이메일 전송 중입니다!");
+      await FirebaseAuth.instance.setLanguageCode("kr");
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      dismissSnackBar(context);
+      Logger().e(e.message);
+      if (e.message!.contains('auth/user-not-found')) {
+        errorSnackBar(context, "가입되어 있는 정보가 없습니다!");
+      } else if (e.message!.contains('auth/invalid-email')) {
+        errorSnackBar(context, "이메일 형식이 맞지 않습니다!");
+      } else {
+        errorSnackBar(context, "알 수 없는 오류입니다! 오류 코드: ${e.message}");
+      }
+    }
+  } //원재야 헬프!!!!😊
 
   /// 구글 로그인 구현
   Future<UserCredential> signInWithGoogle() async {

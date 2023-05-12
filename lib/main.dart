@@ -27,8 +27,14 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Plancation',
-      theme: ThemeData(useMaterial3: true, fontFamily: 'Pretendard', colorScheme: lightColorScheme),
-      darkTheme: ThemeData(useMaterial3: true, fontFamily: 'Pretendard', colorScheme: darkColorScheme),
+      theme: ThemeData(
+          useMaterial3: true,
+          fontFamily: 'Pretendard',
+          colorScheme: lightColorScheme),
+      darkTheme: ThemeData(
+          useMaterial3: true,
+          fontFamily: 'Pretendard',
+          colorScheme: darkColorScheme),
       routes: routes,
       debugShowCheckedModeBanner: false,
     );

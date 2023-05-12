@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:logger/logger.dart';
 import 'package:word_break_text/word_break_text.dart';
 import 'join.style.dart';
 import '../../modules/another.dart';
@@ -68,7 +67,7 @@ class _JoinPageState extends State<JoinPage> {
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Text(
                         "Plancation",
                         style: TextStyle(
