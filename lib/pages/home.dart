@@ -6,6 +6,7 @@ import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/pages/home_diary/home_diary.dart';
 import 'package:plancation/pages/home_my/home_my.dart';
+import 'home_ai/home_ai.dart';
 import 'home_calendar/home_calendar.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   List body_item = [
     const HomeCalendarComponent(),
     const Text("할 일"),
-    const Text("AI"),
+    const HomeAIPage(),
     const HomeDiaryPage(),
     const HomeMyComponent(),
   ];

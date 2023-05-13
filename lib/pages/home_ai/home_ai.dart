@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeAIPage extends StatefulWidget {
@@ -11,7 +12,27 @@ class _HomeAIPageState extends State<HomeAIPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       resizeToAvoidBottomInset: false,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(72),
+        child: SafeArea(
+          child: Container(
+            color: Theme.of(context).colorScheme.secondary,
+            height: 60,
+            child: const Center(
+              child: Text(
+                '오토 스케쥴링',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: CupertinoColors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
       body: Container(
         alignment: AlignmentDirectional.center,
         child: const Padding(
