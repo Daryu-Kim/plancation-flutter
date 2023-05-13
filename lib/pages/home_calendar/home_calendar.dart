@@ -38,7 +38,7 @@ class HomeCalendarComponent extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                    children: const [
                       Text('April', style: containerTitleTextStyle),
                       Text('2023'),
                     ],

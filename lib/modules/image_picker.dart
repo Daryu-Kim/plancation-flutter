@@ -8,9 +8,9 @@ class ImageSelector {
     /// getImage(ImageSource.camera) && getImage(ImageSource.gallery)
     XFile? image = await ImagePicker().pickImage(source: source);
     CroppedFile? croppedImage = await ImageCropper().cropImage(
-        sourcePath: image!.path,
+      sourcePath: image!.path,
       cropStyle: CropStyle.rectangle,
-      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
       compressFormat: ImageCompressFormat.png,
       maxWidth: 128,
       maxHeight: 128,
@@ -23,9 +23,9 @@ class ImageSelector {
     /// getImage(ImageSource.camera) && getImage(ImageSource.gallery)
     XFile? image = await ImagePicker().pickImage(source: source);
     CroppedFile? croppedImage = await ImageCropper().cropImage(
-        sourcePath: image!.path,
+      sourcePath: image!.path,
       cropStyle: CropStyle.rectangle,
-      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
       compressFormat: ImageCompressFormat.png,
       maxWidth: 512,
       maxHeight: 512,

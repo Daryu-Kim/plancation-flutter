@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const btnTextStyle = TextStyle(fontWeight: FontWeight.w700, fontSize: 18);

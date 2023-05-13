@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
-import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/pages/diary_new/diary_new.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'home_diary.style.dart';
 
 class HomeDiaryPage extends StatefulWidget {
   const HomeDiaryPage({super.key});
@@ -20,11 +17,11 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
   addDiaryPressed() {
     if (mounted) {
       Navigator.push(
-          context, CupertinoPageRoute(builder: (context) => const DiaryNew(), fullscreenDialog: true));
+          context,
+          CupertinoPageRoute(
+              builder: (context) => const DiaryNew(), fullscreenDialog: true));
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +54,14 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 28),
           child: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection("Calendars").doc(getCalendarID().toString()).collection("Posts").snapshots(),
+            stream: FirebaseFirestore.instance
+                .collection("Calendars")
+                .doc(getCalendarID().toString())
+                .collection("Posts")
+                .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
 
               return ListView.builder(
@@ -68,11 +69,9 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
                 scrollDirection: Axis.vertical,
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (ctx, index) => Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: Row(
-                    children: [
-                      Text(snapshot.data!.docs[index].toString())
-                    ],
+                    children: [Text(snapshot.data!.docs[index].toString())],
                   ),
                 ),
               );
@@ -82,14 +81,12 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: addDiaryPressed,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+        backgroundColor: Theme.of(context).colorScheme.primary,
         child: Icon(
           Icons.add,
           color: Theme.of(context).colorScheme.surface,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100)
-        ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
     );
   }

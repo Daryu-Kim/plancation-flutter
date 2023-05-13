@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
@@ -39,7 +38,7 @@ class _HomePageState extends State<HomePage> {
 
       //Statement 1 Or statement2
       bool backButton = backPressedTime == null ||
-          currentTime.difference(backPressedTime!) > Duration(seconds: 3);
+          currentTime.difference(backPressedTime!) > const Duration(seconds: 3);
 
       if (backButton) {
         backPressedTime = currentTime;

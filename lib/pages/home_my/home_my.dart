@@ -1,11 +1,6 @@
 import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
@@ -134,206 +129,219 @@ class _HomeMyComponent extends State<HomeMyComponent> {
       body: Container(
         color: Theme.of(context).colorScheme.background,
         child: Center(
-              child: Flexible(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    children: [
-                      Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 24),
-                            child: Center(
-                              child: Column(
+            child: Flexible(
+          flex: 1,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 24),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                    width: 80,
+                                    height: 80,
+                                    child: CircleAvatar(
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.primary,
+                                      child: isPhotoChanged
+                                          ? userImageFile == null
+                                              ? Text(
+                                                  userName.length < 3
+                                                      ? userName
+                                                      : userName.substring(
+                                                          0, 3),
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .background),
+                                                )
+                                              : ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  child: Image.file(
+                                                      userImageFile!,
+                                                      height: 80,
+                                                      width: 80,
+                                                      fit: BoxFit.cover),
+                                                )
+                                          : userImage.isNotEmpty &&
+                                                  userImage != "null"
+                                              ? ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  child: Image.network(
+                                                      userImage.toString(),
+                                                      height: 80,
+                                                      width: 80,
+                                                      fit: BoxFit.cover),
+                                                )
+                                              : Text(
+                                                  userName.length < 3
+                                                      ? userName
+                                                      : userName.substring(
+                                                          0, 3),
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .background),
+                                                ),
+                                    )),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                TextButton(
+                                    onPressed: photoChanged,
+                                    child: const Text("변경"))
+                              ],
+                            ),
+                          ),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 6, horizontal: 16),
+                              child: Text(
+                                "가입정보",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                              ),
+                            ),
+                            Divider(
+                              height: 1,
+                              color: Theme.of(context).colorScheme.outline,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 6, horizontal: 16),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SizedBox(
-                                      width: 80,
-                                      height: 80,
-                                      child: CircleAvatar(
-                                        backgroundColor:
-                                            Theme.of(context).colorScheme.primary,
-                                        child: isPhotoChanged
-                                            ? userImageFile == null
-                                                ? Text(
-                                                    userName.length < 3
-                                                        ? userName
-                                                        : userName.substring(0, 3),
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .background),
-                                                  )
-                                                : ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(100),
-                                                    child: Image.file(
-                                                        userImageFile!,
-                                                        height: 80,
-                                                        width: 80,
-                                                        fit: BoxFit.cover),
-                                                  )
-                                            : userImage.isNotEmpty && userImage != "null"
-                                                ? ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(100),
-                                                    child: Image.network(
-                                                        userImage.toString(),
-                                                        height: 80,
-                                                        width: 80,
-                                                        fit: BoxFit.cover),
-                                                  )
-                                                : Text(
-                                                    userName.length < 3
-                                                        ? userName
-                                                        : userName.substring(0, 3),
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .background),
-                                                  ),
-                                      )),
-                                  SizedBox(
-                                    height: 8,
+                                  const SizedBox(
+                                    width: 72,
+                                    child: Text("이름",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16)),
                                   ),
-                                  TextButton(
-                                      onPressed: photoChanged, child: Text("변경"))
+                                  Flexible(
+                                    flex: 1,
+                                    child: TextField(
+                                        onChanged: nameChanged,
+                                        controller: nameFieldController,
+                                        decoration: const InputDecoration(
+                                            border: InputBorder.none)),
+                                  ),
                                 ],
                               ),
                             ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 6, horizontal: 16),
-                                child: Text(
-                                  "가입정보",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context).colorScheme.primary),
-                                ),
+                            Divider(
+                              height: 1,
+                              color: Theme.of(context).colorScheme.outline,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 6, horizontal: 16),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const SizedBox(
+                                    width: 72,
+                                    child: Text("이메일",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16)),
+                                  ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: TextField(
+                                        onChanged: emailChanged,
+                                        controller: emailFieldController,
+                                        decoration: const InputDecoration(
+                                            border: InputBorder.none)),
+                                  ),
+                                ],
                               ),
-                              Divider(
-                                height: 1,
-                                color: Theme.of(context).colorScheme.outline,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 6, horizontal: 16),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 72,
-                                      child: Text("이름",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16)),
-                                    ),
-                                    Flexible(
-                                      flex: 1,
-                                      child: TextField(
-                                          onChanged: nameChanged,
-                                          controller: nameFieldController,
-                                          decoration: InputDecoration(
-                                              border: InputBorder.none)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                height: 1,
-                                color: Theme.of(context).colorScheme.outline,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 6, horizontal: 16),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 72,
-                                      child: Text("이메일",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16)),
-                                    ),
-                                    Flexible(
-                                      child: TextField(
-                                          onChanged: emailChanged,
-                                          controller: emailFieldController,
-                                          decoration: InputDecoration(
-                                              border: InputBorder.none)),
-                                      flex: 1,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                height: 1,
-                                color: Theme.of(context).colorScheme.outline,
-                              ),
-                            ],
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        height: 48,
-                        child: OutlinedButton(
-                          onPressed: () async {
-                            await AuthManage().signOut();
-                            if (mounted) {
-                              Navigator.pushAndRemoveUntil(
-                                  context, CupertinoPageRoute(builder: (context) => const LoginMainPage()), (_) => false);
-                            }
-                          },
-                          child: const Text(
-                            '로그아웃',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600),
-                          ),
+                            ),
+                            Divider(
+                              height: 1,
+                              color: Theme.of(context).colorScheme.outline,
+                            ),
+                          ],
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      height: 48,
+                      child: OutlinedButton(
+                        onPressed: () async {
+                          await AuthManage().signOut();
+                          if (mounted) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) =>
+                                        const LoginMainPage()),
+                                (_) => false);
+                          }
+                        },
+                        child: const Text(
+                          '로그아웃',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
                         ),
                       ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 48,
-                        child: FilledButton(
-                            onPressed:
-                                isNameChanged || isEmailChanged || isPhotoChanged
-                                    ? () => submitEditProfile()
-                                    : null,
-                            child: Text(
-                              '수정 완료',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            )),
-                      )
-                    ],
-                  )
-                ],
-              ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 48,
+                      child: FilledButton(
+                          onPressed:
+                              isNameChanged || isEmailChanged || isPhotoChanged
+                                  ? () => submitEditProfile()
+                                  : null,
+                          child: const Text(
+                            '수정 완료',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w600),
+                          )),
+                    )
+                  ],
+                )
+              ],
             ),
-          )),
+          ),
+        )),
       ),
     );
   }

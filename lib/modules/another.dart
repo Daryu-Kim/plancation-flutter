@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/modules/firebase_login.dart';
@@ -52,7 +51,7 @@ dismissSnackBar(BuildContext context) {
   return ScaffoldMessenger.of(context).hideCurrentSnackBar();
 }
 
-Future<String> getCalendarID() async{
+Future<String> getCalendarID() async {
   try {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String calendarID = "";

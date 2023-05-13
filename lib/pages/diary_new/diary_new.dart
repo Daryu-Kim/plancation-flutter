@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
-import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/modules/firebase_storage.dart';
 import 'package:plancation/modules/image_picker.dart';
-import 'diary_new.style.dart';
 
 class DiaryNew extends StatefulWidget {
   const DiaryNew({super.key});
@@ -80,10 +78,12 @@ class _DiaryNewState extends State<DiaryNew> {
 
   Future<void> submitNewDiary() async {
     String downloadURL = "";
-    String postID = await StoreManage().createDiary(titleFieldController.text, contentFieldController.text);
+    String postID = await StoreManage()
+        .createDiary(titleFieldController.text, contentFieldController.text);
 
     if (diaryImageFile != null) {
-      downloadURL = await StorageManage().uploadDiaryImage(diaryImageFile, postID);
+      downloadURL =
+          await StorageManage().uploadDiaryImage(diaryImageFile, postID);
     }
 
     await StoreManage().updateDiaryImage(postID, downloadURL);
@@ -124,10 +124,9 @@ class _DiaryNewState extends State<DiaryNew> {
                   ),
                 ),
                 TextButton(
-                    onPressed:
-                        isTitleEntered && isContentEntered
-                            ? submitNewDiary
-                            : null,
+                    onPressed: isTitleEntered && isContentEntered
+                        ? submitNewDiary
+                        : null,
                     child: const Text(
                       "등록",
                       style:
@@ -141,7 +140,7 @@ class _DiaryNewState extends State<DiaryNew> {
       body: Container(
         color: Theme.of(context).colorScheme.background,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 42, vertical: 28),
+          padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 28),
           child: Column(
             children: [
               Row(
@@ -155,10 +154,10 @@ class _DiaryNewState extends State<DiaryNew> {
                         controller: titleFieldController,
                         maxLength: 20,
                         maxLines: 1,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             hintText: "글 제목을 입력해주세요.", labelText: "글 제목"),
                       )),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   InkWell(
                     onTap: photoChanged,
                     onLongPress: photoRemoved,
@@ -190,7 +189,7 @@ class _DiaryNewState extends State<DiaryNew> {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               TextField(

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plancation/modules/another.dart';
@@ -9,8 +8,7 @@ import 'package:plancation/pages/home.dart';
 
 class AuthManage {
   /// 회원가입
-  Future<bool> createUser(
-      String email, String pw, String name, context) async {
+  Future<bool> createUser(String email, String pw, String name, context) async {
     try {
       loadingSnackbar(context, "회원가입 중입니다!");
       final credential =
@@ -21,7 +19,8 @@ class AuthManage {
       await updateProfileName(name);
       await StoreManage().createUser(credential.user!.uid, name, context);
       dismissSnackBar(context);
-      Navigator.push(context, CupertinoPageRoute(builder: (context) => const HomePage()));
+      Navigator.push(
+          context, CupertinoPageRoute(builder: (context) => const HomePage()));
     } on FirebaseAuthException catch (e) {
       Logger().e(e.message);
       if (e.message!.contains('auth/weak-password')) {
@@ -46,7 +45,10 @@ class AuthManage {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: pw);
       dismissSnackBar(context);
-      Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => const HomePage()), (_) => false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          CupertinoPageRoute(builder: (context) => const HomePage()),
+          (_) => false);
     } on FirebaseAuthException catch (e) {
       dismissSnackBar(context);
       Logger().e(e.message);

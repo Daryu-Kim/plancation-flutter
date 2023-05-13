@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'home_ai.style.dart';
 
 class HomeAIPage extends StatefulWidget {
   const HomeAIPage({super.key});
@@ -16,8 +14,8 @@ class _HomeAIPageState extends State<HomeAIPage> {
       resizeToAvoidBottomInset: false,
       body: Container(
         alignment: AlignmentDirectional.center,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 28),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 42, vertical: 28),
         ),
       ),
     );
