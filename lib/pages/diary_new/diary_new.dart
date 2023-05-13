@@ -139,77 +139,75 @@ class _DiaryNewState extends State<DiaryNew> {
         ),
       ),
       body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         color: Theme.of(context).colorScheme.background,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 42, vertical: 28),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Flexible(
-                      fit: FlexFit.tight,
-                      child: TextField(
-                        onChanged: titleChanged,
-                        controller: titleFieldController,
-                        maxLength: 20,
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                            hintText: "글 제목을 입력해주세요.", labelText: "글 제목"),
-                      )),
-                  SizedBox(width: 12),
-                  InkWell(
-                    onTap: photoChanged,
-                    onLongPress: photoRemoved,
-                    child: Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surfaceVariant,
-                          border: Border.all(
-                              color: Theme.of(context).colorScheme.primary,
-                              style: BorderStyle.solid,
-                              width: 2),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: isPhotoSelected
-                          ? diaryImageFile == null
-                              ? Icon(Icons.add_a_photo_outlined,
-                                  color: Theme.of(context).colorScheme.primary)
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(6),
-                                  child: Image.file(
-                                    diaryImageFile!,
-                                    height: 80,
-                                    width: 80,
-                                    fit: BoxFit.cover,
-                                  ))
-                          : Icon(Icons.add_a_photo_outlined,
-                              color: Theme.of(context).colorScheme.primary),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              TextField(
-                onChanged: contentChanged,
-                controller: contentFieldController,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: InputDecoration(
-                    hintText: "본문 텍스트를 입력해주세요.",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.outline,
-                          width: 2,
-                          style: BorderStyle.solid),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Flexible(
+                    fit: FlexFit.tight,
+                    child: TextField(
+                      onChanged: titleChanged,
+                      controller: titleFieldController,
+                      maxLength: 20,
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                          hintText: "글 제목을 입력해주세요.", labelText: "글 제목"),
                     )),
-              )
-            ],
-          ),
+                SizedBox(width: 12),
+                InkWell(
+                  onTap: photoChanged,
+                  onLongPress: photoRemoved,
+                  child: Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surfaceVariant,
+                        border: Border.all(
+                            color: Theme.of(context).colorScheme.primary,
+                            style: BorderStyle.solid,
+                            width: 2),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: isPhotoSelected
+                        ? diaryImageFile == null
+                        ? Icon(Icons.add_a_photo_outlined,
+                        color: Theme.of(context).colorScheme.primary)
+                        : ClipRRect(
+                        borderRadius: BorderRadius.circular(6),
+                        child: Image.file(
+                          diaryImageFile!,
+                          height: 80,
+                          width: 80,
+                          fit: BoxFit.cover,
+                        ))
+                        : Icon(Icons.add_a_photo_outlined,
+                        color: Theme.of(context).colorScheme.primary),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            TextField(
+              onChanged: contentChanged,
+              controller: contentFieldController,
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              decoration: InputDecoration(
+                  hintText: "본문 텍스트를 입력해주세요.",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.outline,
+                        width: 2,
+                        style: BorderStyle.solid),
+                  )),
+            )
+          ],
         ),
       ),
     );

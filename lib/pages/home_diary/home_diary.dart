@@ -27,6 +27,10 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
     }
   }
 
+  Future<void> onRefresh() async {
+    Logger().e("message");
+  }
+
   @override
   void initState() {
     super.initState();
@@ -67,27 +71,30 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
           ),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        color: Theme.of(context).colorScheme.background,
-        alignment: AlignmentDirectional.topCenter,
-        child: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection("Calendars").doc(calendarID).collection("Posts").orderBy('postTime', descending: true).snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            }
+      body: RefreshIndicator(
+        onRefresh: onRefresh,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          color: Theme.of(context).colorScheme.background,
+          alignment: AlignmentDirectional.topCenter,
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection("Calendars").doc(calendarID).collection("Posts").orderBy('postTime', descending: true).snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              }
 
-            return ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (ctx, index) => Container(
-                padding: EdgeInsets.all(8),
-                child: DiaryListPost(diaryData: snapshot.data!.docs[index], calendarUsers: calendarUsers)
-              ),
-            );
-          },
+              return ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (ctx, index) => Container(
+                  padding: EdgeInsets.all(8),
+                  child: DiaryListPost(diaryData: snapshot.data!.docs[index], calendarUsers: calendarUsers)
+                ),
+              );
+            },
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
