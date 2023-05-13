@@ -148,6 +148,8 @@ class AuthManage {
       loadingSnackbar(context, "이메일 전송 중입니다!");
       await FirebaseAuth.instance.setLanguageCode("kr");
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      dismissSnackBar(context);
+      submitSnackBar(context, "비밀번호 확인 이메일을 보냈습니다!");
     } on FirebaseAuthException catch (e) {
       dismissSnackBar(context);
       Logger().e(e.message);

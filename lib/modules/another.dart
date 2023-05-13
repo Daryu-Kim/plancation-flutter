@@ -38,6 +38,20 @@ infoSnackBar(BuildContext context, String msg) {
   ));
 }
 
+submitSnackBar(BuildContext context, String msg) {
+  return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(msg,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: CupertinoColors.white)),
+    duration: const Duration(milliseconds: 1500),
+    backgroundColor: Colors.green,
+    behavior: SnackBarBehavior.fixed,
+  ));
+}
+
 loadingSnackbar(BuildContext context, String msg) {
   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(msg,
@@ -48,7 +62,7 @@ loadingSnackbar(BuildContext context, String msg) {
   ));
 }
 
-dismissSnackBar(BuildContext context) {
+dismissSnackBar(BuildContext context) async {
   return ScaffoldMessenger.of(context).hideCurrentSnackBar();
 }
 

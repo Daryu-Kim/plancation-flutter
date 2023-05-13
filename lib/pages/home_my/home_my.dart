@@ -199,9 +199,6 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                                                             .background),
                                                   ),
                                       )),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
                                   TextButton(
                                       onPressed: photoChanged, child: Text("변경"))
                                 ],

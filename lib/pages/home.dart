@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,10 +31,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     DateTime? backPressedTime;
 
-    if (FirebaseAuth.instance.currentUser != null) {
-      Logger().d(AuthManage().getUser());
-    }
-
     Future<bool> onWillPop() async {
       DateTime currentTime = DateTime.now();
 
@@ -58,53 +55,71 @@ class _HomePageState extends State<HomePage> {
           child: body_item.elementAt(current_index),
         ),
       ),
-      bottomNavigationBar: SizedBox(
-        height: 72,
-        child: BottomNavigationBar(
-          iconSize: 28,
-          selectedLabelStyle:
-              const TextStyle(fontSize: 10, fontWeight: FontWeight.w700),
-          unselectedLabelStyle:
-              const TextStyle(fontSize: 10, fontWeight: FontWeight.w700),
-          selectedItemColor: Theme.of(context).colorScheme.primary,
-          unselectedItemColor: Theme.of(context).colorScheme.inversePrimary,
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          type: BottomNavigationBarType.fixed,
-          //현재 index 변수에 저장
-          currentIndex: current_index,
-          //tap -> index 변경
-          onTap: (index) {
-            print('index test : $index');
-            setState(() {
-              current_index = index;
-            });
-          },
-          //BottomNavi item list
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month),
-              label: '캘린더',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.checklist),
-              label: '할 일',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.laptop),
-              label: 'AI',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.assignment),
-              label: '다이어리',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              label: 'MY',
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        items: [
+          Icon(Icons.calendar_month, color: Theme.of(context).colorScheme.background),
+          Icon(Icons.checklist, color: Theme.of(context).colorScheme.background),
+          Icon(Icons.laptop, color: Theme.of(context).colorScheme.background),
+          Icon(Icons.assignment, color: Theme.of(context).colorScheme.background),
+          Icon(Icons.account_circle, color: Theme.of(context).colorScheme.background),
+        ],
+    height: 52,
+    color: Theme.of(context).colorScheme.secondary,
+    backgroundColor: Theme.of(context).colorScheme.background,
+    onTap: (index) {
+          print('index test : $index');
+          setState(() {
+            current_index = index;
+          });
+        },
+      )
+      // SizedBox(
+      //   height: 72,
+      //   child: BottomNavigationBar(
+      //     iconSize: 28,
+      //     selectedLabelStyle:
+      //         const TextStyle(fontSize: 10, fontWeight: FontWeight.w700),
+      //     unselectedLabelStyle:
+      //         const TextStyle(fontSize: 10, fontWeight: FontWeight.w700),
+      //     selectedItemColor: Theme.of(context).colorScheme.primary,
+      //     unselectedItemColor: Theme.of(context).colorScheme.inversePrimary,
+      //     showSelectedLabels: true,
+      //     showUnselectedLabels: true,
+      //     type: BottomNavigationBarType.fixed,
+      //     //현재 index 변수에 저장
+      //     currentIndex: current_index,
+      //     //tap -> index 변경
+      //     onTap: (index) {
+      //       print('index test : $index');
+      //       setState(() {
+      //         current_index = index;
+      //       });
+      //     },
+      //     //BottomNavi item list
+      //     items: const [
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.calendar_month),
+      //         label: '캘린더',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.checklist),
+      //         label: '할 일',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.laptop),
+      //         label: 'AI',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.assignment),
+      //         label: '다이어리',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.account_circle),
+      //         label: 'MY',
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

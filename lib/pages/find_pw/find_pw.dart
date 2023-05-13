@@ -13,8 +13,8 @@ class FindPwPage extends StatefulWidget {
 class _FindPwPageState extends State<FindPwPage> {
   String inputEmail = "";
 
-  void handleFindPWClick() {
-    AuthManage().sendPasswordResetEmail(inputEmail, context);
+  Future<void> handleFindPWClick() async {
+    await AuthManage().sendPasswordResetEmail(inputEmail, context);
   }
 
   @override

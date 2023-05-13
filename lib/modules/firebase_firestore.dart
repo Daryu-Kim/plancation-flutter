@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
@@ -50,6 +52,30 @@ class StoreManage {
     } catch (e) {
       Logger().e(e);
       return false;
+    }
+  }
+
+  Future<List?> getCalendarUsers(String calendarID) async {
+    try {
+      await FirebaseFirestore.instance.collection('Calendars').doc(calendarID).get().then((value) {
+        List<String> resultData = value.get('calendarUsers') as List<String>;
+        Logger().e(resultData);
+        return resultData;
+      });
+    } catch (e) {
+      Logger().e(e);
+      return null;
+    }
+  }
+
+  Future<dynamic> getDiaryAuthorName(String authorID) async {
+    try {
+      await FirebaseFirestore.instance.collection('Users').doc(authorID).get().then((value) {
+        return value.get('userName');
+      });
+    } catch (e) {
+      Logger().e(e);
+      return;
     }
   }
 

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:plancation/components/diary_list_post/diary_list_post.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
 import 'package:plancation/modules/firebase_login.dart';
@@ -17,6 +18,8 @@ class HomeDiaryPage extends StatefulWidget {
 }
 
 class _HomeDiaryPageState extends State<HomeDiaryPage> {
+  String calendarID = "";
+  dynamic calendarUsers;
   addDiaryPressed() {
     if (mounted) {
       Navigator.push(
@@ -24,11 +27,24 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
     }
   }
 
+  @override
+  void initState() {
+    super.initState();
+    getCalendarID().then((value) {
+      setState(() {
+        calendarID = value;
+      });
+    });
 
+    // StoreManage().getCalendarUsers(calendarID).then((value) {
+    //   setState(() {
+    //     calendarUsers = value;
+    //   });
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
-    Logger().e(StoreManage().getDiaryItems());
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondary,
       resizeToAvoidBottomInset: false,
@@ -52,32 +68,26 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
         ),
       ),
       body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         color: Theme.of(context).colorScheme.background,
-        alignment: AlignmentDirectional.center,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 28),
-          child: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection("Calendars").doc(getCalendarID().toString()).collection("Posts").snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
-              }
+        alignment: AlignmentDirectional.topCenter,
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection("Calendars").doc(calendarID).collection("Posts").orderBy('postTime', descending: true).snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            }
 
-              return ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (ctx, index) => Container(
-                  padding: EdgeInsets.all(8),
-                  child: Row(
-                    children: [
-                      Text(snapshot.data!.docs[index].toString())
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
+            return ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (ctx, index) => Container(
+                padding: EdgeInsets.all(8),
+                child: DiaryListPost(diaryData: snapshot.data!.docs[index], calendarUsers: calendarUsers)
+              ),
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(

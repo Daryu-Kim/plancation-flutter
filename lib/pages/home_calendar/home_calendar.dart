@@ -16,48 +16,51 @@ class HomeCalendarComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         resizeToAvoidBottomInset: false,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(72),
-          child: SizedBox(
-            height: 72,
-            child: CupertinoNavigationBar(
-              automaticallyImplyLeading: false,
-              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-              middle: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
+          child: SafeArea(
+            child: SizedBox(
+              height: 60,
+              child: CupertinoNavigationBar(
+                automaticallyImplyLeading: false,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                middle: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                        onPressed: () {},
+                        iconSize: 36,
+                        padding: const EdgeInsets.all(0),
+                        icon: SvgPicture.asset(
+                          'assets/svgs/menu_icon.svg',
+                        )),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('April', style: containerTitleTextStyle),
+                        Text('2023'),
+                      ],
+                    ),
+                    IconButton(
                       onPressed: () {},
                       iconSize: 36,
                       padding: const EdgeInsets.all(0),
-                      icon: SvgPicture.asset(
-                        'assets/svgs/menu_icon.svg',
-                      )),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text('April', style: containerTitleTextStyle),
-                      Text('2023'),
-                    ],
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    iconSize: 36,
-                    padding: const EdgeInsets.all(0),
-                    icon: const Icon(Icons.account_circle),
-                  ),
-                ],
+                      icon: const Icon(Icons.account_circle),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-        body: const Padding(
-          padding:
-              EdgeInsetsDirectional.symmetric(horizontal: 24, vertical: 16),
-          child: Calendar(),
+        body: Container(
+          color: Theme.of(context).colorScheme.background,
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 24, vertical: 16),
+          child: const Calendar(),
         ),
         floatingActionButton: SpeedDial(
           backgroundColor: Theme.of(context).colorScheme.primary,
