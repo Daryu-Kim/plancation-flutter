@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
+import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
+import 'package:plancation/modules/firebase_login.dart';
 import 'diary_list_post.style.dart';
 
 class DiaryListPost extends StatefulWidget {
@@ -15,86 +19,108 @@ class DiaryListPost extends StatefulWidget {
 }
 
 class _DiaryListPostState extends State<DiaryListPost> {
+  onDeleteClicked(BuildContext context) {
+    if (widget.diaryData['postAuthorID'] == AuthManage().getUser()!.uid) {
+      submitSnackBar(context, "기록이 삭제되었습니다!");
+    } else {
+      errorSnackBar(context, "본인의 기록만 삭제할 수 있습니다!");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: Theme.of(context).colorScheme.primaryContainer,
-            shape: BoxShape.rectangle),
-        child: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  DateFormat('EEE')
-                      .format(widget.diaryData['postTime'].toDate())
-                      .toUpperCase(),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  DateFormat('d')
-                      .format(widget.diaryData['postTime'].toDate())
-                      .toUpperCase(),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 24,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            const SizedBox(width: 12),
-            Flexible(
-                flex: 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(widget.diaryData['postTitle'],
-                            overflow: TextOverflow.fade,
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w700)),
-                      ],
+    return Slidable(
+      endActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        children: [
+          SlidableAction(
+              onPressed: onDeleteClicked,
+            icon: Icons.delete,
+            backgroundColor: Theme.of(context).colorScheme.errorContainer,
+            foregroundColor: Theme.of(context).colorScheme.error,
+          )
+        ],
+      ),
+      child: InkWell(
+        onTap: null,
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          decoration: BoxDecoration(
+              // borderRadius: BorderRadius.circular(8),
+              color: Theme.of(context).colorScheme.primaryContainer,
+              shape: BoxShape.rectangle),
+          child: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    DateFormat('EEE')
+                        .format(widget.diaryData['postTime'].toDate())
+                        .toUpperCase(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
-                    Text(
-                      widget.diaryData['postContent'],
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).colorScheme.outline),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    DateFormat('d')
+                        .format(widget.diaryData['postTime'].toDate())
+                        .toUpperCase(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 24,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
-                  ],
-                )),
-            widget.diaryData['postImagePath'].isNotEmpty
-                ? const SizedBox(width: 12)
-                : const SizedBox(),
-            widget.diaryData['postImagePath'].isNotEmpty
-                ? Container(
-                    height: 64,
-                    width: 64,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                    child: Image.network(widget.diaryData['postImagePath']))
-                : const SizedBox(),
-          ],
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+              const SizedBox(width: 12),
+              Flexible(
+                  flex: 1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(widget.diaryData['postTitle'],
+                              overflow: TextOverflow.fade,
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w700)),
+                        ],
+                      ),
+                      Text(
+                        widget.diaryData['postContent'],
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).colorScheme.outline),
+                      ),
+                    ],
+                  )),
+              widget.diaryData['postImagePath'].isNotEmpty
+                  ? const SizedBox(width: 12)
+                  : const SizedBox(),
+              widget.diaryData['postImagePath'].isNotEmpty
+                  ? Container(
+                      height: 64,
+                      width: 64,
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                      child: Image.network(widget.diaryData['postImagePath']))
+                  : const SizedBox(),
+            ],
+          ),
         ),
       ),
     );

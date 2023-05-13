@@ -39,12 +39,6 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
         calendarID = value;
       });
     });
-
-    // StoreManage().getCalendarUsers(calendarID).then((value) {
-    //   setState(() {
-    //     calendarUsers = value;
-    //   });
-    // });
   }
 
   @override
@@ -99,14 +93,14 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: addDiaryPressed,
-        child: Icon(
-          Icons.add,
-          color: Theme.of(context).colorScheme.surface,
-        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100)
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).colorScheme.surface,
+        ),
       ),
     );
   }
