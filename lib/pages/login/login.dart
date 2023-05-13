@@ -21,10 +21,6 @@ class _LoginPageState extends State<LoginPage> {
     AuthManage().signIn(_inputID, _inputPW, context);
   }
 
-  googleLoginClick() {
-    AuthManage().signInWithGoogle();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,10 +96,8 @@ class _LoginPageState extends State<LoginPage> {
                       height: 24,
                     ),
                     TextButton(
-                        onPressed: () => Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => const FindPwPage())),
+                        onPressed: () =>
+                            Navigator.push(context, CupertinoPageRoute(builder: (context) => const FindPwPage())),
                         child: const Text('비밀번호를 잊어버리셨나요?')),
                     const SizedBox(
                       height: 24,
@@ -163,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 52,
                     child: OutlinedButton(
                         style: btnOutlineStyle(context),
-                        onPressed: googleLoginClick,
+                        onPressed: () {},
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -195,10 +189,8 @@ class _LoginPageState extends State<LoginPage> {
                         width: 8,
                       ),
                       TextButton(
-                          onPressed: () => Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) => const JoinPage())),
+                          onPressed: () =>
+                              Navigator.push(context, CupertinoPageRoute(builder: (context) => const JoinPage())),
                           child: const Text(
                             '회원가입 하러가기',
                             style: joinBtnTextStyle,

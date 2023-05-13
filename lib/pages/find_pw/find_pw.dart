@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plancation/modules/firebase_login.dart';
-import 'package:plancation/pages/login/login.dart';
 
 class FindPwPage extends StatefulWidget {
   const FindPwPage({super.key});
@@ -38,12 +37,7 @@ class _FindPwPageState extends State<FindPwPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => const LoginPage()));
-                      },
+                      onPressed: () => Navigator.pushNamed(context, '/login'),
                       icon: const Icon(Icons.arrow_back_ios),
                       color: Colors.white,
                       padding: EdgeInsets.zero,
