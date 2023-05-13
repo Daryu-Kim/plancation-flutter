@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'diary_list_post.style.dart';
 
 class DiaryListPost extends StatefulWidget {
   const DiaryListPost({super.key});
@@ -16,8 +14,8 @@ class _DiaryListPostState extends State<DiaryListPost> {
       resizeToAvoidBottomInset: false,
       body: Container(
         alignment: AlignmentDirectional.center,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 28),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 42, vertical: 28),
         ),
       ),
     );
