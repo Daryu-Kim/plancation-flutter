@@ -77,7 +77,7 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           color: Theme.of(context).colorScheme.background,
           alignment: AlignmentDirectional.topCenter,
-          child: StreamBuilder(
+          child: calendarID.isNotEmpty ? StreamBuilder(
             stream: FirebaseFirestore.instance.collection("Calendars").doc(calendarID).collection("Posts").orderBy('postTime', descending: true).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -94,7 +94,7 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
                 ),
               );
             },
-          ),
+          ) : const CircularProgressIndicator(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
