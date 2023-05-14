@@ -10,10 +10,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class StoreManage {
   Future<bool> createUser(String uid, String name, BuildContext context) async {
     try {
-      final credential = await FirebaseFirestore.instance
-          .collection("Users")
-          .doc(uid)
-          .set({'userID': uid, 'userName': name});
+      final credential =
+          await FirebaseFirestore.instance.collection("Users").doc(uid).set({
+        'userID': uid,
+        'userName': name,
+        'userImagePath': AuthManage().getUser()!.photoURL
+      });
       final calendar = await FirebaseFirestore.instance
           .collection("Calendars")
           .doc(uid)
@@ -58,7 +60,11 @@ class StoreManage {
 
   Future<List?> getCalendarUsers(String calendarID) async {
     try {
-      await FirebaseFirestore.instance.collection('Calendars').doc(calendarID).get().then((value) {
+      await FirebaseFirestore.instance
+          .collection('Calendars')
+          .doc(calendarID)
+          .get()
+          .then((value) {
         List<String> resultData = value.get('calendarUsers') as List<String>;
         Logger().e(resultData);
         return resultData;
@@ -67,11 +73,16 @@ class StoreManage {
       Logger().e(e);
       return null;
     }
+    return null;
   }
 
   Future<dynamic> getDiaryAuthorName(String authorID) async {
     try {
-      await FirebaseFirestore.instance.collection('Users').doc(authorID).get().then((value) {
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(authorID)
+          .get()
+          .then((value) {
         return value.get('userName');
       });
     } catch (e) {
