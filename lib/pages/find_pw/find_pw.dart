@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plancation/modules/firebase_login.dart';
-import 'package:plancation/pages/login/login.dart';
 
 class FindPwPage extends StatefulWidget {
   const FindPwPage({super.key});
@@ -79,12 +78,13 @@ class _FindPwPageState extends State<FindPwPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       "비밀번호를 재설정하려는 계정(이메일)을 입력해 주세요.",
                       style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                      ),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant),
                     ),
                     const SizedBox(
                       height: 50,
@@ -105,7 +105,8 @@ class _FindPwPageState extends State<FindPwPage> {
                             border: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     width: 2,
-                                    strokeAlign: BorderSide.strokeAlignOutside)),
+                                    strokeAlign:
+                                        BorderSide.strokeAlignOutside)),
                             labelText: '이메일 주소입력',
                             labelStyle: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w500)),

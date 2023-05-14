@@ -1,16 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
 import 'package:plancation/modules/firebase_login.dart';
-import 'diary_list_post.style.dart';
 
 class DiaryListPost extends StatefulWidget {
-  const DiaryListPost({super.key, required this.diaryData, required this.calendarUsers});
+  const DiaryListPost(
+      {super.key, required this.diaryData, required this.calendarUsers});
 
   final dynamic diaryData, calendarUsers;
 
@@ -45,13 +42,15 @@ class _DiaryListPostState extends State<DiaryListPost> {
         children: [
           SlidableAction(
             onPressed: onModifyClicked,
-            icon: Icons.abc, label: "수정",
+            icon: Icons.abc,
+            label: "수정",
             backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.primaryContainer,
           ),
           SlidableAction(
-              onPressed: onDeleteClicked,
-            icon: Icons.delete, label: "삭제",
+            onPressed: onDeleteClicked,
+            icon: Icons.delete,
+            label: "삭제",
             backgroundColor: Theme.of(context).colorScheme.errorContainer,
             foregroundColor: Theme.of(context).colorScheme.error,
           )
@@ -97,35 +96,35 @@ class _DiaryListPostState extends State<DiaryListPost> {
                 ],
               ),
               const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            Text(widget.diaryData['postTitle'],
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.start,
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w700)),
-                          ],
-                        ),
-                        Text(
-                          widget.diaryData['postContent'],
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).colorScheme.outline),
-                        ),
+                        Text(widget.diaryData['postTitle'],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w700)),
                       ],
                     ),
-            ),
+                    Text(
+                      widget.diaryData['postContent'],
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.outline),
+                    ),
+                  ],
+                ),
+              ),
               widget.diaryData['postImagePath'].isNotEmpty
                   ? const SizedBox(width: 12)
                   : const SizedBox(),
