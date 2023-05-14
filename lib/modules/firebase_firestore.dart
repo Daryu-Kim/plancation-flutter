@@ -125,6 +125,33 @@ class StoreManage {
     }
   }
 
+  Future<String> modifyDiary(String id, String title, String content) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String calendarID = "";
+
+      if (prefs.getString("selectedCalendarID") != null) {
+        calendarID = prefs.getString("selectedCalendarID")!;
+      } else {
+        calendarID = AuthManage().getUser()!.uid;
+      }
+
+      await FirebaseFirestore.instance
+          .collection("Calendars")
+          .doc(calendarID)
+          .collection("Posts")
+          .doc(id)
+          .update({
+        'postTitle': title,
+        'postContent': content,
+      });
+      return id;
+    } catch (e) {
+      Logger().e(e);
+      return "";
+    }
+  }
+
   Future<bool> deleteDiary(String postID) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();

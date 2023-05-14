@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DiaryItemPage extends StatefulWidget {
-  const DiaryItemPage({super.key});
+  const DiaryItemPage({super.key, required this.diaryData});
+  final dynamic diaryData;
 
   @override
   _DiaryItemPageState createState() => _DiaryItemPageState();
@@ -18,10 +19,10 @@ class _DiaryItemPageState extends State<DiaryItemPage> {
           child: Container(
             color: Theme.of(context).colorScheme.secondary,
             height: 60,
-            child: const Center(
+            child: Center(
               child: Text(
-                'Diary Item',
-                style: TextStyle(
+                widget.diaryData['postTitle'],
+                style: const TextStyle(
                   fontSize: 18,
                   color: CupertinoColors.white,
                   fontWeight: FontWeight.w700,

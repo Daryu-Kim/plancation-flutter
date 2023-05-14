@@ -8,20 +8,36 @@ import 'package:plancation/modules/firebase_firestore.dart';
 import 'package:plancation/modules/firebase_storage.dart';
 import 'package:plancation/modules/image_picker.dart';
 
-class DiaryNew extends StatefulWidget {
-  const DiaryNew({super.key});
+class DiaryForm extends StatefulWidget {
+  const DiaryForm({
+    super.key,
+    required this.appBarTitle,
+    required this.appBarBtn,
+    required this.postTitle,
+    required this.postContent,
+    required this.postImagePath,
+    required this.postID,
+  });
+
+  final String appBarTitle,
+      appBarBtn,
+      postTitle,
+      postContent,
+      postImagePath,
+      postID;
 
   @override
-  _DiaryNewState createState() => _DiaryNewState();
+  _DiaryFormState createState() => _DiaryFormState();
 }
 
-class _DiaryNewState extends State<DiaryNew> {
-  bool isTitleEntered = false;
-  bool isContentEntered = false;
-  bool isPhotoSelected = false;
+class _DiaryFormState extends State<DiaryForm> {
+  late bool isTitleEntered = widget.postTitle.isNotEmpty ? true : false;
+  late bool isContentEntered = widget.postContent.isNotEmpty ? true : false;
+  late bool isPhotoSelected = widget.postImagePath.isNotEmpty ? true : false;
 
-  String diaryTitle = "";
-  String diaryContent = "";
+  late String diaryTitle = widget.postTitle;
+  late String diaryContent = widget.postContent;
+  late String diaryImagePath = widget.postImagePath;
   File? diaryImageFile;
 
   late final TextEditingController titleFieldController =
@@ -60,28 +76,31 @@ class _DiaryNewState extends State<DiaryNew> {
         await ImageSelector().getDiaryImage(ImageSource.gallery);
     setState(() {
       isPhotoSelected = true;
+      diaryImagePath = "";
       diaryImageFile = selectedImage;
     });
   }
 
   photoRemoved() {
     diaryImageFile = null;
+    diaryImagePath = "";
     setState(() {
       isPhotoSelected = false;
     });
   }
 
-  Future<void> submitNewDiary(context) async {
-    String downloadURL = "";
-    String postID = await StoreManage()
-        .createDiary(diaryTitle, diaryContent);
+  Future<void> submitDiary(context) async {
+    String postID = widget.postID.isNotEmpty
+        ? await StoreManage()
+            .modifyDiary(widget.postID, diaryTitle, diaryContent)
+        : await StoreManage().createDiary(diaryTitle, diaryContent);
 
     if (diaryImageFile != null) {
-      downloadURL =
+      diaryImagePath =
           await StorageManage().uploadDiaryImage(diaryImageFile, postID);
     }
+    await StoreManage().updateDiaryImage(postID, diaryImagePath);
 
-    await StoreManage().updateDiaryImage(postID, downloadURL);
     Navigator.pop(context);
   }
 
@@ -108,9 +127,9 @@ class _DiaryNewState extends State<DiaryNew> {
                       style:
                           TextStyle(color: CupertinoColors.white, fontSize: 16),
                     )),
-                const Text(
-                  '글쓰기',
-                  style: TextStyle(
+                Text(
+                  widget.appBarTitle,
+                  style: const TextStyle(
                     fontSize: 18,
                     color: CupertinoColors.white,
                     fontWeight: FontWeight.w700,
@@ -118,12 +137,12 @@ class _DiaryNewState extends State<DiaryNew> {
                 ),
                 TextButton(
                     onPressed: isTitleEntered && isContentEntered
-                        ? () => submitNewDiary(context)
+                        ? () => submitDiary(context)
                         : null,
-                    child: const Text(
-                      "등록",
-                      style:
-                          TextStyle(color: CupertinoColors.white, fontSize: 16),
+                    child: Text(
+                      widget.appBarBtn,
+                      style: const TextStyle(
+                          color: CupertinoColors.white, fontSize: 16),
                     ))
               ],
             ),
@@ -165,17 +184,27 @@ class _DiaryNewState extends State<DiaryNew> {
                               width: 2),
                           borderRadius: BorderRadius.circular(8)),
                       child: isPhotoSelected
-                          ? diaryImageFile == null
-                              ? Icon(Icons.add_a_photo_outlined,
-                                  color: Theme.of(context).colorScheme.primary)
-                              : ClipRRect(
+                          ? diaryImagePath.isNotEmpty
+                              ? ClipRRect(
                                   borderRadius: BorderRadius.circular(6),
-                                  child: Image.file(
-                                    diaryImageFile!,
+                                  child: Image.network(
+                                    diaryImagePath,
                                     height: 80,
                                     width: 80,
                                     fit: BoxFit.cover,
                                   ))
+                              : diaryImageFile == null
+                                  ? Icon(Icons.add_a_photo_outlined,
+                                      color:
+                                          Theme.of(context).colorScheme.primary)
+                                  : ClipRRect(
+                                      borderRadius: BorderRadius.circular(6),
+                                      child: Image.file(
+                                        diaryImageFile!,
+                                        height: 80,
+                                        width: 80,
+                                        fit: BoxFit.cover,
+                                      ))
                           : Icon(Icons.add_a_photo_outlined,
                               color: Theme.of(context).colorScheme.primary),
                     ),

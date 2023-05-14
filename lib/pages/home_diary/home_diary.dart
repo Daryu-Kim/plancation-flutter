@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/components/diary_list_post/diary_list_post.dart';
 import 'package:plancation/modules/another.dart';
-import 'package:plancation/modules/firebase_firestore.dart';
-import 'package:plancation/pages/diary_new/diary_new.dart';
+import 'package:plancation/pages/diary_form/diary_form.dart';
 
 class HomeDiaryPage extends StatefulWidget {
   const HomeDiaryPage({super.key});
@@ -16,13 +15,19 @@ class HomeDiaryPage extends StatefulWidget {
 
 class _HomeDiaryPageState extends State<HomeDiaryPage> {
   String calendarID = "";
-  dynamic calendarUsers;
   addDiaryPressed() {
     if (mounted) {
       Navigator.push(
           context,
           CupertinoPageRoute(
-              builder: (context) => const DiaryNew(), fullscreenDialog: true));
+              builder: (context) => const DiaryForm(
+                appBarTitle: '글쓰기',
+                appBarBtn: '등록',
+                postTitle: "",
+                postContent: "",
+                postImagePath: "",
+                postID: "",
+              ), fullscreenDialog: true));
     }
   }
   
@@ -80,7 +85,7 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (ctx, index) => Container(
                   padding: const EdgeInsets.all(8),
-                  child: DiaryListPost(diaryData: snapshot.data!.docs[index], calendarUsers: calendarUsers)
+                  child: DiaryListPost(diaryData: snapshot.data!.docs[index], calendarID: calendarID,)
                 ),
               );
             },
