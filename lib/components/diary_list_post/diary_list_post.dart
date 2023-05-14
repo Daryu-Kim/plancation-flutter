@@ -101,7 +101,6 @@ class _DiaryListPostState extends State<DiaryListPost> {
               child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Row(
                           children: [

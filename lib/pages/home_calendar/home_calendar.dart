@@ -22,6 +22,7 @@ class HomeCalendarComponent extends StatelessWidget {
               child: Container(
                 height: 60,
                 color: Theme.of(context).colorScheme.secondary,
+                padding: EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
