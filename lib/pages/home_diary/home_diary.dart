@@ -5,10 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:plancation/components/diary_list_post/diary_list_post.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
-import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/pages/diary_new/diary_new.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'home_diary.style.dart';
 
 class HomeDiaryPage extends StatefulWidget {
   const HomeDiaryPage({super.key});
@@ -23,10 +20,12 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
   addDiaryPressed() {
     if (mounted) {
       Navigator.push(
-          context, CupertinoPageRoute(builder: (context) => const DiaryNew(), fullscreenDialog: true));
+          context,
+          CupertinoPageRoute(
+              builder: (context) => const DiaryNew(), fullscreenDialog: true));
     }
   }
-
+  
   Future<void> onRefresh() async {
     Logger().e("message");
   }

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/pages/home.dart';
@@ -30,7 +29,8 @@ class LoginMainPage extends StatelessWidget {
 
       //Statement 1 Or statement2
       bool backButton = backbuttonpressedTime == null ||
-          currentTime.difference(backbuttonpressedTime!) > Duration(seconds: 3);
+          currentTime.difference(backbuttonpressedTime!) >
+              const Duration(seconds: 3);
 
       if (backButton) {
         backbuttonpressedTime = currentTime;

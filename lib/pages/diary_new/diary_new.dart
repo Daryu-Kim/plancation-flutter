@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
-import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/modules/firebase_storage.dart';
 import 'package:plancation/modules/image_picker.dart';
-import 'diary_new.style.dart';
 
 class DiaryNew extends StatefulWidget {
   const DiaryNew({super.key});

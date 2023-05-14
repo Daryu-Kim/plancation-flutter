@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'ai_submit.style.dart';
 
 class AISubmit extends StatefulWidget {
   const AISubmit({super.key});
@@ -16,8 +14,8 @@ class _AISubmitState extends State<AISubmit> {
       resizeToAvoidBottomInset: false,
       body: Container(
         alignment: AlignmentDirectional.center,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 28),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 42, vertical: 28),
         ),
       ),
     );

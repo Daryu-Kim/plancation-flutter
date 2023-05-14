@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
@@ -28,11 +27,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: 'Plancation',
-      theme: ThemeData(useMaterial3: true, fontFamily: 'Pretendard', colorScheme: lightColorScheme),
-      darkTheme: ThemeData(useMaterial3: true, fontFamily: 'Pretendard', colorScheme: darkColorScheme),
+      theme: ThemeData(
+          useMaterial3: true,
+          fontFamily: 'Pretendard',
+          colorScheme: lightColorScheme),
+      darkTheme: ThemeData(
+          useMaterial3: true,
+          fontFamily: 'Pretendard',
+          colorScheme: darkColorScheme),
       debugShowCheckedModeBanner: false,
       home: const LoginMainPage(),
     );

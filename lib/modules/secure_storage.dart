@@ -1,8 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:logger/logger.dart';
 
 class SecureStorage {
-  static final storage = const FlutterSecureStorage();
+  static const storage = FlutterSecureStorage();
   Future<bool> saveStorage(String key, String value) async {
     await storage.write(key: key, value: value);
     return true;

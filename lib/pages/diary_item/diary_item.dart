@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'diary_item.style.dart';
 
 class DiaryItemPage extends StatefulWidget {
   const DiaryItemPage({super.key});
@@ -16,8 +14,8 @@ class _DiaryItemPageState extends State<DiaryItemPage> {
       resizeToAvoidBottomInset: false,
       body: Container(
         alignment: AlignmentDirectional.center,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 28),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 42, vertical: 28),
         ),
       ),
     );
