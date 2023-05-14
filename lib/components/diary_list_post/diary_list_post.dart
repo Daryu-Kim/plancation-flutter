@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
 import 'package:plancation/modules/firebase_login.dart';
 
 class DiaryListPost extends StatefulWidget {
-  const DiaryListPost({super.key, required this.diaryData, required this.calendarUsers});
+  const DiaryListPost(
+      {super.key, required this.diaryData, required this.calendarUsers});
 
   final dynamic diaryData, calendarUsers;
 
@@ -123,7 +123,19 @@ class DiaryListPostState extends State<DiaryListPost> {
                         ),
                       ],
                     ),
-            ),
+                    Text(
+                      widget.diaryData['postContent'],
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.outline),
+                    ),
+                  ],
+                ),
+              ),
               widget.diaryData['postImagePath'].isNotEmpty
                   ? const SizedBox(width: 12)
                   : const SizedBox(),
