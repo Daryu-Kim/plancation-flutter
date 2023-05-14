@@ -30,9 +30,7 @@ class _DiaryNewState extends State<DiaryNew> {
       TextEditingController(text: diaryContent);
 
   titleChanged(String title) {
-    titleFieldController.text = title;
-    titleFieldController.selection = TextSelection.fromPosition(
-        TextPosition(offset: titleFieldController.text.length));
+    diaryTitle = title;
     if (title.isNotEmpty) {
       setState(() {
         isTitleEntered = true;
@@ -45,9 +43,7 @@ class _DiaryNewState extends State<DiaryNew> {
   }
 
   contentChanged(String content) {
-    contentFieldController.text = content;
-    contentFieldController.selection = TextSelection.fromPosition(
-        TextPosition(offset: contentFieldController.text.length));
+    diaryContent = content;
     if (content.isNotEmpty) {
       setState(() {
         isContentEntered = true;
@@ -62,7 +58,6 @@ class _DiaryNewState extends State<DiaryNew> {
   Future<void> photoChanged() async {
     File? selectedImage =
         await ImageSelector().getDiaryImage(ImageSource.gallery);
-    Logger().w(selectedImage);
     setState(() {
       isPhotoSelected = true;
       diaryImageFile = selectedImage;
@@ -76,10 +71,10 @@ class _DiaryNewState extends State<DiaryNew> {
     });
   }
 
-  Future<void> submitNewDiary() async {
+  Future<void> submitNewDiary(context) async {
     String downloadURL = "";
     String postID = await StoreManage()
-        .createDiary(titleFieldController.text, contentFieldController.text);
+        .createDiary(diaryTitle, diaryContent);
 
     if (diaryImageFile != null) {
       downloadURL =
@@ -97,10 +92,8 @@ class _DiaryNewState extends State<DiaryNew> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.secondary,
-      resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(72),
+        preferredSize: const Size.fromHeight(60),
         child: SafeArea(
           child: Container(
             color: Theme.of(context).colorScheme.secondary,
@@ -125,7 +118,7 @@ class _DiaryNewState extends State<DiaryNew> {
                 ),
                 TextButton(
                     onPressed: isTitleEntered && isContentEntered
-                        ? submitNewDiary
+                        ? () => submitNewDiary(context)
                         : null,
                     child: const Text(
                       "등록",
@@ -137,10 +130,10 @@ class _DiaryNewState extends State<DiaryNew> {
           ),
         ),
       ),
-      body: Container(
-        color: Theme.of(context).colorScheme.background,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 28),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height - 84,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
             children: [
               Row(
@@ -165,7 +158,7 @@ class _DiaryNewState extends State<DiaryNew> {
                       height: 80,
                       width: 80,
                       decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surfaceVariant,
+                          color: Theme.of(context).colorScheme.primaryContainer,
                           border: Border.all(
                               color: Theme.of(context).colorScheme.primary,
                               style: BorderStyle.solid,
@@ -192,20 +185,23 @@ class _DiaryNewState extends State<DiaryNew> {
               const SizedBox(
                 height: 16,
               ),
-              TextField(
-                onChanged: contentChanged,
-                controller: contentFieldController,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: InputDecoration(
-                    hintText: "본문 텍스트를 입력해주세요.",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.outline,
-                          width: 2,
-                          style: BorderStyle.solid),
-                    )),
+              SizedBox(
+                height: 160,
+                child: TextField(
+                  onChanged: contentChanged,
+                  controller: contentFieldController,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                      hintText: "본문 텍스트를 입력해주세요.",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(
+                            color: Theme.of(context).colorScheme.outline,
+                            width: 2,
+                            style: BorderStyle.solid),
+                      )),
+                ),
               )
             ],
           ),

@@ -64,4 +64,17 @@ class StorageManage {
       return "";
     }
   }
+
+  Future<bool> deleteDiaryImage(String calendarID, String postID) async {
+    try {
+      final diaryImageRef = FirebaseStorage.instance
+          .ref()
+          .child("Calendars/$calendarID/Posts/$postID/diaryImage.png");
+      await diaryImageRef.delete();
+      return true;
+    } catch (e) {
+      Logger().e(e);
+      return false;
+    }
+  }
 }

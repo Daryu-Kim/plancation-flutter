@@ -150,6 +150,8 @@ class AuthManage {
       loadingSnackbar(context, "이메일 전송 중입니다!");
       await FirebaseAuth.instance.setLanguageCode("kr");
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      dismissSnackBar(context);
+      submitSnackBar(context, "비밀번호 확인 이메일을 보냈습니다!");
     } on FirebaseAuthException catch (e) {
       dismissSnackBar(context);
       Logger().e(e.message);
@@ -161,24 +163,24 @@ class AuthManage {
         errorSnackBar(context, "알 수 없는 오류입니다! 오류 코드: ${e.message}");
       }
     }
-  } //원재야 헬프!!!!😊
+  }
 
   /// 구글 로그인 구현
   Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
+    // Trigger the authentication flow 구글 sign in 플로우 오픈
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // Obtain the auth details from the request
+    // Obtain the auth details from the request 구글인증정보 읽어오기
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
 
-    // Create a new credential
+    // Create a new credential 읽어온 인증정보로 파이어베이스 인증 로그인
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
 
-    // Once signed in, return the UserCredential
+    // Once signed in, return the UserCredential 파이어 베이스 signin하고 결과 리턴해라
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }
