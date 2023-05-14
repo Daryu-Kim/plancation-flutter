@@ -166,21 +166,25 @@ class AuthManage {
   }
 
   /// 구글 로그인 구현
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow 구글 sign in 플로우 오픈
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      // Trigger the authentication flow 구글 sign in 플로우 오픈
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // Obtain the auth details from the request 구글인증정보 읽어오기
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      // Obtain the auth details from the request 구글인증정보 읽어오기
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
-    // Create a new credential 읽어온 인증정보로 파이어베이스 인증 로그인
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      // Create a new credential 읽어온 인증정보로 파이어베이스 인증 로그인
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
 
-    // Once signed in, return the UserCredential 파이어 베이스 signin하고 결과 리턴해라
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      // Once signed in, return the UserCredential 파이어 베이스 signin하고 결과 리턴해라
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      return null;
+    }
   }
 }

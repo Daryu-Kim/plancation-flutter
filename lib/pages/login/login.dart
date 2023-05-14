@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:logger/logger.dart';
 import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/pages/find_pw/find_pw.dart';
+import 'package:plancation/pages/home.dart';
 import 'package:plancation/pages/join/join.dart';
+import '../../modules/firebase_firestore.dart';
 import 'login.style.dart';
 
 class LoginPage extends StatefulWidget {
@@ -22,8 +26,26 @@ class _LoginPageState extends State<LoginPage> {
     AuthManage().signIn(_inputID, _inputPW, context);
   }
 
-  googleLoginClick() {
-    AuthManage().signInWithGoogle();
+  Future<void> googleLoginClick() async {
+    try {
+      await AuthManage().signInWithGoogle();
+      if (AuthManage().getUser() != null) {
+        await FirebaseFirestore.instance
+            .collection("Users")
+            .doc(AuthManage().getUser()!.uid)
+            .get()
+            .then((value) async {
+          if (!value.exists) {
+            await StoreManage().createUser(AuthManage().getUser()!.uid,
+                AuthManage().getUser()!.displayName!, context);
+          }
+          Navigator.push(context,
+              CupertinoPageRoute(builder: (context) => const HomePage()));
+        });
+      }
+    } catch (e) {
+      Logger().e(e);
+    }
   }
 
   @override
@@ -45,7 +67,8 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(
                           width: 128,
                           height: 128,
-                          child: Theme.of(context).brightness == Brightness.light
+                          child: Theme.of(context).brightness ==
+                                  Brightness.light
                               ? SvgPicture.asset('assets/svgs/logo-light.svg')
                               : SvgPicture.asset('assets/svgs/logo-dark.svg')),
                       const SizedBox(height: 16),
