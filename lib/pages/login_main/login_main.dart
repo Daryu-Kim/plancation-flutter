@@ -20,7 +20,8 @@ class LoginMainPage extends StatelessWidget {
 
     if (AuthManage().getUser() != null) {
       Future.delayed(Duration.zero, () {
-        Navigator.push(context, CupertinoPageRoute(builder: (context) => const HomePage()));
+        Navigator.push(context,
+            CupertinoPageRoute(builder: (context) => const HomePage()));
       });
     }
 
@@ -41,68 +42,80 @@ class LoginMainPage extends StatelessWidget {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: WillPopScope(
-        onWillPop: onWillPop,
-        child:
-          Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.only(left: 36, right: 36, top: 24, bottom: 24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox(),
-                Column(
-                  children: [
-                    SizedBox(
-                        width: 192,
-                        height: 192,
-                        child: Theme.of(context).brightness == Brightness.light
-                            ? SvgPicture.asset('assets/svgs/logo-light.svg')
-                            : SvgPicture.asset('assets/svgs/logo-dark.svg')),
-                    const SizedBox(height: 72),
-                    // 로그인 / 가입 버튼
-                    Column(
-                      children: [
-                        Text('Welcome !', style: welcomeTextStyle(context)),
-                        const SizedBox(height: 32),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 52,
-                          child: OutlinedButton(
-                            style: btnOutlineStyle(context),
-                            onPressed: () {
-                              Navigator.push(context, CupertinoPageRoute(builder: (context) => const JoinPage()));
-                            },
-                            child: const Text('가입', style: btnTextStyle),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: WillPopScope(
+            onWillPop: onWillPop,
+            child: Container(
+              height: MediaQuery.of(context).size.height - 24,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(),
+                  Column(
+                    children: [
+                      SizedBox(
+                          width: 192,
+                          height: 192,
+                          child: Theme.of(context).brightness ==
+                                  Brightness.light
+                              ? SvgPicture.asset('assets/svgs/logo-light.svg')
+                              : SvgPicture.asset('assets/svgs/logo-dark.svg')),
+                      const SizedBox(height: 72),
+                      // 로그인 / 가입 버튼
+                      Column(
+                        children: [
+                          Text('Welcome !', style: welcomeTextStyle(context)),
+                          const SizedBox(height: 32),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 52,
+                            child: OutlinedButton(
+                              style: btnOutlineStyle(context),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) =>
+                                            const JoinPage()));
+                              },
+                              child: const Text('가입', style: btnTextStyle),
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 52,
-                          child: FilledButton(
-                            onPressed: () {
-                              Navigator.push(context, CupertinoPageRoute(builder: (context) => const LoginPage()));
-                            },
-                            child: const Text('로그인', style: btnTextStyle),
+                          const SizedBox(height: 8),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 52,
+                            child: FilledButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) =>
+                                            const LoginPage()));
+                              },
+                              child: const Text('로그인', style: btnTextStyle),
+                            ),
                           ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                WordBreakText(
-                    '위의 선택지 중 한개를 누름으로서, '
-                    '플랜케이션의 서비스 이용 약관과 개인정보처리방침에 '
-                    '동의한 것으로 간주합니다.',
-                    wrapAlignment: WrapAlignment.center,
-                    spacingByWrap: true,
-                    spacing: 2,
-                    style: termsTextStyle(context)),
-              ],
+                        ],
+                      )
+                    ],
+                  ),
+                  WordBreakText(
+                      '위의 선택지 중 한개를 누름으로서, '
+                      '플랜케이션의 서비스 이용 약관과 개인정보처리방침에 '
+                      '동의한 것으로 간주합니다.',
+                      wrapAlignment: WrapAlignment.center,
+                      spacingByWrap: true,
+                      spacing: 2,
+                      style: termsTextStyle(context)),
+                ],
+              ),
             ),
           ),
+        ),
       ),
     );
   }
