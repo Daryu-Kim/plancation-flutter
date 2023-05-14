@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/pages/home_diary/home_diary.dart';
 import 'package:plancation/pages/home_my/home_my.dart';
+import 'package:plancation/pages/home_todo/home_todo.dart';
 import 'home_ai/home_ai.dart';
 import 'home_calendar/home_calendar.dart';
 
@@ -43,8 +44,8 @@ class HomePageState extends State<HomePage> {
             index: _widgetIndex,
             children: const [
               HomeCalendarComponent(),
-              Text("할 일"),
-              Text("AI"),
+              HomeTodoPage(),
+              HomeAIPage(),
               HomeDiaryPage(),
               HomeMyComponent(),
             ],

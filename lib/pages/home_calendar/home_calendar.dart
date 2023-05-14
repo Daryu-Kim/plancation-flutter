@@ -16,17 +16,13 @@ class HomeCalendarComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        resizeToAvoidBottomInset: false,
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(72),
+          preferredSize: const Size.fromHeight(60),
           child: SafeArea(
-            child: SizedBox(
-              height: 60,
-              child: CupertinoNavigationBar(
-                automaticallyImplyLeading: false,
-                backgroundColor: Theme.of(context).colorScheme.secondary,
-                middle: Row(
+              child: Container(
+                height: 60,
+                color: Theme.of(context).colorScheme.secondary,
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -54,11 +50,10 @@ class HomeCalendarComponent extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
           ),
         ),
         body: Container(
-          color: Theme.of(context).colorScheme.background,
+          height: MediaQuery.of(context).size.height - 172,
           padding: const EdgeInsetsDirectional.symmetric(horizontal: 24, vertical: 16),
           child: const Calendar(),
         ),

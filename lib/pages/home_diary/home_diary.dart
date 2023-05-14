@@ -43,7 +43,6 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: SafeArea(

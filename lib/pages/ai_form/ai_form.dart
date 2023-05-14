@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AIFormPage extends StatefulWidget {
@@ -11,13 +12,30 @@ class _AIFormPageState extends State<AIFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        alignment: AlignmentDirectional.center,
-        child: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 42, vertical: 28),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: SafeArea(
+          child: Container(
+            color: Theme.of(context).colorScheme.secondary,
+            height: 60,
+            child: const Center(
+              child: Text(
+                'AI 입력 폼',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: CupertinoColors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
         ),
       ),
+      body: SingleChildScrollView(
+          child: Container(
+              height: MediaQuery.of(context).size.height - 84,
+              padding:
+              const EdgeInsets.symmetric(horizontal: 24, vertical: 16))),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/modules/firebase_login.dart';
@@ -41,7 +42,7 @@ submitSnackBar(BuildContext context, String msg) {
   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(msg,
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,
             color: CupertinoColors.white)),

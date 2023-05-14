@@ -18,6 +18,7 @@ class _JoinPageState extends State<JoinPage> {
   String _inputPW = "";
   String _inputPWC = "";
   String _inputName = "";
+  bool isVisiblePassword = false;
 
   handleJoinBtn() {
     if (_inputID.isNotEmpty) {
@@ -51,204 +52,247 @@ class _JoinPageState extends State<JoinPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(168),
-        child: AppBar(
-            toolbarHeight: 168,
-            centerTitle: true,
-            automaticallyImplyLeading: false,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            title: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        "Plancation",
-                        style: TextStyle(
-                            color: CupertinoColors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 24),
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Text(
-                        "회원가입",
-                        style: TextStyle(
-                            color: CupertinoColors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 24),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 84,
-                    height: 84,
-                    child: Theme.of(context).brightness == Brightness.light
-                        ? SvgPicture.asset('assets/svgs/logo-light-symbol.svg')
-                        : SvgPicture.asset('assets/svgs/logo-dark-symbol.svg'),
-                  )
-                ],
-              ),
-            )),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 48, left: 24, right: 24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 52,
-                    child: TextField(
-                      onChanged: (text) {
-                        setState(() {
-                          _inputID = text;
-                        });
-                      },
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      decoration: const InputDecoration(
-                          alignLabelWithHint: true,
-                          // filled: true,
-                          // fillColor: Colors.red,
-                          isDense: true,
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 2,
-                                  strokeAlign: BorderSide.strokeAlignOutside)),
-                          labelText: '이메일',
-                          labelStyle: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500)),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  SizedBox(
-                    height: 52,
-                    child: TextField(
-                      onChanged: (text) {
-                        setState(() {
-                          _inputName = text;
-                        });
-                      },
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      decoration: const InputDecoration(
-                          alignLabelWithHint: true,
-                          // filled: true,
-                          // fillColor: Colors.red,
-                          isDense: true,
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 2,
-                                  strokeAlign: BorderSide.strokeAlignOutside)),
-                          labelText: '이름',
-                          labelStyle: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500)),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  SizedBox(
-                    height: 52,
-                    child: TextField(
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      decoration: const InputDecoration(
-                          alignLabelWithHint: true,
-                          // filled: true,
-                          // fillColor: Colors.red,
-                          isDense: true,
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 2,
-                                  strokeAlign: BorderSide.strokeAlignOutside)),
-                          labelText: '비밀번호',
-                          labelStyle: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500)),
-                      onChanged: (text) {
-                        setState(() {
-                          _inputPW = text;
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  SizedBox(
-                    height: 52,
-                    child: TextField(
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      decoration: const InputDecoration(
-                          alignLabelWithHint: true,
-                          // filled: true,
-                          // fillColor: Colors.red,
-                          isDense: true,
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 2,
-                                  strokeAlign: BorderSide.strokeAlignOutside)),
-                          labelText: '비밀번호 확인',
-                          labelStyle: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500)),
-                      onChanged: (text) {
-                        setState(() {
-                          _inputPWC = text;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Column(
+        child: SafeArea(
+          child: Container(
+            height: 168,
+            color: Theme.of(context).colorScheme.secondary,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            alignment: Alignment.center,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const WordBreakText(
-                  '가입하기 버튼을 누르면, 플랜케이션의 서비스 이용약관과 개인정보처리방침 를 읽고 동의했음으로 간주합니다.',
-                  wrapAlignment: WrapAlignment.center,
-                  spacingByWrap: true,
-                  spacing: 2,
-                ),
-                const SizedBox(
-                  height: 16,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      "Plancation",
+                      style: TextStyle(
+                          color: CupertinoColors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24),
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Text(
+                      "회원가입",
+                      style: TextStyle(
+                          color: CupertinoColors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24),
+                    ),
+                  ],
                 ),
                 SizedBox(
-                  height: 52,
-                  child: FilledButton(
-                      onPressed: () => handleJoinBtn(),
-                      child: const SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          '가입하기',
-                          style: btnTextStyle,
-                          textAlign: TextAlign.center,
-                        ),
-                      )),
-                ),
+                  width: 84,
+                  height: 84,
+                  child: Theme.of(context).brightness == Brightness.light
+                      ? SvgPicture.asset('assets/svgs/logo-light-symbol.svg')
+                      : SvgPicture.asset('assets/svgs/logo-dark-symbol.svg'),
+                )
               ],
             ),
-          ],
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height - 24 - 168,
+          padding: const EdgeInsets.only(top: 28, bottom: 48, left: 24, right: 24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 52,
+                      child: TextField(
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        onChanged: (text) {
+                          setState(() {
+                            _inputID = text;
+                          });
+                        },
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: const InputDecoration(
+                            alignLabelWithHint: true,
+                            // filled: true,
+                            // fillColor: Colors.red,
+                            isDense: true,
+                            border: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 2,
+                                    strokeAlign: BorderSide.strokeAlignOutside)),
+                            labelText: '이메일',
+                            labelStyle: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500)),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    SizedBox(
+                      height: 52,
+                      child: TextField(
+                        keyboardType: TextInputType.name,
+                        textInputAction: TextInputAction.next,
+                        onChanged: (text) {
+                          setState(() {
+                            _inputName = text;
+                          });
+                        },
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: const InputDecoration(
+                            alignLabelWithHint: true,
+                            // filled: true,
+                            // fillColor: Colors.red,
+                            isDense: true,
+                            border: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 2,
+                                    strokeAlign: BorderSide.strokeAlignOutside)),
+                            labelText: '이름',
+                            labelStyle: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500)),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    SizedBox(
+                      height: 52,
+                      child: TextField(
+                        obscureText: !isVisiblePassword,
+                        textInputAction: TextInputAction.next,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: InputDecoration(
+                            alignLabelWithHint: true,
+                            suffixIcon: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  isVisiblePassword = !isVisiblePassword;
+                                });
+                              },
+                              child: Text(isVisiblePassword ? "숨기기" : "표시",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: isVisiblePassword
+                                          ? Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          : Theme.of(context)
+                                          .colorScheme
+                                          .outline)),
+                            ),
+                            isDense: true,
+                            border: const UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 2,
+                                    strokeAlign: BorderSide.strokeAlignOutside)),
+                            labelText: '비밀번호',
+                            labelStyle: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500)),
+                        onChanged: (text) {
+                          setState(() {
+                            _inputPW = text;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    SizedBox(
+                      height: 52,
+                      child: TextField(
+                        obscureText: !isVisiblePassword,
+                        textInputAction: TextInputAction.done,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: InputDecoration(
+                            alignLabelWithHint: true,
+                            suffixIcon: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  isVisiblePassword = !isVisiblePassword;
+                                });
+                              },
+                              child: Text(isVisiblePassword ? "숨기기" : "표시",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: isVisiblePassword
+                                          ? Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          : Theme.of(context)
+                                          .colorScheme
+                                          .outline)),
+                            ),
+                            isDense: true,
+                            border: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 2,
+                                    strokeAlign: BorderSide.strokeAlignOutside)),
+                            labelText: '비밀번호 확인',
+                            labelStyle: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500)),
+                        onChanged: (text) {
+                          setState(() {
+                            _inputPWC = text;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                children: [
+                  const WordBreakText(
+                    '가입하기 버튼을 누르면, 플랜케이션의 서비스 이용약관과 개인정보처리방침 를 읽고 동의했음으로 간주합니다.',
+                    wrapAlignment: WrapAlignment.center,
+                    spacingByWrap: true,
+                    spacing: 2,
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  SizedBox(
+                    height: 52,
+                    child: FilledButton(
+                        onPressed: () => handleJoinBtn(),
+                        child: const SizedBox(
+                          width: double.infinity,
+                          child: Text(
+                            '가입하기',
+                            style: btnTextStyle,
+                            textAlign: TextAlign.center,
+                          ),
+                        )),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

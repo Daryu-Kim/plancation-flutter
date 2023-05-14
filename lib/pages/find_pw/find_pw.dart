@@ -21,58 +21,38 @@ class _FindPwPageState extends State<FindPwPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(168),
-        child: AppBar(
-            toolbarHeight: 168,
-            centerTitle: true,
-            automaticallyImplyLeading: false,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            title: Row(
+        child: SafeArea(
+          child: Container(
+            height: 168,
+            color: Theme.of(context).colorScheme.secondary,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            alignment: Alignment.center,
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => const LoginPage()));
-                      },
-                      icon: const Icon(Icons.arrow_back_ios),
-                      color: Colors.white,
-                      padding: EdgeInsets.zero,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      "비밀번호를",
+                      style: TextStyle(
+                          color: CupertinoColors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        "비밀번호를",
-                        style: TextStyle(
-                            color: CupertinoColors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 23),
-                      ),
-                    ),
-                    const SizedBox(
+                    SizedBox(
                       height: 12,
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        "잊으셨나요?",
-                        style: TextStyle(
-                            color: CupertinoColors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 23),
-                      ),
+                    Text(
+                      "잊으셨나요?",
+                      style: TextStyle(
+                          color: CupertinoColors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24),
                     ),
                   ],
                 ),
@@ -84,74 +64,79 @@ class _FindPwPageState extends State<FindPwPage> {
                       : SvgPicture.asset('assets/svgs/logo-dark-symbol.svg'),
                 )
               ],
-            )),
-      ),
-      body: Padding(
-        padding:
-            const EdgeInsets.only(top: 30, bottom: 48, left: 24, right: 24),
-        child: Column(
-          children: [
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "비밀번호를 재설정하려는 계정(이메일)을 입력해 주세요.",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  SizedBox(
-                    height: 52,
-                    child: TextField(
-                      onChanged: (text) => inputEmail = text,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      decoration: const InputDecoration(
-                          alignLabelWithHint: true,
-                          // filled: true,
-                          // fillColor: Colors.red,
-                          isDense: true,
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 2,
-                                  strokeAlign: BorderSide.strokeAlignOutside)),
-                          labelText: '이메일 주소입력',
-                          labelStyle: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500)),
-                    ),
-                  ),
-                ],
-              ),
             ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 50,
-                  child: FilledButton(
-                    onPressed: handleFindPWClick,
-                    child: const SizedBox(
-                      width: double.infinity,
-                      child: Text(
-                        "이메일 전송",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                        ),
-                        textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height - 172,
+          padding:
+              const EdgeInsets.only(top: 28, bottom: 48, left: 24, right: 24),
+          child: Column(
+            children: [
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "비밀번호를 재설정하려는 계정(이메일)을 입력해 주세요.",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
                       ),
                     ),
-                  ),
-                )
-              ],
-            )
-          ],
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    SizedBox(
+                      height: 52,
+                      child: TextField(
+                        onChanged: (text) => inputEmail = text,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: const InputDecoration(
+                            alignLabelWithHint: true,
+                            // filled: true,
+                            // fillColor: Colors.red,
+                            isDense: true,
+                            border: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 2,
+                                    strokeAlign: BorderSide.strokeAlignOutside)),
+                            labelText: '이메일 주소입력',
+                            labelStyle: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: 50,
+                    child: FilledButton(
+                      onPressed: handleFindPWClick,
+                      child: const SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          "이메일 전송",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
