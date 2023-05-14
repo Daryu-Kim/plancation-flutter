@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +5,6 @@ import 'package:logger/logger.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
 import 'package:plancation/modules/firebase_login.dart';
-import 'diary_list_post.style.dart';
 
 class DiaryListPost extends StatefulWidget {
   const DiaryListPost({super.key, required this.diaryData, required this.calendarUsers});
@@ -15,10 +12,10 @@ class DiaryListPost extends StatefulWidget {
   final dynamic diaryData, calendarUsers;
 
   @override
-  _DiaryListPostState createState() => _DiaryListPostState();
+  DiaryListPostState createState() => DiaryListPostState();
 }
 
-class _DiaryListPostState extends State<DiaryListPost> {
+class DiaryListPostState extends State<DiaryListPost> {
   Future<void> onModifyClicked(BuildContext context) async {
     if (widget.diaryData['postAuthorID'] == AuthManage().getUser()!.uid) {
       // await StoreManage().deleteDiary(widget.diaryData['postID']);
@@ -43,13 +40,16 @@ class _DiaryListPostState extends State<DiaryListPost> {
       endActionPane: ActionPane(
         motion: const ScrollMotion(),
         children: [
+          const SizedBox(width: 8),
           SlidableAction(
             onPressed: onModifyClicked,
+            borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(6), topLeft: Radius.circular(6)),
             icon: Icons.abc, label: "수정",
             backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.primaryContainer,
           ),
           SlidableAction(
+            borderRadius: const BorderRadius.only(bottomRight: Radius.circular(6), topRight: Radius.circular(6)),
               onPressed: onDeleteClicked,
             icon: Icons.delete, label: "삭제",
             backgroundColor: Theme.of(context).colorScheme.errorContainer,
@@ -58,12 +58,14 @@ class _DiaryListPostState extends State<DiaryListPost> {
         ],
       ),
       child: InkWell(
-        onTap: null,
+        onTap: () {
+          Logger().e(widget.diaryData['postTitle']+" 클릭");
+        },
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           decoration: BoxDecoration(
-              // borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(6),
               color: Theme.of(context).colorScheme.primaryContainer,
               shape: BoxShape.rectangle),
           child: Row(
@@ -102,16 +104,13 @@ class _DiaryListPostState extends State<DiaryListPost> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
                             Text(widget.diaryData['postTitle'],
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.start,
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w700)),
-                          ],
-                        ),
+
                         Text(
                           widget.diaryData['postContent'],
                           maxLines: 3,
