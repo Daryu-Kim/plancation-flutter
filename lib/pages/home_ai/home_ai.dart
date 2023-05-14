@@ -22,7 +22,7 @@ class _HomeAIPageState extends State<HomeAIPage> {
             height: 60,
             child: const Center(
               child: Text(
-                '오토 스케쥴링',
+                'AI',
                 style: TextStyle(
                   fontSize: 18,
                   color: CupertinoColors.white,
