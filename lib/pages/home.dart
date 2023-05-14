@@ -3,9 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:logger/logger.dart';
 import 'package:plancation/modules/another.dart';
-import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/pages/home_diary/home_diary.dart';
 import 'package:plancation/pages/home_my/home_my.dart';
 import 'home_calendar/home_calendar.dart';
@@ -19,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int _widgetIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     DateTime? backPressedTime;
@@ -37,7 +36,6 @@ class HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         body: WillPopScope(
           onWillPop: onWillPop,
           child: IndexedStack(
@@ -50,7 +48,7 @@ class HomePageState extends State<HomePage> {
               HomeMyComponent(),
             ],
           ),
-        ),
+    ),
         bottomNavigationBar: CurvedNavigationBar(
           animationCurve: Curves.easeInOut,
           animationDuration: const Duration(milliseconds: 200),

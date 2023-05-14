@@ -44,10 +44,9 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.secondary,
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(72),
+        preferredSize: const Size.fromHeight(60),
         child: SafeArea(
           child: Container(
             color: Theme.of(context).colorScheme.secondary,
@@ -69,7 +68,6 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
         onRefresh: onRefresh,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          color: Theme.of(context).colorScheme.background,
           alignment: AlignmentDirectional.topCenter,
           child: calendarID.isNotEmpty ? StreamBuilder(
             stream: FirebaseFirestore.instance.collection("Calendars").doc(calendarID).collection("Posts").orderBy('postTime', descending: true).snapshots(),
@@ -83,7 +81,7 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
                 scrollDirection: Axis.vertical,
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (ctx, index) => Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: DiaryListPost(diaryData: snapshot.data!.docs[index], calendarUsers: calendarUsers)
                 ),
               );

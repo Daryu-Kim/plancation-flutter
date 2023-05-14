@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/modules/firebase_login.dart';
+import 'package:plancation/modules/firebase_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StoreManage {
@@ -110,6 +111,31 @@ class StoreManage {
     } catch (e) {
       Logger().e(e);
       return "";
+    }
+  }
+
+  Future<bool> deleteDiary(String postID) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String calendarID = "";
+
+      if (prefs.getString("selectedCalendarID") != null) {
+        calendarID = prefs.getString("selectedCalendarID")!;
+      } else {
+        calendarID = AuthManage().getUser()!.uid;
+      }
+
+      await StorageManage().deleteDiaryImage(calendarID, postID);
+      final credential = await FirebaseFirestore.instance
+          .collection("Calendars")
+          .doc(calendarID)
+          .collection("Posts")
+          .doc(postID)
+          .delete();
+      return true;
+    } catch (e) {
+      Logger().e(e);
+      return false;
     }
   }
 

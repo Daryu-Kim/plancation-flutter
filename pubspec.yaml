@@ -58,6 +58,7 @@ dependencies:
   shared_preferences: ^2.1.1
   curved_navigation_bar: ^1.0.3
   flutter_slidable: ^3.0.0
+  flutter_keyboard_size: ^1.0.1
 
 dev_dependencies:
   flutter_test:

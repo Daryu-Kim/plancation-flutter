@@ -16,6 +16,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String _inputID = "";
   String _inputPW = "";
+  bool isVisiblePassword = false;
 
   handleBtnClick() {
     AuthManage().signIn(_inputID, _inputPW, context);
@@ -28,11 +29,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        alignment: AlignmentDirectional.center,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 28),
+        body: SingleChildScrollView(
+      child: Container(
+          alignment: AlignmentDirectional.center,
+          height: MediaQuery.of(context).size.height,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
             children: [
               Flexible(
@@ -50,6 +51,8 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 52,
                       child: TextField(
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
                         onChanged: (text) => _inputID = text,
                         style: const TextStyle(
                           fontSize: 16,
@@ -76,23 +79,43 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 52,
                       child: TextField(
+                        obscureText: !isVisiblePassword,
+                        onSubmitted: (_) => handleBtnClick(),
                         onChanged: (text) => _inputPW = text,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
+                            suffixIcon: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  isVisiblePassword = !isVisiblePassword;
+                                });
+                              },
+                              child: Text(isVisiblePassword ? "숨기기" : "표시",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: isVisiblePassword
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .outline)),
+                            ),
                             alignLabelWithHint: true,
                             // filled: true,
                             // fillColor: Colors.red,
                             isDense: true,
-                            border: UnderlineInputBorder(
+                            border: const UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     width: 2,
                                     strokeAlign:
                                         BorderSide.strokeAlignOutside)),
                             labelText: '비밀번호',
-                            labelStyle: TextStyle(
+                            labelStyle: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w500)),
                       ),
                     ),
@@ -208,9 +231,7 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ],
-          ),
-        ),
-      ),
-    );
+          )),
+    ));
   }
 }
