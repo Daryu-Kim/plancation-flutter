@@ -58,7 +58,8 @@ class _HomeMyComponent extends State<HomeMyComponent> {
   }
 
   Future<void> submitEditProfile() async {
-    String downloadURL = "";
+    String downloadURL = AuthManage().getUser()!.photoURL!.isNotEmpty ?
+    AuthManage().getUser()!.photoURL! : "";
     if (userImageFile != null) {
       downloadURL = await StorageManage().uploadUserImage(userImageFile);
     } else {
@@ -220,7 +221,6 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                                     Flexible(
                                       flex: 1,
                                       child: TextField(
-                                          textInputAction: TextInputAction.done,
                                           onChanged: nameChanged,
                                           controller: nameFieldController,
                                           decoration: const InputDecoration(
@@ -308,7 +308,7 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w600),
                             )),
-                      )
+                      ),
                     ],
                   )
                 ],

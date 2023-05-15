@@ -25,7 +25,7 @@ class StoreManage {
         'calendarUsers': [uid],
         'calendarAuthorID': uid
       });
-    } catch (e) {
+    } on FirebaseException catch (e) {
       Logger().e(e);
       return false;
     }

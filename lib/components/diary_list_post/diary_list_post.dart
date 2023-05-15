@@ -22,6 +22,8 @@ class DiaryListPost extends StatefulWidget {
 }
 
 class DiaryListPostState extends State<DiaryListPost> {
+  int calendarUsersCount = 1;
+  String authorName = "", authorImagePath = "";
   Future<dynamic> getAuthorName() async {
     try {
       final result = await FirebaseFirestore.instance.collection('Users').doc(widget.diaryData['postAuthorID']).get();
@@ -102,7 +104,10 @@ class DiaryListPostState extends State<DiaryListPost> {
               context,
               CupertinoPageRoute(
                   builder: (context) => DiaryItemPage(
-                    diaryData: widget.diaryData
+                    diaryData: widget.diaryData,
+                    authorName: authorName,
+                    authorImagePath: authorImagePath,
+                    calendarUsersCount: calendarUsersCount,
                   )));
         },
         child: Container(
@@ -162,6 +167,7 @@ class DiaryListPostState extends State<DiaryListPost> {
 
                           // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
                           else {
+                            calendarUsersCount = snapshot.data['calendarUsers'].length;
                             // Logger().e("calendarUsers is " + snapshot.data['calendarUsers'].length);
                             if (snapshot.data['calendarUsers'].length != 1) {
                               return Row(
@@ -181,6 +187,8 @@ class DiaryListPostState extends State<DiaryListPost> {
                                         if (snapshot.hasData == false) {
                                           return const CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
                                         } else {
+                                          authorName = snapshot.data['userName'];
+                                          authorImagePath = snapshot.data['userImagePath'];
                                           return Text(snapshot.data['userName'],
                                               style: const TextStyle(
                                                   fontSize: 12, fontWeight: FontWeight.w700));

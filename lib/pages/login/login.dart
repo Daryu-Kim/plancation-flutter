@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
     AuthManage().signIn(_inputID, _inputPW, context);
   }
 
-  Future<void> googleLoginClick() async {
+  Future<bool> googleLoginClick(context) async {
     try {
       await AuthManage().signInWithGoogle();
       if (AuthManage().getUser() != null) {
@@ -39,12 +39,21 @@ class _LoginPageState extends State<LoginPage> {
             await StoreManage().createUser(AuthManage().getUser()!.uid,
                 AuthManage().getUser()!.displayName!, context);
           }
-          Navigator.push(context,
-              CupertinoPageRoute(builder: (context) => const HomePage()));
+          if (mounted) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) =>
+                    const HomePage()),
+                    (_) => false);
+          }
+
         });
       }
+      return true;
     } catch (e) {
       Logger().e(e);
+      return false;
     }
   }
 
@@ -210,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 52,
                       child: OutlinedButton(
                           style: btnOutlineStyle(context),
-                          onPressed: googleLoginClick,
+                          onPressed: () => googleLoginClick(context),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
