@@ -1,21 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:plancation/components/diary_list_post/diary_list_post.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/pages/diary_form/diary_form.dart';
+import 'package:plancation/styles/app_bar_style.dart';
+import 'package:plancation/styles/body_style.dart';
 
 class HomeDiaryPage extends StatefulWidget {
   const HomeDiaryPage({super.key});
 
   @override
-  _HomeDiaryPageState createState() => _HomeDiaryPageState();
+  HomeDiaryPageState createState() => HomeDiaryPageState();
 }
 
-class _HomeDiaryPageState extends State<HomeDiaryPage> {
+class HomeDiaryPageState extends State<HomeDiaryPage> {
   String calendarID = "";
-  addDiaryPressed() {
+  List postSnapshot = List.empty(growable: true);
+
+  addDiaryBtnTap() {
     if (mounted) {
       Navigator.push(
           context,
@@ -31,37 +34,45 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
     }
   }
   
-  Future<void> onRefresh() async {
-    Logger().e("message");
+  Future<void> onRefresh() async{
+    List tempList = List.empty(growable: true);
+    String tempCalendarID = await getCalendarID();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("Calendars")
+        .doc(tempCalendarID)
+        .collection("Posts")
+        .orderBy('postTime', descending: true)
+        .get();
+
+    for (var docSnapshot in querySnapshot.docs) {
+      tempList.add(docSnapshot.data());
+    }
+
+    setState(() {
+      calendarID = tempCalendarID;
+      postSnapshot = tempList;
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    getCalendarID().then((value) {
-      setState(() {
-        calendarID = value;
-      });
-    });
+    onRefresh();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
+        preferredSize: Size.fromHeight(AppBarStyle().appBarSize),
         child: SafeArea(
           child: Container(
-            color: Theme.of(context).colorScheme.secondary,
-            height: 60,
-            child: const Center(
+            color: AppBarStyle().appBarBackgroundColor(context),
+            height: AppBarStyle().appBarSize,
+            child: Center(
               child: Text(
                 '기록',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: CupertinoColors.white,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: AppBarStyle().appBarTitleStyle,
               ),
             ),
           ),
@@ -70,30 +81,25 @@ class _HomeDiaryPageState extends State<HomeDiaryPage> {
       body: RefreshIndicator(
         onRefresh: onRefresh,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          alignment: AlignmentDirectional.topCenter,
-          child: calendarID.isNotEmpty ? StreamBuilder(
-            stream: FirebaseFirestore.instance.collection("Calendars").doc(calendarID).collection("Posts").orderBy('postTime', descending: true).snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              }
-
-              return ListView.builder(
+          padding: BodyStyle().bodyPadding,
+          alignment: BodyStyle().bodyAlignTopCenter,
+          child: calendarID.isNotEmpty ?
+              postSnapshot.isNotEmpty ?
+              ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                itemCount: snapshot.data!.docs.length,
+                itemCount: postSnapshot.length,
                 itemBuilder: (ctx, index) => Container(
-                  padding: const EdgeInsets.all(8),
-                  child: DiaryListPost(diaryData: snapshot.data!.docs[index], calendarID: calendarID,)
+                    padding: const EdgeInsets.all(8),
+                    child: DiaryListPost(diaryData: postSnapshot[index], calendarID: calendarID,)
                 ),
-              );
-            },
-          ) : const CircularProgressIndicator(),
+              )
+                  : const CircularProgressIndicator()
+              : const CircularProgressIndicator(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: addDiaryPressed,
+        onPressed: addDiaryBtnTap,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100)
         ),

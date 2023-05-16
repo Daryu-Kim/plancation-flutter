@@ -15,7 +15,8 @@ class DiaryListPost extends StatefulWidget {
   const DiaryListPost(
       {super.key, required this.diaryData, required this.calendarID});
 
-  final dynamic diaryData, calendarID;
+  final Map diaryData;
+  final String calendarID;
 
   @override
   DiaryListPostState createState() => DiaryListPostState();
@@ -24,26 +25,34 @@ class DiaryListPost extends StatefulWidget {
 class DiaryListPostState extends State<DiaryListPost> {
   int calendarUsersCount = 1;
   String authorName = "", authorImagePath = "";
-  Future<dynamic> getAuthorName() async {
+
+  Future<Map?> getAuthorData() async {
     try {
-      final result = await FirebaseFirestore.instance.collection('Users').doc(widget.diaryData['postAuthorID']).get();
+      final tempData = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(widget.diaryData['postAuthorID'])
+          .get();
+      final result = tempData.data();
       return result;
     } catch (e) {
       return null;
     }
   }
 
-  Future<dynamic> getCalendarUsers(calendarID) async {
+  Future<Map?> getCalendarData(String calendarID) async {
     try {
-      final tempData = await FirebaseFirestore.instance.collection('Calendars').doc(calendarID).get();
-      final result = tempData;
+      final tempData = await FirebaseFirestore.instance
+          .collection('Calendars')
+          .doc(calendarID)
+          .get();
+      final result = tempData.data();
       return result;
     } catch (e) {
       return null;
     }
   }
 
-  Future<void> onModifyClicked(BuildContext context) async {
+  Future<void> modifyBtnTap(BuildContext context) async {
     if (widget.diaryData['postAuthorID'] == AuthManage().getUser()!.uid) {
       Navigator.push(
           context,
@@ -62,13 +71,36 @@ class DiaryListPostState extends State<DiaryListPost> {
     }
   }
 
-  Future<void> onDeleteClicked(context) async {
+  Future<void> deleteBtnTap(context) async {
     if (widget.diaryData['postAuthorID'] == AuthManage().getUser()!.uid) {
       await StoreManage().deleteDiary(widget.diaryData['postID']);
       submitSnackBar(context, "기록이 삭제되었습니다!");
     } else {
       errorSnackBar(context, "본인의 기록만 삭제할 수 있습니다!");
     }
+  }
+
+  goToDiaryItemPage(context) {
+    Logger().e("click");
+    Navigator.push(
+        context,
+        CupertinoPageRoute(
+            builder: (context) => DiaryItemPage(
+                  diaryData: widget.diaryData,
+                  authorName: authorName,
+                  authorImagePath: authorImagePath,
+                  calendarUsersCount: calendarUsersCount,
+                )));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCalendarData(widget.calendarID).then((snapshot) {
+      calendarUsersCount = snapshot!['calendarUsers'].length;
+      setState(() {
+      });
+    });
   }
 
   @override
@@ -79,7 +111,7 @@ class DiaryListPostState extends State<DiaryListPost> {
         children: [
           const SizedBox(width: 8),
           SlidableAction(
-            onPressed: onModifyClicked,
+            onPressed: modifyBtnTap,
             borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(6), topLeft: Radius.circular(6)),
             icon: Icons.abc,
@@ -90,7 +122,7 @@ class DiaryListPostState extends State<DiaryListPost> {
           SlidableAction(
             borderRadius: const BorderRadius.only(
                 bottomRight: Radius.circular(6), topRight: Radius.circular(6)),
-            onPressed: onDeleteClicked,
+            onPressed: deleteBtnTap,
             icon: Icons.delete,
             label: "삭제",
             backgroundColor: Theme.of(context).colorScheme.errorContainer,
@@ -99,17 +131,8 @@ class DiaryListPostState extends State<DiaryListPost> {
         ],
       ),
       child: InkWell(
-        onTap: () {
-          Navigator.push(
-              context,
-              CupertinoPageRoute(
-                  builder: (context) => DiaryItemPage(
-                    diaryData: widget.diaryData,
-                    authorName: authorName,
-                    authorImagePath: authorImagePath,
-                    calendarUsersCount: calendarUsersCount,
-                  )));
-        },
+        onTap: () => goToDiaryItemPage(context),
+        onLongPress: () => goToDiaryItemPage(context),
         child: Container(
           width: double.infinity,
           height: 80,
@@ -158,54 +181,42 @@ class DiaryListPostState extends State<DiaryListPost> {
                 children: [
                   Row(
                     children: [
-                      FutureBuilder(
-                        future: getCalendarUsers(widget.calendarID),
-                        builder: (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData == false) {
-                            return const CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
-                          }
-
-                          // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
-                          else {
-                            calendarUsersCount = snapshot.data['calendarUsers'].length;
-                            // Logger().e("calendarUsers is " + snapshot.data['calendarUsers'].length);
-                            if (snapshot.data['calendarUsers'].length != 1) {
-                              return Row(
-                                children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 2, horizontal: 8),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.rectangle,
-                                        borderRadius: BorderRadius.circular(100),
-                                        color:
-                                        Theme.of(context).colorScheme.inversePrimary),
-                                    child: FutureBuilder(
-                                      future: getAuthorName(),
-                                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                                        if (snapshot.hasData == false) {
-                                          return const CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
-                                        } else {
-                                          authorName = snapshot.data['userName'];
-                                          authorImagePath = snapshot.data['userImagePath'];
-                                          return Text(snapshot.data['userName'],
-                                              style: const TextStyle(
-                                                  fontSize: 12, fontWeight: FontWeight.w700));
-                                        }
-                                      },
-                                    )
-                                    ,
-                                  ),
-                                  const SizedBox(width: 4)
-                                ],
-                              );
-                            } else {
-                              return const SizedBox();
-                            }
-                          }
-                        },
-                      ),
+                      calendarUsersCount != 1 ?
+                      Row(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 2, horizontal: 8),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                borderRadius:
+                                BorderRadius.circular(100),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary),
+                            child: FutureBuilder(
+                              future: getAuthorData(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.hasData == false) {
+                                  return const CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
+                                } else {
+                                  authorName =
+                                  snapshot.data['userName'];
+                                  authorImagePath =
+                                  snapshot.data['userImagePath'];
+                                  return Text(snapshot.data['userName'],
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700));
+                                }
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 4)
+                        ],
+                      ) : const SizedBox(),
                       Flexible(
                         fit: FlexFit.tight,
                         child: Text(widget.diaryData['postTitle'],

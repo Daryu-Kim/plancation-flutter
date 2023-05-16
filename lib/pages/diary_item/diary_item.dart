@@ -51,7 +51,7 @@ class _DiaryItemPageState extends State<DiaryItemPage> {
                 Container(
                   alignment: Alignment.centerRight,
                   width: 64,
-                  child: TextButton(
+                  child: const TextButton(
                       onPressed: null,
                       child: Text(
                         "관리",
@@ -78,30 +78,36 @@ class _DiaryItemPageState extends State<DiaryItemPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   widget.calendarUsersCount != 1
-                      ? SizedBox(
-                          width: 36,
-                          height: 36,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: widget.authorImagePath.isNotEmpty ||
-                                    widget.authorImagePath != null
-                                ? Image.network(
-                                    widget.authorImagePath.toString(),
-                                    height: 80,
-                                    width: 80,
-                                    fit: BoxFit.cover)
-                                : Text(
-                                    widget.authorName.length < 3
-                                        ? widget.authorName
-                                        : widget.authorName.substring(0, 3),
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .background),
-                                  ),
-                          ),
-                        )
+                      ? Row(
+                        children: [
+                          SizedBox(
+                              width: 42,
+                              height: 42,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: widget.authorImagePath.isNotEmpty ||
+                                        widget.authorImagePath != null
+                                    ? Image.network(
+                                        widget.authorImagePath.toString(),
+                                        height: 80,
+                                        width: 80,
+                                        fit: BoxFit.cover)
+                                    : Text(
+                                        widget.authorName.length < 3
+                                            ? widget.authorName
+                                            : widget.authorName.substring(0, 3),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .background),
+                                      ),
+                              ),
+                            ),
+                          const SizedBox(width: 8),
+
+                        ],
+                      )
                       : const SizedBox(),
                   Flexible(
                     fit: FlexFit.tight,
