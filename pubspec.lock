@@ -41,14 +41,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  calendar_strip:
-    dependency: "direct main"
-    description:
-      name: calendar_strip
-      sha256: "30b0b2d4476d7937441e9be02cfa5fae470e538b45b6d899240a0dcabdb2a6a6"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.7"
   characters:
     dependency: transitive
     description:
