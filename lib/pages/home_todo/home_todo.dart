@@ -59,49 +59,77 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
                   calendarFormat: CalendarFormat.week,
                   // 시작요일은 월요일
                   startingDayOfWeek: StartingDayOfWeek.monday,
-                  headerVisible: false,
+                  headerVisible: true,
+
+                  //헤더부분
+                  headerStyle: const HeaderStyle(
+                    formatButtonVisible: false,
+                  ),
+
                   calendarStyle: CalendarStyle(
-                    cellMargin: EdgeInsets.symmetric(horizontal: 6),
+                    cellMargin: const EdgeInsets.symmetric(horizontal: 6),
                     cellPadding: EdgeInsets.zero,
 
+                    //기본세팅
                     defaultDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
-                      ),
-                      color: Theme.of(context).colorScheme.secondary
-                    ),
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(16),
+                          bottomRight: Radius.circular(16),
+                        ),
+                        color: Theme.of(context).colorScheme.tertiary),
+
+                    //오늘날짜 데코
                     todayDecoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(8),
-                          bottomRight: Radius.circular(8),
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(16),
+                          bottomRight: Radius.circular(16),
                         ),
-                        color: Theme.of(context).colorScheme.primary
-                    ),
+                        color: Theme.of(context).colorScheme.tertiary),
+
+                    //선택한 날짜 데코
                     selectedDecoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(8),
                           bottomRight: Radius.circular(8),
                         ),
-                        color: Theme.of(context).colorScheme.primary
-                    )
+                        color: Theme.of(context).colorScheme.primary),
                   ),
+
+                  //캘린더 요일부분
                   calendarBuilders: CalendarBuilders(
                     dowBuilder: (context, day) {
-                      final text = DateFormat.E().format(day);
+                      var text = DateFormat.E().format(day);
+
+                      if (day.weekday == DateTime.sunday) {
+                        text = '일';
+                      } else if (day.weekday == DateTime.monday) {
+                        text = '월';
+                      } else if (day.weekday == DateTime.tuesday) {
+                        text = '화';
+                      } else if (day.weekday == DateTime.wednesday) {
+                        text = '수';
+                      } else if (day.weekday == DateTime.thursday) {
+                        text = '목';
+                      } else if (day.weekday == DateTime.friday) {
+                        text = '금';
+                      } else if (day.weekday == DateTime.saturday) {
+                        text = '토';
+                      }
                       return Container(
                         alignment: Alignment.center,
                         margin: const EdgeInsets.symmetric(horizontal: 6),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondary,
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(8),
-                            topLeft: Radius.circular(8),
-                          )
+                            color: Theme.of(context).colorScheme.tertiary,
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              topLeft: Radius.circular(20),
+                            )),
+                        child: Text(
+                          text,
+                          style: const TextStyle(color: Colors.white),
                         ),
-                        child: Text(text)
                       );
-                    }
+                    },
                   ),
                   // headerStyle: const HeaderStyle(
                   //   leftChevronIcon: Icon(
