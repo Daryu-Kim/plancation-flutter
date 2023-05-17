@@ -32,7 +32,7 @@ class StoreManage {
     return true;
   }
 
-  Future<bool> updateUserImage(String path) async {
+  Future<bool> updateUserImage(String? path) async {
     try {
       await FirebaseFirestore.instance
           .collection("Users")

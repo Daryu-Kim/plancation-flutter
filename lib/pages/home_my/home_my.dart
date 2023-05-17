@@ -22,7 +22,7 @@ class _HomeMyComponent extends State<HomeMyComponent> {
 
   String userName = AuthManage().getUser()!.displayName.toString();
   String userEmail = AuthManage().getUser()!.email.toString();
-  String userImage = AuthManage().getUser()!.photoURL.toString();
+  String? userImage = AuthManage().getUser()!.photoURL;
 
   String? changedUserName;
   File? userImageFile;
@@ -58,10 +58,12 @@ class _HomeMyComponent extends State<HomeMyComponent> {
   }
 
   Future<void> submitEditProfile() async {
-    String downloadURL = "";
+    String? downloadURL;
 
     if (userImageFile != null) {
       downloadURL = await StorageManage().uploadUserImage(userImageFile);
+    } else {
+      downloadURL = null;
     }
 
     if (changedUserName != null) {
@@ -149,14 +151,13 @@ class _HomeMyComponent extends State<HomeMyComponent> {
                                                       width: 80,
                                                       fit: BoxFit.cover),
                                                 )
-                                          : userImage.isNotEmpty &&
-                                                  userImage != "null"
+                                          : userImage != null
                                               ? ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           100),
                                                   child: Image.network(
-                                                      userImage.toString(),
+                                                      userImage!,
                                                       height: 80,
                                                       width: 80,
                                                       fit: BoxFit.cover),

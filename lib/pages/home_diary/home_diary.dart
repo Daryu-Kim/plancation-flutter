@@ -1,6 +1,9 @@
+import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:logger/logger.dart';
 import 'package:plancation/components/diary_list_post/diary_list_post.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/pages/diary_form/diary_form.dart';
@@ -17,6 +20,7 @@ class HomeDiaryPage extends StatefulWidget {
 class HomeDiaryPageState extends State<HomeDiaryPage> {
   String calendarID = "";
   List postSnapshot = List.empty(growable: true);
+  Timestamp currentTimestamp = Timestamp.now();
 
   addDiaryBtnTap() {
     if (mounted) {
@@ -24,23 +28,25 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
           context,
           CupertinoPageRoute(
               builder: (context) => const DiaryForm(
-                appBarTitle: '글쓰기',
-                appBarBtn: '등록',
-                postTitle: "",
-                postContent: "",
-                postImagePath: "",
-                postID: "",
-              ), fullscreenDialog: true));
+                    appBarTitle: '글쓰기',
+                    appBarBtn: '등록',
+                    postTitle: "",
+                    postContent: "",
+                    postImagePath: "",
+                    postID: "",
+                  ),
+              fullscreenDialog: true));
     }
   }
-  
-  Future<void> onRefresh() async{
+
+  Future<void> onRefresh(Timestamp timestamp) async {
     List tempList = List.empty(growable: true);
     String tempCalendarID = await getCalendarID();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("Calendars")
         .doc(tempCalendarID)
         .collection("Posts")
+        .where("postTime", isLessThanOrEqualTo: timestamp)
         .orderBy('postTime', descending: true)
         .get();
 
@@ -57,7 +63,7 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
   @override
   void initState() {
     super.initState();
-    onRefresh();
+    onRefresh(currentTimestamp);
   }
 
   @override
@@ -79,30 +85,66 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: onRefresh,
+        onRefresh: () => onRefresh(currentTimestamp),
         child: Container(
           padding: BodyStyle().bodyPadding,
           alignment: BodyStyle().bodyAlignTopCenter,
-          child: calendarID.isNotEmpty ?
-              postSnapshot.isNotEmpty ?
-              ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: postSnapshot.length,
-                itemBuilder: (ctx, index) => Container(
-                    padding: const EdgeInsets.all(8),
-                    child: DiaryListPost(diaryData: postSnapshot[index], calendarID: calendarID,)
-                ),
-              )
-                  : const CircularProgressIndicator()
-              : const CircularProgressIndicator(),
+          child: Column(
+            children: [
+              CalendarTimeline(
+                initialDate: DateTime.now(),
+                firstDate: DateTime.utc(DateTime.now().year - 1),
+                lastDate: DateTime.now(),
+                onDateSelected: (selectedDate) {
+                  setState(() {
+                    currentTimestamp = Timestamp.fromDate(selectedDate);
+
+                  });
+                  Logger().e(selectedDate);
+                },
+                activeBackgroundDayColor: Theme.of(context).colorScheme.tertiary,
+                dayColor: Theme.of(context).colorScheme.primary,
+                showYears: true,
+              ),
+              const SizedBox(height: 24),
+              postSnapshot.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemCount: postSnapshot.length,
+                          itemBuilder: (ctx, index) => DiaryListPost(
+                            diaryData: postSnapshot[index],
+                            calendarID: calendarID,
+                          ),
+                        )
+                      : Flexible(
+                fit: FlexFit.tight,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/svgs/notification_important.svg',
+                              width: 96,
+                              color: Theme.of(context).colorScheme.tertiary,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "기록이 없습니다!",
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 20),
+                            )
+                          ],
+                        ),
+                      ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: addDiaryBtnTap,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100)
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: Icon(
           Icons.add,

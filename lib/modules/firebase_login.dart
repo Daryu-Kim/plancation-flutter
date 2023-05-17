@@ -132,7 +132,7 @@ class AuthManage {
   }
 
   /// 유저 url 업데이트
-  Future<void> updateProfileUrl(String url) async {
+  Future<void> updateProfileUrl(String? url) async {
     final user = FirebaseAuth.instance.currentUser;
     await user?.updatePhotoURL(url);
   }
