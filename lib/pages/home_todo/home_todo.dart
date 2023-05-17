@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:plancation/pages/home_todo/home_todo.style.dart';
 
 class HomeTodoPage extends StatefulWidget {
   const HomeTodoPage({super.key});
@@ -9,6 +10,11 @@ class HomeTodoPage extends StatefulWidget {
 }
 
 class _HomeTodoPageState extends State<HomeTodoPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,10 +38,9 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        child: SizedBox(
           height: MediaQuery.of(context).size.height - 172,
-          alignment: AlignmentDirectional.center,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: const Text("TODO")
         ),
       ),
