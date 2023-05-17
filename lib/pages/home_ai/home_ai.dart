@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../ai_form/ai_form.dart';
+
 class HomeAIPage extends StatefulWidget {
   const HomeAIPage({Key? key}) : super(key: key);
 
@@ -114,8 +116,8 @@ class _HomeAIPageState extends State<HomeAIPage>
                 ),
               ),
               Column(
-                children: const [
-                  Padding(
+                children: [
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12),
                     child: Text(
                       '날짜 또는 기간, 활동 가능 시간, 주제에 대해 작성만 해주세요!',
@@ -125,20 +127,25 @@ class _HomeAIPageState extends State<HomeAIPage>
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 24,
                   ),
                   SizedBox(
                     width: double.infinity,
                     height: 48,
                     child: FilledButton(
-                        onPressed: null,
-                        child: Text(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AIFormPage()),
+                          );
+                        },
+                        child: const Text(
                           '이용하러 가기',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white,
                           ),
                         )),
                   ),
