@@ -42,11 +42,13 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
   Future<void> onRefresh(Timestamp timestamp) async {
     List tempList = List.empty(growable: true);
     String tempCalendarID = await getCalendarID();
+    Timestamp endRange = Timestamp.fromDate(timestamp.toDate().add(const Duration(days: 1)));
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("Calendars")
         .doc(tempCalendarID)
         .collection("Posts")
-        .where("postTime", isLessThanOrEqualTo: timestamp)
+        .where("postTime", isGreaterThanOrEqualTo: timestamp)
+        .where("postTime", isLessThan: endRange)
         .orderBy('postTime', descending: true)
         .get();
 
@@ -92,14 +94,14 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
           child: Column(
             children: [
               CalendarTimeline(
-                initialDate: DateTime.now(),
+                initialDate: currentTimestamp.toDate(),
                 firstDate: DateTime.utc(DateTime.now().year - 1),
                 lastDate: DateTime.now(),
                 onDateSelected: (selectedDate) {
                   setState(() {
                     currentTimestamp = Timestamp.fromDate(selectedDate);
-
                   });
+                  onRefresh(currentTimestamp);
                   Logger().e(selectedDate);
                 },
                 activeBackgroundDayColor: Theme.of(context).colorScheme.tertiary,
