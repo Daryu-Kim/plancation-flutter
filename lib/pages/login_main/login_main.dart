@@ -19,8 +19,10 @@ class LoginMainPage extends StatelessWidget {
 
     if (AuthManage().getUser() != null) {
       Future.delayed(Duration.zero, () {
-        Navigator.push(context,
-            CupertinoPageRoute(builder: (context) => const HomePage()));
+        Navigator.pushAndRemoveUntil(
+            context,
+            CupertinoPageRoute(builder: (context) => const HomePage()),
+                (_) => false);
       });
     }
 

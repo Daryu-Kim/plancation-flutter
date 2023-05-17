@@ -8,12 +8,9 @@ import 'modules/color_schemes.g.dart';
 import 'modules/firebase_options.dart';
 
 void main() => initializeDateFormatting().then((value) async {
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Color(0xFF3A3D8F),
-      systemNavigationBarColor: Color(0xFF3A3D8F)
-    )
-  );
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+          statusBarColor: Color(0xFF3A3D8F),
+          systemNavigationBarColor: Color(0xFF3A3D8F)));
       WidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,

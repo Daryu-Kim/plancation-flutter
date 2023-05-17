@@ -93,13 +93,17 @@ class DiaryListPostState extends State<DiaryListPost> {
                 )));
   }
 
+  // Future<void> onRe
+
   @override
   void initState() {
     super.initState();
     getCalendarData(widget.calendarID).then((snapshot) {
       calendarUsersCount = snapshot!['calendarUsers'].length;
-      setState(() {
-      });
+    });
+    getAuthorData().then((snapshot) {
+      authorName = snapshot!['userName'];
+      authorImagePath = snapshot['userImagePath'];
     });
   }
 
@@ -195,24 +199,10 @@ class DiaryListPostState extends State<DiaryListPost> {
                                 color: Theme.of(context)
                                     .colorScheme
                                     .inversePrimary),
-                            child: FutureBuilder(
-                              future: getAuthorData(),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot) {
-                                if (snapshot.hasData == false) {
-                                  return const CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
-                                } else {
-                                  authorName =
-                                  snapshot.data['userName'];
-                                  authorImagePath =
-                                  snapshot.data['userImagePath'];
-                                  return Text(snapshot.data['userName'],
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w700));
-                                }
-                              },
-                            ),
+                            child: authorName.isNotEmpty ? Text(authorName,
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700)) : SizedBox(),
                           ),
                           const SizedBox(width: 4)
                         ],

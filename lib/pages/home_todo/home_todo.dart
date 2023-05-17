@@ -38,25 +38,10 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          alignment: AlignmentDirectional.center,
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: const CalendarScreen(),
-          // child: Column(
-          //   mainAxisAlignment: MainAxisAlignment.start,
-          //   children: [
-          //     CalendarStrip(
-          //       startDate: startDate,
-          //       endDate: endDate,
-          //       onDateSelected: onSelect,
-          //       dateTileBuilder: dateTileBuilder,
-          //       iconColor: Colors.black87,
-          //       monthNameWidget: _monthNameWidget,
-          //       markedDates: markedDates,
-          //       containerDecoration: const BoxDecoration(color: Colors.black12),
-          //     )
-          //   ],
-          // ),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height - 172,
+          child: const Text("TODO")
         ),
       ),
     );
