@@ -103,8 +103,8 @@ class _HomeAIPageState extends State<HomeAIPage>
                 child: AnimatedBuilder(
                   animation: _animation,
                   builder: (BuildContext context, Widget? child) {
-                    return Transform.scale(
-                      scale: 1.0 + (_animation.value * 0.12),
+                    return Transform.translate(
+                      offset: Offset(0, 12 * _animation.value),
                       child: Image.asset(
                         'assets/images/auto_schedule.png',
                         width: double.infinity,
