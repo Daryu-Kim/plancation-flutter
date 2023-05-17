@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 
 class DiaryItemPage extends StatefulWidget {
   const DiaryItemPage(
@@ -17,6 +18,11 @@ class DiaryItemPage extends StatefulWidget {
 }
 
 class _DiaryItemPageState extends State<DiaryItemPage> {
+  @override
+  void initState() {
+    super.initState();
+    Logger().e(widget.authorImagePath);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,64 +85,90 @@ class _DiaryItemPageState extends State<DiaryItemPage> {
                 children: [
                   widget.calendarUsersCount != 1
                       ? Row(
+                    mainAxisAlignment:  MainAxisAlignment.center,
                         children: [
                           SizedBox(
-                              width: 42,
-                              height: 42,
+                              width: 56,
+                              height: 56,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
-                                child: widget.authorImagePath.isNotEmpty ||
+                                child: widget.authorImagePath != "" ||
+                                    widget.authorImagePath != "null" ||
                                         widget.authorImagePath != null
                                     ? Image.network(
                                         widget.authorImagePath.toString(),
-                                        height: 80,
-                                        width: 80,
+                                        height: 56,
+                                        width: 56,
                                         fit: BoxFit.cover)
-                                    : Text(
-                                        widget.authorName.length < 3
-                                            ? widget.authorName
-                                            : widget.authorName.substring(0, 3),
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .background),
-                                      ),
+                                    : CircleAvatar(
+                                  backgroundColor: Theme.of(context).colorScheme.primary,
+                                      child: Text(
+                                          widget.authorName.length < 3
+                                              ? widget.authorName
+                                              : widget.authorName.substring(0, 3),
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .background),
+                                        ),
+                                    ),
                               ),
                             ),
-                          const SizedBox(width: 8),
-
+                          const SizedBox(width: 12),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 2,
+                                    horizontal: 8
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Theme.of(context).colorScheme.primary
+                                ),
+                                child: Text(
+                                  widget.authorName,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                      widget.diaryData['postTitle'],
+                                      maxLines: 1,
+                                      softWrap: false,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 18,
+                                      ),
+                              ),
+                            ],
+                          )
                         ],
                       )
                       : const SizedBox(),
-                  Flexible(
-                    fit: FlexFit.tight,
-                    child: Text(
-                      widget.diaryData['postTitle'],
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Theme.of(context).colorScheme.inverseSurface),
-                    child: Text(
-                      DateFormat('hh:mm')
-                          .format(widget.diaryData['postTime'].toDate()),
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).colorScheme.surface),
-                    ),
-                  )
+                  // Container(
+                  //   padding:
+                  //       const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  //   decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(100),
+                  //       color: Theme.of(context).colorScheme.inverseSurface),
+                  //   child: Text(
+                  //     DateFormat('hh:mm')
+                  //         .format(widget.diaryData['postTime'].toDate()),
+                  //     style: TextStyle(
+                  //         fontSize: 12,
+                  //         fontWeight: FontWeight.w700,
+                  //         color: Theme.of(context).colorScheme.surface),
+                  //   ),
+                  // )
                 ],
               ),
               const SizedBox(height: 24),
