@@ -36,7 +36,7 @@ class _HomeAIPageState extends State<HomeAIPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(72),
+        preferredSize: const Size.fromHeight(60),
         child: SafeArea(
           child: Container(
             color: Theme.of(context).colorScheme.secondary,
@@ -55,9 +55,9 @@ class _HomeAIPageState extends State<HomeAIPage>
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        child: SizedBox(
           height: MediaQuery.of(context).size.height - 172,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,7 +116,7 @@ class _HomeAIPageState extends State<HomeAIPage>
               Column(
                 children: const [
                   Padding(
-                    padding: EdgeInsets.only(left: 12, right: 12),
+                    padding: EdgeInsets.symmetric(horizontal: 12),
                     child: Text(
                       '날짜 또는 기간, 활동 가능 시간, 주제에 대해 작성만 해주세요!',
                       style: TextStyle(
