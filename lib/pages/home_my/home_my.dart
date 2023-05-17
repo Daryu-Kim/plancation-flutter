@@ -58,8 +58,9 @@ class _HomeMyComponent extends State<HomeMyComponent> {
   }
 
   Future<void> submitEditProfile() async {
-    String downloadURL = AuthManage().getUser()!.photoURL!.isNotEmpty ?
-    AuthManage().getUser()!.photoURL! : "";
+    String downloadURL = AuthManage().getUser()!.photoURL!.isNotEmpty
+        ? AuthManage().getUser()!.photoURL!
+        : "";
     if (userImageFile != null) {
       downloadURL = await StorageManage().uploadUserImage(userImageFile);
     } else {
