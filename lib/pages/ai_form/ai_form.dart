@@ -9,13 +9,19 @@ class AIFormPage extends StatefulWidget {
 }
 
 class _AIFormPageState extends State<AIFormPage> {
-  DateTime? selectedPlanDate;
+  var selectedStartDate;
+  var selectedEndDate;
+  var selectedStartTime;
+  var selectedEndTime;
   TimeOfDay? selectedActivityTime;
 
   @override
   void initState() {
     super.initState();
-    selectedPlanDate = DateTime.now();
+    selectedStartDate = DateTime.now();
+    selectedEndDate = DateTime.now();
+    selectedStartTime = TimeOfDay.now();
+    selectedEndTime = TimeOfDay.now();
     selectedActivityTime = TimeOfDay.now();
   }
 
@@ -91,7 +97,7 @@ class _AIFormPageState extends State<AIFormPage> {
                                   maximumDate: DateTime(2025),
                                   onDateTimeChanged: (DateTime pickedDate) {
                                     setState(() {
-                                      selectedPlanDate = pickedDate;
+                                      selectedStartDate = pickedDate;
                                     });
                                   },
                                 ),
@@ -100,9 +106,7 @@ class _AIFormPageState extends State<AIFormPage> {
                           );
                         },
                         child: Text(
-                          selectedPlanDate != null
-                              ? '${selectedPlanDate!.year}-${selectedPlanDate!.month}-${selectedPlanDate!.day}'
-                              : '날짜 선택',
+                          '${selectedStartDate.year}-${selectedStartDate.month}-${selectedStartDate.day}',
                         ),
                       ),
                       CupertinoButton(
@@ -119,7 +123,7 @@ class _AIFormPageState extends State<AIFormPage> {
                                   maximumDate: DateTime(2025),
                                   onDateTimeChanged: (DateTime pickedDate) {
                                     setState(() {
-                                      selectedPlanDate = pickedDate;
+                                      selectedEndDate = pickedDate;
                                     });
                                   },
                                 ),
@@ -128,9 +132,7 @@ class _AIFormPageState extends State<AIFormPage> {
                           );
                         },
                         child: Text(
-                          selectedPlanDate != null
-                              ? '${selectedPlanDate!.year}-${selectedPlanDate!.month}-${selectedPlanDate!.day}'
-                              : '날짜 선택',
+                          '${selectedEndDate.year}-${selectedEndDate.month}-${selectedEndDate.day}',
                         ),
                       ),
                     ],
@@ -168,8 +170,7 @@ class _AIFormPageState extends State<AIFormPage> {
                                   initialDateTime: DateTime.now(),
                                   onDateTimeChanged: (DateTime pickedTime) {
                                     setState(() {
-                                      selectedActivityTime =
-                                          TimeOfDay.fromDateTime(pickedTime);
+                                      selectedStartTime = pickedTime;
                                     });
                                   },
                                 ),
@@ -178,8 +179,8 @@ class _AIFormPageState extends State<AIFormPage> {
                           );
                         },
                         child: Text(
-                          selectedActivityTime != null
-                              ? '${selectedActivityTime!.hour}:${selectedActivityTime!.minute}'
+                          selectedStartTime != null
+                              ? '${selectedStartTime!.hour}:${selectedStartTime!.minute}'
                               : '시간 선택',
                         ),
                       ),
@@ -195,8 +196,7 @@ class _AIFormPageState extends State<AIFormPage> {
                                   initialDateTime: DateTime.now(),
                                   onDateTimeChanged: (DateTime pickedTime) {
                                     setState(() {
-                                      selectedActivityTime =
-                                          TimeOfDay.fromDateTime(pickedTime);
+                                      selectedEndTime = pickedTime;
                                     });
                                   },
                                 ),
@@ -205,8 +205,8 @@ class _AIFormPageState extends State<AIFormPage> {
                           );
                         },
                         child: Text(
-                          selectedActivityTime != null
-                              ? '${selectedActivityTime!.hour}:${selectedActivityTime!.minute}'
+                          selectedEndTime != null
+                              ? '${selectedEndTime!.hour}:${selectedEndTime!.minute}'
                               : '시간 선택',
                         ),
                       ),
@@ -233,28 +233,27 @@ class _AIFormPageState extends State<AIFormPage> {
                   const SizedBox(
                     height: 18,
                   ),
-                  SizedBox(
-                    height: 160,
-                    child: TextField(
-                      onChanged: null,
-                      controller: null,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      decoration: InputDecoration(
-                          hintText: "Ex) 제주도 여행, 개발일정, 발표준비 등",
-                          hintStyle: TextStyle(
-                              color:
-                                  Theme.of(context).colorScheme.outlineVariant),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.outline,
-                                width: 2,
-                                style: BorderStyle.solid),
-                          )),
-                    ),
+                  TextField(
+                    onChanged: null,
+                    controller: null,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: InputDecoration(
+                        hintText: "Ex) 제주도 여행, 개발일정, 발표준비 등",
+                        hintStyle: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.outlineVariant),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.outline,
+                              width: 2,
+                              style: BorderStyle.solid),
+                        )),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(
+                    height: 18,
+                  ),
                   Text(
                     '어떤 것을 계획 중이세요?',
                     style: TextStyle(
@@ -263,8 +262,6 @@ class _AIFormPageState extends State<AIFormPage> {
                       color: Theme.of(context).colorScheme.outline,
                     ),
                   ),
-                  // 추가적인 입력 필드 (계획 내용 입력) 구현 필요
-                  const SizedBox(height: 16),
                 ],
               ),
               Column(
