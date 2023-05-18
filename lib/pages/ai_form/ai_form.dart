@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:plancation/pages/ai_form/ai_result.dart';
 
 class AIFormPage extends StatefulWidget {
   const AIFormPage({super.key});
@@ -13,8 +14,7 @@ class _AIFormPageState extends State<AIFormPage> {
   var selectedEndDate;
   var selectedStartTime;
   var selectedEndTime;
-  TimeOfDay? selectedActivityTime;
-
+  final TextEditingController _controller = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -22,7 +22,6 @@ class _AIFormPageState extends State<AIFormPage> {
     selectedEndDate = DateTime.now();
     selectedStartTime = TimeOfDay.now();
     selectedEndTime = TimeOfDay.now();
-    selectedActivityTime = TimeOfDay.now();
   }
 
   @override
@@ -264,6 +263,9 @@ class _AIFormPageState extends State<AIFormPage> {
                   ),
                 ],
               ),
+              TextField(
+                controller: _controller,
+              ),
               Column(
                 children: [
                   SizedBox(
@@ -271,10 +273,11 @@ class _AIFormPageState extends State<AIFormPage> {
                     height: 48,
                     child: FilledButton(
                         onPressed: () {
+                          String prompt = _controller.text;
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const AIFormPage()),
+                                builder: (context) => AIResultPage(prompt)),
                           );
                         },
                         child: const Text(
