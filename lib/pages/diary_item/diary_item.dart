@@ -11,13 +11,16 @@ class DiaryItemPage extends StatefulWidget {
       required this.authorImagePath,
       required this.calendarUsersCount});
 
-  final dynamic diaryData, authorName, authorImagePath, calendarUsersCount;
+  final Map diaryData;
+  final String authorName;
+  final String? authorImagePath;
+  final int calendarUsersCount;
 
   @override
-  _DiaryItemPageState createState() => _DiaryItemPageState();
+  DiaryItemPageState createState() => DiaryItemPageState();
 }
 
-class _DiaryItemPageState extends State<DiaryItemPage> {
+class DiaryItemPageState extends State<DiaryItemPage> {
   @override
   void initState() {
     super.initState();
@@ -92,11 +95,9 @@ class _DiaryItemPageState extends State<DiaryItemPage> {
                               height: 56,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
-                                child: widget.authorImagePath != "" ||
-                                    widget.authorImagePath != "null" ||
-                                        widget.authorImagePath != null
+                                child: widget.authorImagePath != null
                                     ? Image.network(
-                                        widget.authorImagePath.toString(),
+                                        widget.authorImagePath!,
                                         height: 56,
                                         width: 56,
                                         fit: BoxFit.cover)
@@ -172,7 +173,7 @@ class _DiaryItemPageState extends State<DiaryItemPage> {
                 ],
               ),
               const SizedBox(height: 24),
-              widget.diaryData['postImagePath'].isNotEmpty
+              widget.diaryData['postImagePath'] != null
                   ? Image.network(
                       widget.diaryData['postImagePath'],
                       fit: BoxFit.cover,

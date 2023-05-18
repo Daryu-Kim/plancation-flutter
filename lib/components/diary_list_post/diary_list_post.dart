@@ -24,7 +24,8 @@ class DiaryListPost extends StatefulWidget {
 
 class DiaryListPostState extends State<DiaryListPost> {
   int calendarUsersCount = 1;
-  String authorName = "", authorImagePath = "";
+  String authorName = "";
+  String? authorImagePath;
 
   Future<Map?> getAuthorData() async {
     try {
@@ -73,7 +74,7 @@ class DiaryListPostState extends State<DiaryListPost> {
 
   Future<void> deleteBtnTap(context) async {
     if (widget.diaryData['postAuthorID'] == AuthManage().getUser()!.uid) {
-      await StoreManage().deleteDiary(widget.diaryData['postID']);
+      await StoreManage().deleteDiary(widget.diaryData['postID'], widget.diaryData['postImagePath']);
       submitSnackBar(context, "기록이 삭제되었습니다!");
     } else {
       errorSnackBar(context, "본인의 기록만 삭제할 수 있습니다!");
@@ -105,6 +106,11 @@ class DiaryListPostState extends State<DiaryListPost> {
       authorName = snapshot!['userName'];
       authorImagePath = snapshot['userImagePath'];
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -154,23 +160,21 @@ class DiaryListPostState extends State<DiaryListPost> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  DateFormat('EEE')
-                      .format(widget.diaryData['postTime'].toDate())
-                      .toUpperCase(),
+                  DateFormat('HH')
+                      .format(widget.diaryData['postTime'].toDate()),
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    fontSize: 12,
+                    fontSize: 20,
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  DateFormat('d')
-                      .format(widget.diaryData['postTime'].toDate())
-                      .toUpperCase(),
+                  DateFormat('mm')
+                      .format(widget.diaryData['postTime'].toDate()),
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    fontSize: 24,
+                    fontSize: 20,
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
                   textAlign: TextAlign.center,
@@ -202,7 +206,7 @@ class DiaryListPostState extends State<DiaryListPost> {
                             child: authorName.isNotEmpty ? Text(authorName,
                                 style: const TextStyle(
                                     fontSize: 12,
-                                    fontWeight: FontWeight.w700)) : SizedBox(),
+                                    fontWeight: FontWeight.w700)) : const SizedBox(),
                           ),
                           const SizedBox(width: 4)
                         ],
@@ -232,10 +236,10 @@ class DiaryListPostState extends State<DiaryListPost> {
                 ],
               ),
             ),
-            widget.diaryData['postImagePath'].isNotEmpty
+            widget.diaryData['postImagePath'] != null
                 ? const SizedBox(width: 12)
                 : const SizedBox(),
-            widget.diaryData['postImagePath'].isNotEmpty
+            widget.diaryData['postImagePath'] != null
                 ? Container(
                     height: 64,
                     width: 64,

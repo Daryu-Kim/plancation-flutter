@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/components/diary_list_post/diary_list_post.dart';
 import 'package:plancation/modules/another.dart';
-import 'package:plancation/modules/month_picker.dart';
 import 'package:plancation/pages/diary_form/diary_form.dart';
 import 'package:plancation/styles/app_bar_style.dart';
 import 'package:plancation/styles/body_style.dart';
@@ -18,7 +17,7 @@ class HomeDiaryPage extends StatefulWidget {
   HomeDiaryPageState createState() => HomeDiaryPageState();
 }
 
-class HomeDiaryPageState extends State<HomeDiaryPage> {
+class HomeDiaryPageState extends State<HomeDiaryPage> with WidgetsBindingObserver {
   String calendarID = "";
   List postSnapshot = List.empty(growable: true);
   Timestamp currentTimestamp = Timestamp.now();
@@ -33,7 +32,7 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
                     appBarBtn: '등록',
                     postTitle: "",
                     postContent: "",
-                    postImagePath: "",
+                    postImagePath: null,
                     postID: "",
                   ),
               fullscreenDialog: true));
@@ -64,9 +63,23 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
   }
 
   @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
-    onRefresh(currentTimestamp);
+    WidgetsBinding.instance.addObserver(this);
+    onRefresh(Timestamp.fromDate(DateTime.now()));
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      onRefresh(currentTimestamp);
+    }
   }
 
   @override
@@ -94,14 +107,6 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
           alignment: BodyStyle().bodyAlignTopCenter,
           child: Column(
             children: [
-              MonthPicker(
-                  initialDate: currentTimestamp.toDate(),
-                  firstDate: DateTime.utc(DateTime.now().year - 1),
-                  lastDate: DateTime.now(),
-                  onDateSelected: (selectedDate) {
-
-                  },
-              ),
               CalendarTimeline(
                 initialDate: currentTimestamp.toDate(),
                 firstDate: DateTime.utc(DateTime.now().year - 1),
@@ -113,22 +118,25 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
                   onRefresh(currentTimestamp);
                   Logger().e(selectedDate);
                 },
+
                 activeBackgroundDayColor: Theme.of(context).colorScheme.tertiary,
                 dayColor: Theme.of(context).colorScheme.primary,
                 showYears: true,
               ),
               const SizedBox(height: 24),
-              const SizedBox(height: 24),
               postSnapshot.isNotEmpty
-                      ? ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: postSnapshot.length,
-                          itemBuilder: (ctx, index) => DiaryListPost(
-                            diaryData: postSnapshot[index],
-                            calendarID: calendarID,
+                      ? Flexible(
+                fit: FlexFit.tight,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemCount: postSnapshot.length,
+                            itemBuilder: (ctx, index) => DiaryListPost(
+                              diaryData: postSnapshot[index],
+                              calendarID: calendarID,
+                            ),
                           ),
-                        )
+                      )
                       : Flexible(
                 fit: FlexFit.tight,
                         child: Column(

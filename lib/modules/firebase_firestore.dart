@@ -152,7 +152,7 @@ class StoreManage {
     }
   }
 
-  Future<bool> deleteDiary(String postID) async {
+  Future<bool> deleteDiary(String postID, String? postImagePath) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String calendarID = "";
@@ -163,7 +163,9 @@ class StoreManage {
         calendarID = AuthManage().getUser()!.uid;
       }
 
-      await StorageManage().deleteDiaryImage(calendarID, postID);
+      if (postImagePath != null) {
+        await StorageManage().deleteDiaryImage(calendarID, postID);
+      }
       final credential = await FirebaseFirestore.instance
           .collection("Calendars")
           .doc(calendarID)
@@ -177,7 +179,7 @@ class StoreManage {
     }
   }
 
-  Future<bool> updateDiaryImage(String id, String path) async {
+  Future<bool> updateDiaryImage(String id, String? path) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String calendarID = "";
