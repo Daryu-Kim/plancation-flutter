@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/components/diary_list_post/diary_list_post.dart';
 import 'package:plancation/modules/another.dart';
+import 'package:plancation/modules/month_picker.dart';
 import 'package:plancation/pages/diary_form/diary_form.dart';
 import 'package:plancation/styles/app_bar_style.dart';
 import 'package:plancation/styles/body_style.dart';
@@ -93,6 +94,14 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
           alignment: BodyStyle().bodyAlignTopCenter,
           child: Column(
             children: [
+              MonthPicker(
+                  initialDate: currentTimestamp.toDate(),
+                  firstDate: DateTime.utc(DateTime.now().year - 1),
+                  lastDate: DateTime.now(),
+                  onDateSelected: (selectedDate) {
+
+                  },
+              ),
               CalendarTimeline(
                 initialDate: currentTimestamp.toDate(),
                 firstDate: DateTime.utc(DateTime.now().year - 1),

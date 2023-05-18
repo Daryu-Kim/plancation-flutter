@@ -3,18 +3,30 @@ import 'package:flutter/material.dart';
 class MonthPicker extends StatefulWidget {
   const MonthPicker(
       {super.key,
-        required this.diaryData,
-        required this.authorName,
-        required this.authorImagePath,
-        required this.calendarUsersCount});
+        required this.initialDate,
+        required this.firstDate,
+        required this.lastDate,
+        required this.onDateSelected});
 
-  final dynamic diaryData, authorName, authorImagePath, calendarUsersCount;
+  final DateTime initialDate, firstDate, lastDate;
+  final Function(DateTime) onDateSelected;
 
   @override
   MonthPickerState createState() => MonthPickerState();
 }
 
 class MonthPickerState extends State<MonthPicker> {
+  Column widgetStack = Column();
+
+  initMonthPicker() {
+    int firstYear = widget.firstDate.year;
+    int lastYear = widget.lastDate.year;
+    for (int currentYear = firstYear; firstYear <= lastYear; firstYear++) {
+      widgetStack.children.add(Text(currentYear.toString()));
+    }
+    return widgetStack;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -22,6 +34,9 @@ class MonthPickerState extends State<MonthPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Container(
+      color: Colors.red,
+      child: initMonthPicker()
+    );
   }
 }
