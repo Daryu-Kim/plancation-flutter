@@ -109,6 +109,7 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
                 showYears: true,
               ),
               const SizedBox(height: 24),
+              const SizedBox(height: 24),
               postSnapshot.isNotEmpty
                       ? ListView.builder(
                           shrinkWrap: true,
