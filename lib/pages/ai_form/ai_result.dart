@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:plancation/pages/ai_form/ai_loading.dart';
 import 'package:plancation/styles/app_bar_style.dart';
 import 'package:plancation/styles/body_style.dart';
@@ -15,6 +16,7 @@ class AIResultPageState extends State<AIResultPage> {
   @override
   void initState() {
     super.initState();
+    Logger().e(widget.prompt);
   }
 
   @override
