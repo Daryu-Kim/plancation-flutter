@@ -98,12 +98,15 @@ class _AIFormPageState extends State<AIFormPage> {
                               context: context,
                               builder: (BuildContext context) {
                                 return SizedBox(
-                                  height: 216,
+                                  height: 300,
                                   child: CupertinoDatePicker(
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
                                     mode: CupertinoDatePickerMode.date,
                                     initialDateTime: selectedStartDate,
                                     minimumDate: DateTime.now()
-                                        .add(const Duration(minutes: -3)),
+                                        .add(const Duration(minutes: -5)),
                                     maximumDate: selectedEndDate,
                                     onDateTimeChanged: (DateTime pickedDate) {
                                       setState(() {
@@ -115,8 +118,11 @@ class _AIFormPageState extends State<AIFormPage> {
                               },
                             );
                           },
-                          child: Text(DateFormat('yyyy-MM-dd')
-                              .format(selectedStartDate!)),
+                          child: Text(
+                            DateFormat('yyyy-MM-dd').format(selectedStartDate!),
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.tertiary),
+                          ),
                         ),
                         CupertinoButton(
                           onPressed: () {
@@ -124,8 +130,11 @@ class _AIFormPageState extends State<AIFormPage> {
                               context: context,
                               builder: (BuildContext context) {
                                 return SizedBox(
-                                  height: 216,
+                                  height: 300,
                                   child: CupertinoDatePicker(
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
                                     mode: CupertinoDatePickerMode.date,
                                     initialDateTime: selectedEndDate,
                                     minimumDate: selectedStartDate,
@@ -183,8 +192,11 @@ class _AIFormPageState extends State<AIFormPage> {
                               context: context,
                               builder: (BuildContext context) {
                                 return SizedBox(
-                                  height: 216,
+                                  height: 300,
                                   child: CupertinoDatePicker(
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
                                     mode: CupertinoDatePickerMode.time,
                                     initialDateTime: DateTime(
                                       selectedStartDate!.year,
@@ -222,8 +234,11 @@ class _AIFormPageState extends State<AIFormPage> {
                               context: context,
                               builder: (BuildContext context) {
                                 return SizedBox(
-                                  height: 216,
+                                  height: 300,
                                   child: CupertinoDatePicker(
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
                                     mode: CupertinoDatePickerMode.time,
                                     initialDateTime: DateTime(
                                       selectedEndDate!.year,
