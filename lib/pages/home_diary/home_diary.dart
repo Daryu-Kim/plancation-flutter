@@ -126,7 +126,6 @@ class HomeDiaryPageState extends State<HomeDiaryPage> with WidgetsBindingObserve
                     ? Flexible(
               fit: FlexFit.tight,
                       child: ListView.builder(
-                          shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           itemCount: postSnapshot.length,
                           itemBuilder: (ctx, index) => DiaryListPost(
