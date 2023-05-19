@@ -1,9 +1,9 @@
 import 'dart:core';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../../components/todo_new/todo_new.dart';
 
 DateTime now = DateTime.now();
 
@@ -160,6 +160,32 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
               ],
             )),
       ),
+      //플로팅버튼
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'todo',
+        onPressed: showBottomSheet,
+        backgroundColor: Theme.of(context).colorScheme.onSecondary,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(30.0))),
+        child: const Text(
+          '추가',
+          style: TextStyle(fontSize: 16, color: Colors.white),
+        ),
+      ),
     );
   }
+
+  void showBottomSheet() => showModalBottomSheet(
+      context: context, builder: (context) => const TodoNew()
+      // <Widget>[
+      //   ListTile(
+      //     leading: const Icon(Icons.share),
+      //     onTap: () {},
+      //   ),
+      //   ListTile(
+      //     leading: const Icon(Icons.link),
+      //     onTap: () {},
+      //   )
+      // ],
+      );
 }

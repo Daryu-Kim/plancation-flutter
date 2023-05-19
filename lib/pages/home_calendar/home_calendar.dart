@@ -19,43 +19,44 @@ class HomeCalendarComponent extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: SafeArea(
-              child: Container(
-                height: 60,
-                color: Theme.of(context).colorScheme.secondary,
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                        onPressed: () {},
-                        iconSize: 36,
-                        padding: const EdgeInsets.all(0),
-                        icon: SvgPicture.asset(
-                          'assets/svgs/menu_icon.svg',
-                        )),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text('April', style: containerTitleTextStyle),
-                        Text('2023'),
-                      ],
-                    ),
-                    IconButton(
+            child: Container(
+              height: 60,
+              color: Theme.of(context).colorScheme.secondary,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
                       onPressed: () {},
                       iconSize: 36,
                       padding: const EdgeInsets.all(0),
-                      icon: const Icon(Icons.account_circle),
-                    ),
-                  ],
-                ),
+                      icon: SvgPicture.asset(
+                        'assets/svgs/menu_icon.svg',
+                      )),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      Text('April', style: containerTitleTextStyle),
+                      Text('2023'),
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    iconSize: 36,
+                    padding: const EdgeInsets.all(0),
+                    icon: const Icon(Icons.account_circle),
+                  ),
+                ],
               ),
+            ),
           ),
         ),
         body: Container(
           height: MediaQuery.of(context).size.height - 172,
-          padding: const EdgeInsetsDirectional.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsetsDirectional.symmetric(
+              horizontal: 24, vertical: 16),
           child: const Calendar(),
         ),
         floatingActionButton: SpeedDial(

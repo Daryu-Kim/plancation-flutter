@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/components/diary_list_post/diary_list_post.dart';
 import 'package:plancation/modules/another.dart';
-import 'package:plancation/modules/month_picker.dart';
 import 'package:plancation/pages/diary_form/diary_form.dart';
 import 'package:plancation/styles/app_bar_style.dart';
 import 'package:plancation/styles/body_style.dart';
@@ -43,7 +42,8 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
   Future<void> onRefresh(Timestamp timestamp) async {
     List tempList = List.empty(growable: true);
     String tempCalendarID = await getCalendarID();
-    Timestamp endRange = Timestamp.fromDate(timestamp.toDate().add(const Duration(days: 1)));
+    Timestamp endRange =
+        Timestamp.fromDate(timestamp.toDate().add(const Duration(days: 1)));
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("Calendars")
         .doc(tempCalendarID)
@@ -94,14 +94,14 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
           alignment: BodyStyle().bodyAlignTopCenter,
           child: Column(
             children: [
-              MonthPicker(
-                  initialDate: currentTimestamp.toDate(),
-                  firstDate: DateTime.utc(DateTime.now().year - 1),
-                  lastDate: DateTime.now(),
-                  onDateSelected: (selectedDate) {
+              // MonthPicker(
+              //     initialDate: currentTimestamp.toDate(),
+              //     firstDate: DateTime.utc(DateTime.now().year - 1),
+              //     lastDate: DateTime.now(),
+              //     onDateSelected: (selectedDate) {
 
-                  },
-              ),
+              //     },
+              // ),
               CalendarTimeline(
                 initialDate: currentTimestamp.toDate(),
                 firstDate: DateTime.utc(DateTime.now().year - 1),
@@ -113,43 +113,44 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
                   onRefresh(currentTimestamp);
                   Logger().e(selectedDate);
                 },
-                activeBackgroundDayColor: Theme.of(context).colorScheme.tertiary,
+                activeBackgroundDayColor:
+                    Theme.of(context).colorScheme.tertiary,
                 dayColor: Theme.of(context).colorScheme.primary,
                 showYears: true,
               ),
               const SizedBox(height: 24),
               const SizedBox(height: 24),
               postSnapshot.isNotEmpty
-                      ? ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: postSnapshot.length,
-                          itemBuilder: (ctx, index) => DiaryListPost(
-                            diaryData: postSnapshot[index],
-                            calendarID: calendarID,
-                          ),
-                        )
-                      : Flexible(
-                fit: FlexFit.tight,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/svgs/notification_important.svg',
-                              width: 96,
-                              color: Theme.of(context).colorScheme.tertiary,
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "기록이 없습니다!",
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.tertiary,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20),
-                            )
-                          ],
-                        ),
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: postSnapshot.length,
+                      itemBuilder: (ctx, index) => DiaryListPost(
+                        diaryData: postSnapshot[index],
+                        calendarID: calendarID,
                       ),
+                    )
+                  : Flexible(
+                      fit: FlexFit.tight,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svgs/notification_important.svg',
+                            width: 96,
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "기록이 없습니다!",
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.tertiary,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20),
+                          )
+                        ],
+                      ),
+                    ),
             ],
           ),
         ),
