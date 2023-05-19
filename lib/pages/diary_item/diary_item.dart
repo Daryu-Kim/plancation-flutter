@@ -11,18 +11,95 @@ class DiaryItemPage extends StatefulWidget {
       required this.authorImagePath,
       required this.calendarUsersCount});
 
-  final dynamic diaryData, authorName, authorImagePath, calendarUsersCount;
+  final Map diaryData;
+  final String authorName;
+  final String? authorImagePath;
+  final int calendarUsersCount;
 
   @override
-  _DiaryItemPageState createState() => _DiaryItemPageState();
+  DiaryItemPageState createState() => DiaryItemPageState();
 }
 
-class _DiaryItemPageState extends State<DiaryItemPage> {
+class DiaryItemPageState extends State<DiaryItemPage> {
+  showManageModal() {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 217 - 24,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.background,
+              borderRadius: BorderRadius.circular(16)
+            ),
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),
+                    shape: BoxShape.rectangle,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  width: double.infinity,
+                  height: 48,
+                  child: const Text(
+                    "게시물 관리",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: null,
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: double.infinity,
+                    height: 72,
+                    child: Text(
+                      "수정",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                ),
+                InkWell(
+                  onTap: null,
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: double.infinity,
+                    height: 72,
+                    child: Text(
+                      "삭제",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     Logger().e(widget.authorImagePath);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,8 +134,8 @@ class _DiaryItemPageState extends State<DiaryItemPage> {
                 Container(
                   alignment: Alignment.centerRight,
                   width: 64,
-                  child: const TextButton(
-                      onPressed: null,
+                  child: TextButton(
+                      onPressed: showManageModal,
                       child: Text(
                         "관리",
                         style: TextStyle(
@@ -92,11 +169,9 @@ class _DiaryItemPageState extends State<DiaryItemPage> {
                               height: 56,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
-                                child: widget.authorImagePath != "" ||
-                                    widget.authorImagePath != "null" ||
-                                        widget.authorImagePath != null
+                                child: widget.authorImagePath != null
                                     ? Image.network(
-                                        widget.authorImagePath.toString(),
+                                        widget.authorImagePath!,
                                         height: 56,
                                         width: 56,
                                         fit: BoxFit.cover)
@@ -172,7 +247,7 @@ class _DiaryItemPageState extends State<DiaryItemPage> {
                 ],
               ),
               const SizedBox(height: 24),
-              widget.diaryData['postImagePath'].isNotEmpty
+              widget.diaryData['postImagePath'] != null
                   ? Image.network(
                       widget.diaryData['postImagePath'],
                       fit: BoxFit.cover,

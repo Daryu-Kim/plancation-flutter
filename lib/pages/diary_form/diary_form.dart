@@ -23,8 +23,8 @@ class DiaryForm extends StatefulWidget {
       appBarBtn,
       postTitle,
       postContent,
-      postImagePath,
       postID;
+  final String? postImagePath;
 
   @override
   _DiaryFormState createState() => _DiaryFormState();
@@ -33,11 +33,11 @@ class DiaryForm extends StatefulWidget {
 class _DiaryFormState extends State<DiaryForm> {
   late bool isTitleEntered = widget.postTitle.isNotEmpty ? true : false;
   late bool isContentEntered = widget.postContent.isNotEmpty ? true : false;
-  late bool isPhotoSelected = widget.postImagePath.isNotEmpty ? true : false;
+  late bool isPhotoSelected = widget.postImagePath != null ? true : false;
 
   late String diaryTitle = widget.postTitle;
   late String diaryContent = widget.postContent;
-  late String diaryImagePath = widget.postImagePath;
+  late String? diaryImagePath = widget.postImagePath;
   File? diaryImageFile;
 
   late final TextEditingController titleFieldController =
@@ -76,14 +76,14 @@ class _DiaryFormState extends State<DiaryForm> {
         await ImageSelector().getDiaryImage(ImageSource.gallery);
     setState(() {
       isPhotoSelected = true;
-      diaryImagePath = "";
+      diaryImagePath = null;
       diaryImageFile = selectedImage;
     });
   }
 
   photoRemoved() {
     diaryImageFile = null;
-    diaryImagePath = "";
+    diaryImagePath = null;
     setState(() {
       isPhotoSelected = false;
     });
@@ -99,6 +99,7 @@ class _DiaryFormState extends State<DiaryForm> {
       diaryImagePath =
           await StorageManage().uploadDiaryImage(diaryImageFile, postID);
     }
+
     await StoreManage().updateDiaryImage(postID, diaryImagePath);
 
     Navigator.pop(context);
@@ -184,11 +185,11 @@ class _DiaryFormState extends State<DiaryForm> {
                               width: 2),
                           borderRadius: BorderRadius.circular(8)),
                       child: isPhotoSelected
-                          ? diaryImagePath.isNotEmpty
+                          ? diaryImagePath != null
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(6),
                                   child: Image.network(
-                                    diaryImagePath,
+                                    diaryImagePath!,
                                     height: 80,
                                     width: 80,
                                     fit: BoxFit.cover,

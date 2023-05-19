@@ -17,7 +17,7 @@ class HomeDiaryPage extends StatefulWidget {
   HomeDiaryPageState createState() => HomeDiaryPageState();
 }
 
-class HomeDiaryPageState extends State<HomeDiaryPage> {
+class HomeDiaryPageState extends State<HomeDiaryPage> with WidgetsBindingObserver {
   String calendarID = "";
   List postSnapshot = List.empty(growable: true);
   Timestamp currentTimestamp = Timestamp.now();
@@ -32,18 +32,17 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
                     appBarBtn: '등록',
                     postTitle: "",
                     postContent: "",
-                    postImagePath: "",
+                    postImagePath: null,
                     postID: "",
                   ),
               fullscreenDialog: true));
     }
   }
 
-  Future<void> onRefresh(Timestamp timestamp) async {
+  Future<void> getPostData(Timestamp timestamp) async {
     List tempList = List.empty(growable: true);
     String tempCalendarID = await getCalendarID();
-    Timestamp endRange =
-        Timestamp.fromDate(timestamp.toDate().add(const Duration(days: 1)));
+    Timestamp endRange = Timestamp.fromDate(timestamp.toDate().add(const Duration(days: 1)));
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("Calendars")
         .doc(tempCalendarID)
@@ -64,9 +63,23 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
   }
 
   @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
-    onRefresh(currentTimestamp);
+    WidgetsBinding.instance.addObserver(this);
+    getPostData(Timestamp.fromDate(DateTime.now()));
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      getPostData(currentTimestamp);
+    }
   }
 
   @override
@@ -87,51 +100,42 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
           ),
         ),
       ),
-      body: RefreshIndicator(
-        onRefresh: () => onRefresh(currentTimestamp),
-        child: Container(
-          padding: BodyStyle().bodyPadding,
-          alignment: BodyStyle().bodyAlignTopCenter,
-          child: Column(
-            children: [
-              // MonthPicker(
-              //     initialDate: currentTimestamp.toDate(),
-              //     firstDate: DateTime.utc(DateTime.now().year - 1),
-              //     lastDate: DateTime.now(),
-              //     onDateSelected: (selectedDate) {
+      body: Container(
+        padding: BodyStyle().bodyPadding,
+        alignment: BodyStyle().bodyAlignTopCenter,
+        child: Column(
+          children: [
+            CalendarTimeline(
+              initialDate: currentTimestamp.toDate(),
+              firstDate: DateTime.utc(DateTime.now().year - 1),
+              lastDate: DateTime.now(),
+              onDateSelected: (selectedDate) {
+                setState(() {
+                  currentTimestamp = Timestamp.fromDate(selectedDate);
+                });
+                getPostData(currentTimestamp);
+                Logger().e(selectedDate);
+              },
 
-              //     },
-              // ),
-              CalendarTimeline(
-                initialDate: currentTimestamp.toDate(),
-                firstDate: DateTime.utc(DateTime.now().year - 1),
-                lastDate: DateTime.now(),
-                onDateSelected: (selectedDate) {
-                  setState(() {
-                    currentTimestamp = Timestamp.fromDate(selectedDate);
-                  });
-                  onRefresh(currentTimestamp);
-                  Logger().e(selectedDate);
-                },
-                activeBackgroundDayColor:
-                    Theme.of(context).colorScheme.tertiary,
-                dayColor: Theme.of(context).colorScheme.primary,
-                showYears: true,
-              ),
-              const SizedBox(height: 24),
-              const SizedBox(height: 24),
-              postSnapshot.isNotEmpty
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: postSnapshot.length,
-                      itemBuilder: (ctx, index) => DiaryListPost(
-                        diaryData: postSnapshot[index],
-                        calendarID: calendarID,
-                      ),
+              activeBackgroundDayColor: Theme.of(context).colorScheme.tertiary,
+              dayColor: Theme.of(context).colorScheme.primary,
+              showYears: true,
+            ),
+            const SizedBox(height: 24),
+            postSnapshot.isNotEmpty
+                    ? Flexible(
+              fit: FlexFit.tight,
+                      child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: postSnapshot.length,
+                          itemBuilder: (ctx, index) => DiaryListPost(
+                            diaryData: postSnapshot[index],
+                            calendarID: calendarID,
+                          ),
+                        ),
                     )
-                  : Flexible(
-                      fit: FlexFit.tight,
+                    : Flexible(
+              fit: FlexFit.tight,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -151,8 +155,7 @@ class HomeDiaryPageState extends State<HomeDiaryPage> {
                         ],
                       ),
                     ),
-            ],
-          ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(

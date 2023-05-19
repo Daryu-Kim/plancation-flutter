@@ -40,7 +40,6 @@ dependencies:
   google_sign_in: ^6.1.0
   image_picker: ^0.8.7+3
   firebase_storage: ^11.1.1
-  kakao_flutter_sdk_user: ^1.4.2
   http: ^0.13.6
   flutter_secure_storage: ^8.0.0
   flutter_svg: ^2.0.5
@@ -52,7 +51,6 @@ dependencies:
   url_strategy: ^0.2.0
   cloud_firestore: ^4.5.2
   flutter_speed_dial: ^6.2.0
-  image_picker_web: ^3.0.0+1
   file_picker: ^5.3.0
   image_cropper: ^3.0.3
   shared_preferences: ^2.1.1
@@ -60,6 +58,7 @@ dependencies:
   flutter_slidable: ^3.0.0
   flutter_keyboard_size: ^1.0.1
   calendar_timeline: ^1.1.2
+  scroll_date_picker: ^3.7.1
 
 dev_dependencies:
   flutter_test:

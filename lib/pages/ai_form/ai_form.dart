@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:plancation/pages/ai_form/ai_result.dart';
 
 class AIFormPage extends StatefulWidget {
@@ -10,16 +11,16 @@ class AIFormPage extends StatefulWidget {
 }
 
 class _AIFormPageState extends State<AIFormPage> {
-  var selectedStartDate;
-  var selectedEndDate;
-  var selectedStartTime;
-  var selectedEndTime;
+  DateTime? selectedStartDate, selectedEndDate;
+  TimeOfDay? selectedStartTime, selectedEndTime;
+
+  String? enteredSubject;
   final TextEditingController _controller = TextEditingController();
   @override
   void initState() {
     super.initState();
     selectedStartDate = DateTime.now();
-    selectedEndDate = DateTime.now();
+    selectedEndDate = DateTime.now().add(const Duration(days: 1));
     selectedStartTime = TimeOfDay.now();
     selectedEndTime = TimeOfDay.now();
   }
@@ -79,62 +80,81 @@ class _AIFormPageState extends State<AIFormPage> {
                       color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      CupertinoButton(
-                        onPressed: () {
-                          showCupertinoModalPopup(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return SizedBox(
-                                height: 216,
-                                child: CupertinoDatePicker(
-                                  mode: CupertinoDatePickerMode.date,
-                                  initialDateTime: DateTime.now(),
-                                  minimumDate: DateTime(2020),
-                                  maximumDate: DateTime(2025),
-                                  onDateTimeChanged: (DateTime pickedDate) {
-                                    setState(() {
-                                      selectedStartDate = pickedDate;
-                                    });
-                                  },
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: Text(
-                          '${selectedStartDate.year}-${selectedStartDate.month}-${selectedStartDate.day}',
+                  const SizedBox(height: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.outline,
+                          width: 1,
+                          style: BorderStyle.solid),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        CupertinoButton(
+                          onPressed: () {
+                            showCupertinoModalPopup(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SizedBox(
+                                  height: 300,
+                                  child: CupertinoDatePicker(
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    mode: CupertinoDatePickerMode.date,
+                                    initialDateTime: selectedStartDate,
+                                    minimumDate: DateTime.now()
+                                        .add(const Duration(minutes: -5)),
+                                    maximumDate: selectedEndDate,
+                                    onDateTimeChanged: (DateTime pickedDate) {
+                                      setState(() {
+                                        selectedStartDate = pickedDate;
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Text(
+                            DateFormat('yyyy-MM-dd').format(selectedStartDate!),
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.tertiary),
+                          ),
                         ),
-                      ),
-                      CupertinoButton(
-                        onPressed: () {
-                          showCupertinoModalPopup(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return SizedBox(
-                                height: 216,
-                                child: CupertinoDatePicker(
-                                  mode: CupertinoDatePickerMode.date,
-                                  initialDateTime: DateTime.now(),
-                                  minimumDate: DateTime(2020),
-                                  maximumDate: DateTime(2025),
-                                  onDateTimeChanged: (DateTime pickedDate) {
-                                    setState(() {
-                                      selectedEndDate = pickedDate;
-                                    });
-                                  },
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: Text(
-                          '${selectedEndDate.year}-${selectedEndDate.month}-${selectedEndDate.day}',
+                        CupertinoButton(
+                          onPressed: () {
+                            showCupertinoModalPopup(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SizedBox(
+                                  height: 300,
+                                  child: CupertinoDatePicker(
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    mode: CupertinoDatePickerMode.date,
+                                    initialDateTime: selectedEndDate,
+                                    minimumDate: selectedStartDate,
+                                    maximumDate: DateTime.now()
+                                        .add(const Duration(days: 730)),
+                                    onDateTimeChanged: (DateTime pickedDate) {
+                                      setState(() {
+                                        selectedEndDate = pickedDate;
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Text(DateFormat('yyyy-MM-dd')
+                              .format(selectedEndDate!)),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -154,62 +174,104 @@ class _AIFormPageState extends State<AIFormPage> {
                       color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      CupertinoButton(
-                        onPressed: () {
-                          showCupertinoModalPopup(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return SizedBox(
-                                height: 216,
-                                child: CupertinoDatePicker(
-                                  mode: CupertinoDatePickerMode.time,
-                                  initialDateTime: DateTime.now(),
-                                  onDateTimeChanged: (DateTime pickedTime) {
-                                    setState(() {
-                                      selectedStartTime = pickedTime;
-                                    });
-                                  },
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: Text(
-                          selectedStartTime != null
-                              ? '${selectedStartTime!.hour}:${selectedStartTime!.minute}'
-                              : '시간 선택',
+                  const SizedBox(height: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.outline,
+                          width: 1,
+                          style: BorderStyle.solid),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        CupertinoButton(
+                          onPressed: () {
+                            showCupertinoModalPopup(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SizedBox(
+                                  height: 300,
+                                  child: CupertinoDatePicker(
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    mode: CupertinoDatePickerMode.time,
+                                    initialDateTime: DateTime(
+                                      selectedStartDate!.year,
+                                      selectedStartDate!.month,
+                                      selectedStartDate!.day,
+                                      selectedStartTime!.hour,
+                                      selectedStartTime!.minute,
+                                    ),
+                                    onDateTimeChanged: (pickedTime) {
+                                      setState(() {
+                                        selectedStartTime =
+                                            TimeOfDay.fromDateTime(pickedTime);
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Text(
+                            selectedStartTime != null
+                                ? DateFormat('HH : mm').format(DateTime(
+                                    selectedStartDate!.year,
+                                    selectedStartDate!.month,
+                                    selectedStartDate!.day,
+                                    selectedStartTime!.hour,
+                                    selectedStartTime!.minute,
+                                  ))
+                                : '시간 선택',
+                          ),
                         ),
-                      ),
-                      CupertinoButton(
-                        onPressed: () {
-                          showCupertinoModalPopup(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return SizedBox(
-                                height: 216,
-                                child: CupertinoDatePicker(
-                                  mode: CupertinoDatePickerMode.time,
-                                  initialDateTime: DateTime.now(),
-                                  onDateTimeChanged: (DateTime pickedTime) {
-                                    setState(() {
-                                      selectedEndTime = pickedTime;
-                                    });
-                                  },
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: Text(
-                          selectedEndTime != null
-                              ? '${selectedEndTime!.hour}:${selectedEndTime!.minute}'
-                              : '시간 선택',
+                        CupertinoButton(
+                          onPressed: () {
+                            showCupertinoModalPopup(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SizedBox(
+                                  height: 300,
+                                  child: CupertinoDatePicker(
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    mode: CupertinoDatePickerMode.time,
+                                    initialDateTime: DateTime(
+                                      selectedEndDate!.year,
+                                      selectedEndDate!.month,
+                                      selectedEndDate!.day,
+                                      selectedEndTime!.hour,
+                                      selectedEndTime!.minute,
+                                    ),
+                                    onDateTimeChanged: (DateTime pickedTime) {
+                                      setState(() {
+                                        selectedEndTime =
+                                            TimeOfDay.fromDateTime(pickedTime);
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Text(
+                            selectedEndTime != null
+                                ? DateFormat('HH : mm').format(DateTime(
+                                    selectedEndDate!.year,
+                                    selectedEndDate!.month,
+                                    selectedEndDate!.day,
+                                    selectedEndTime!.hour,
+                                    selectedEndTime!.minute,
+                                  ))
+                                : '시간 선택',
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -233,7 +295,9 @@ class _AIFormPageState extends State<AIFormPage> {
                     height: 18,
                   ),
                   TextField(
-                    onChanged: null,
+                    onChanged: (value) {
+                      enteredSubject = value;
+                    },
                     controller: null,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
@@ -263,9 +327,6 @@ class _AIFormPageState extends State<AIFormPage> {
                   ),
                 ],
               ),
-              TextField(
-                controller: _controller,
-              ),
               Column(
                 children: [
                   SizedBox(
@@ -273,7 +334,9 @@ class _AIFormPageState extends State<AIFormPage> {
                     height: 48,
                     child: FilledButton(
                         onPressed: () {
-                          String prompt = _controller.text;
+                          // String prompt = _controller.text;
+                          String prompt =
+                              '$selectedStartDate 부터 $selectedEndDate 까지 $enteredSubject을 할거야 활동시간은 $selectedStartTime 부터 $selectedEndTime 까지고 일정은 여유있게 계획 세워줘';
                           Navigator.push(
                             context,
                             MaterialPageRoute(
