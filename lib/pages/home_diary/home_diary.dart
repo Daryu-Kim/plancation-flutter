@@ -39,7 +39,7 @@ class HomeDiaryPageState extends State<HomeDiaryPage> with WidgetsBindingObserve
     }
   }
 
-  Future<void> onRefresh(Timestamp timestamp) async {
+  Future<void> getPostData(Timestamp timestamp) async {
     List tempList = List.empty(growable: true);
     String tempCalendarID = await getCalendarID();
     Timestamp endRange = Timestamp.fromDate(timestamp.toDate().add(const Duration(days: 1)));
@@ -72,13 +72,13 @@ class HomeDiaryPageState extends State<HomeDiaryPage> with WidgetsBindingObserve
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    onRefresh(Timestamp.fromDate(DateTime.now()));
+    getPostData(Timestamp.fromDate(DateTime.now()));
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      onRefresh(currentTimestamp);
+      getPostData(currentTimestamp);
     }
   }
 
@@ -100,66 +100,63 @@ class HomeDiaryPageState extends State<HomeDiaryPage> with WidgetsBindingObserve
           ),
         ),
       ),
-      body: RefreshIndicator(
-        onRefresh: () => onRefresh(currentTimestamp),
-        child: Container(
-          padding: BodyStyle().bodyPadding,
-          alignment: BodyStyle().bodyAlignTopCenter,
-          child: Column(
-            children: [
-              CalendarTimeline(
-                initialDate: currentTimestamp.toDate(),
-                firstDate: DateTime.utc(DateTime.now().year - 1),
-                lastDate: DateTime.now(),
-                onDateSelected: (selectedDate) {
-                  setState(() {
-                    currentTimestamp = Timestamp.fromDate(selectedDate);
-                  });
-                  onRefresh(currentTimestamp);
-                  Logger().e(selectedDate);
-                },
+      body: Container(
+        padding: BodyStyle().bodyPadding,
+        alignment: BodyStyle().bodyAlignTopCenter,
+        child: Column(
+          children: [
+            CalendarTimeline(
+              initialDate: currentTimestamp.toDate(),
+              firstDate: DateTime.utc(DateTime.now().year - 1),
+              lastDate: DateTime.now(),
+              onDateSelected: (selectedDate) {
+                setState(() {
+                  currentTimestamp = Timestamp.fromDate(selectedDate);
+                });
+                getPostData(currentTimestamp);
+                Logger().e(selectedDate);
+              },
 
-                activeBackgroundDayColor: Theme.of(context).colorScheme.tertiary,
-                dayColor: Theme.of(context).colorScheme.primary,
-                showYears: true,
-              ),
-              const SizedBox(height: 24),
-              postSnapshot.isNotEmpty
-                      ? Flexible(
-                fit: FlexFit.tight,
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemCount: postSnapshot.length,
-                            itemBuilder: (ctx, index) => DiaryListPost(
-                              diaryData: postSnapshot[index],
-                              calendarID: calendarID,
-                            ),
+              activeBackgroundDayColor: Theme.of(context).colorScheme.tertiary,
+              dayColor: Theme.of(context).colorScheme.primary,
+              showYears: true,
+            ),
+            const SizedBox(height: 24),
+            postSnapshot.isNotEmpty
+                    ? Flexible(
+              fit: FlexFit.tight,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemCount: postSnapshot.length,
+                          itemBuilder: (ctx, index) => DiaryListPost(
+                            diaryData: postSnapshot[index],
+                            calendarID: calendarID,
                           ),
-                      )
-                      : Flexible(
-                fit: FlexFit.tight,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/svgs/notification_important.svg',
-                              width: 96,
-                              color: Theme.of(context).colorScheme.tertiary,
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "기록이 없습니다!",
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.tertiary,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20),
-                            )
-                          ],
                         ),
+                    )
+                    : Flexible(
+              fit: FlexFit.tight,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svgs/notification_important.svg',
+                            width: 96,
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "기록이 없습니다!",
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.tertiary,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20),
+                          )
+                        ],
                       ),
-            ],
-          ),
+                    ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
