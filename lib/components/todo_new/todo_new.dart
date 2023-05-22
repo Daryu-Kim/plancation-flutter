@@ -1,19 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+// import 'package:plancation/modules/firebase_storage.dart';
 
-class TodoNew extends StatefulWidget {
-  const TodoNew({super.key});
+class TodoForm extends StatefulWidget {
+  const TodoForm({super.key});
 
   @override
-  _TodoNewState createState() => _TodoNewState();
+  _TodoFormState createState() => _TodoFormState();
 }
 
-class _TodoNewState extends State<TodoNew> {
-  // final isSelected = <bool>[false, false, false];
+class _TodoFormState extends State<TodoForm> {
+  //제목이 비어있는거 확인용
+  late bool isTitleEntered;
+  //하루종일, 구간설정 토글버튼
   var isSelected1 = [false, true];
   var isSelected2 = [false, true];
-  var isSelected3 = [false, true];
 
   //참여자 목록 변수
   String member = '나';
@@ -33,19 +35,42 @@ class _TodoNewState extends State<TodoNew> {
   DateTime? selectedStartDate, selectedEndDate;
   TimeOfDay? selectedStartTime, selectedEndTime;
 
-  // DateTime dateTime = DateTime(2023, 2, 1, 10, 20);
-
-  String? enteredSubject;
-  final TextEditingController _controller = TextEditingController();
+  //할일 제목 컨트롤
+  // TextEditingController titleFieldController = TextEditingController();
+  String todoTitle = "";
 
   @override
   void initState() {
     super.initState();
     selectedStartDate = DateTime.now();
-    selectedEndDate = DateTime.now();
-    selectedStartTime = TimeOfDay.now();
-    selectedEndTime = TimeOfDay.now();
+    selectedEndDate = DateTime.now().add(const Duration(days: 1));
+    // selectedStartTime = TimeOfDay.now();
+    // selectedEndTime = TimeOfDay.now();
   }
+
+  //todo제목 바뀔 때
+  todoTitleChange(String text) {
+    todoTitle = text;
+    if (text.isNotEmpty) {
+      setState(() {
+        isTitleEntered = true;
+      });
+    } else {
+      setState(() {
+        isTitleEntered = false;
+      });
+    }
+    setState(() {
+      todoTitle = text;
+    });
+  }
+
+  // Future<void> submitTodo(context) async {
+  //   isTitleEntered == true
+  //       ? await StoreManage().createTodo(
+  //           selectedStartDate, selectedEndDate, todoTitle, member, notice)
+  //       : null;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +99,7 @@ class _TodoNewState extends State<TodoNew> {
             ),
           ),
         ),
+
         // Row(
         //   children: const [
         //     Padding(
@@ -88,19 +114,29 @@ class _TodoNewState extends State<TodoNew> {
         //     ),
         //   ],
         // ),
+
         actions: [
-          Row(
-            children: const [
-              Text(
+          TextButton(
+              onPressed: () {},
+              child: const Text(
                 '등록',
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.white,
                 ),
-              ),
-              Padding(padding: EdgeInsets.all(10)),
-            ],
-          )
+              ))
+          // Row(
+          //   children: const [
+          //     Text(
+          //       '등록',
+          //       style: TextStyle(
+          //         fontSize: 18,
+          //         color: Colors.white,
+          //       ),
+          //     ),
+          //     Padding(padding: EdgeInsets.all(10)),
+          //   ],
+          // )
         ],
       ),
       body: Container(
@@ -108,12 +144,10 @@ class _TodoNewState extends State<TodoNew> {
         child: Column(
           children: [
             TextField(
-              onChanged: (value) {
-                // enteredSubject = value;
-              },
+              onChanged: todoTitleChange,
               controller: null,
               keyboardType: TextInputType.multiline,
-              maxLines: null,
+              maxLines: 1,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(10),
                 hintText: "할 일 제목",
@@ -139,6 +173,7 @@ class _TodoNewState extends State<TodoNew> {
                 ),
               ),
             ),
+
             const SizedBox(
               height: 16,
             ),
@@ -191,77 +226,8 @@ class _TodoNewState extends State<TodoNew> {
               ),
             ),
 
-            // 구간설정의 단위기간 타임피커 설정
-            // LayoutBuilder(
-            //   builder: (context, constraints) => ToggleButtons(
-            //     constraints:
-            //         BoxConstraints.expand(width: constraints.maxWidth / 2.016),
-            //     borderColor: Theme.of(context).colorScheme.outlineVariant,
-            //     // fillColor: Theme.of(context).colorScheme.tertiary,
-            //     borderWidth: 1,
-            //     selectedBorderColor:
-            //         Theme.of(context).colorScheme.outlineVariant,
-            //     selectedColor: Colors.white,
-            //     borderRadius: const BorderRadius.only(
-            //       bottomLeft: Radius.circular(8),
-            //       bottomRight: Radius.circular(8),
-            //     ),
-            //     onPressed: (int index) {
-            //       setState(() {
-            //         for (int buttonIndex = 0;
-            //             buttonIndex < isSelected2.length;
-            //             buttonIndex++) {
-            //           if (buttonIndex == index) {
-            //             isSelected2[buttonIndex] = true;
-            //           } else {
-            //             isSelected2[buttonIndex] = false;
-            //           }
-            //         }
-            //       });
-            //     },
-            //     isSelected: isSelected2,
-            //     children: [
-            //       CupertinoButton(
-            //         onPressed: () {
-            //           showCupertinoModalPopup(
-            //             context: context,
-            //             builder: (BuildContext context) {
-            //               return SizedBox(
-            //                 height: 300,
-            //                 child: CupertinoDatePicker(
-            //                   backgroundColor:
-            //                       Theme.of(context).colorScheme.background,
-            //                   mode: CupertinoDatePickerMode.date,
-            //                   initialDateTime: selectedStartDate,
-            //                   minimumDate: DateTime.now()
-            //                       .add(const Duration(minutes: -5)),
-            //                   maximumDate: selectedEndDate,
-            //                   onDateTimeChanged: (DateTime pickedDate) {
-            //                     setState(() {
-            //                       selectedStartDate = pickedDate;
-            //                     });
-            //                   },
-            //                 ),
-            //               );
-            //             },
-            //           );
-            //         },
-            //         child: Text(
-            //           DateFormat('yyyy-MM-dd').format(selectedStartDate!),
-            //           style: TextStyle(
-            //               color: Theme.of(context).colorScheme.tertiary),
-            //         ),
-            //       ),
-            //       const Padding(
-            //         padding: EdgeInsets.all(8.0),
-            //         child: Text(
-            //           '구간설정',
-            //           style: TextStyle(fontSize: 16),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            // 구간설정의 단위기간 타임피커 설정 ----- 이부분에 붙여넣기?
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -310,6 +276,7 @@ class _TodoNewState extends State<TodoNew> {
                                   onDateTimeChanged: (DateTime newTime) {
                                     setState(() {
                                       selectedStartDate = newTime;
+                                      print(selectedStartDate);
                                     });
                                   },
                                   use24hFormat: true,
@@ -363,6 +330,7 @@ class _TodoNewState extends State<TodoNew> {
                                   onDateTimeChanged: (DateTime newTime) {
                                     setState(() {
                                       selectedEndDate = newTime;
+                                      print(selectedEndDate);
                                     });
                                   },
                                   use24hFormat: true,
@@ -441,6 +409,7 @@ class _TodoNewState extends State<TodoNew> {
                 onSelected: (String newvalue) {
                   setState(() {
                     member = newvalue;
+                    print(member);
                   });
                 },
               ),
@@ -517,6 +486,7 @@ class _TodoNewState extends State<TodoNew> {
                 onSelected: (String newvalue) {
                   setState(() {
                     notice = newvalue;
+                    print(notice);
                   });
                 },
               ),

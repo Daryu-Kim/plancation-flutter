@@ -227,4 +227,39 @@ class StoreManage {
       Logger().e(e);
     }
   }
+
+//할 일 추가
+  Future<String> createTodo(String startTime, String endTime, String todoTitle,
+      String selectUsers, String alert) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String calendarID = "";
+
+      if (prefs.getString("selectedCalendarID") != null) {
+        calendarID = prefs.getString("selectedCalendarID")!;
+      } else {
+        calendarID = AuthManage().getUser()!.uid;
+      }
+
+      FirebaseFirestore.instance
+          .collection("Calendars")
+          .doc(calendarID)
+          .collection("Events")
+          .add({
+        'eventSTime': startTime,
+        'eventETime': endTime,
+        'eventTitle': todoTitle,
+        'eventUsers': selectUsers, //할일 유저의 uid?
+        'eventAlerts': alert, // 알림
+        'eventAuthorID': AuthManage().getUser()!.uid, //이벤트 제작자 고유 ID
+        'eventTodo': false, //false 면 할 일, true 면 일정
+        'eventCheckdUsers': [], // 할 일 체크 초기설정 [] 빈 배열
+      });
+
+      return "";
+    } catch (e) {
+      Logger().e(e);
+      return "";
+    }
+  }
 }
