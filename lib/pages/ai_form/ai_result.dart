@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/pages/ai_form/ai_loading.dart';
-import 'package:plancation/styles/app_bar_style.dart';
 import 'package:plancation/styles/body_style.dart';
 
 class AIResultPage extends StatefulWidget {
@@ -13,49 +13,64 @@ class AIResultPage extends StatefulWidget {
 }
 
 class AIResultPageState extends State<AIResultPage> {
+  String generatedText = '';
+
   @override
   void initState() {
     super.initState();
     Logger().e(widget.prompt);
+    generateText(widget.prompt).then((text) {
+      setState(() {
+        generatedText = text;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(AppBarStyle().appBarSize),
-          child: SafeArea(
-            child: Container(
-              color: AppBarStyle().appBarBackgroundColor(context),
-              height: AppBarStyle().appBarSize,
-              child: Center(
-                child: Text(
-                  '결과창',
-                  style: AppBarStyle().appBarTitleStyle,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: SafeArea(
+          child: Container(
+            color: Theme.of(context).colorScheme.secondary,
+            height: 60,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  width: 36,
+                  child: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.chevron_left_rounded,
+                        color: CupertinoColors.white, size: 28),
+                  ),
                 ),
-              ),
+                const Text(
+                  '결과창',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: CupertinoColors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(width: 36)
+              ],
             ),
           ),
         ),
-        body: SingleChildScrollView(
-            padding: BodyStyle().bodyPadding,
-            child: Container(
-                alignment: BodyStyle().bodyAlignTopCenter,
-                height: MediaQuery.of(context).size.height - 172,
-                child: Flexible(
-                  fit: FlexFit.tight,
-                  child: FutureBuilder<String>(
-                    future: generateText(widget.prompt),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        return Text('${snapshot.data}');
-                      }
-                    },
-                  ),
-                ))));
+      ),
+      body: Container(
+        padding: BodyStyle().bodyPadding,
+        child: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return Text(generatedText);
+          },
+        ),
+      ),
+    );
   }
 }
