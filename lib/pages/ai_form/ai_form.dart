@@ -346,7 +346,7 @@ class _AIFormPageState extends State<AIFormPage> {
                     child: FilledButton(
                         onPressed: () {
                           String prompt =
-                              '${DateFormat('yyyy-MM-dd').format(selectedStartDate!)}부터 ${DateFormat('yyyy-MM-dd').format(selectedEndDate!)}까지 $enteredSubject을 할거야 활동시간은 ${DateFormat('HH:mm').format(DateTime(selectedStartDate!.year, selectedStartDate!.month, selectedStartDate!.day, selectedStartTime!.hour, selectedStartTime!.minute))}부터 ${DateFormat('HH:mm').format(DateTime(selectedEndDate!.year, selectedEndDate!.month, selectedEndDate!.day, selectedEndTime!.hour, selectedEndTime!.minute))}까지고 일정은 여유있게 계획 세워줘';
+                              '${DateFormat('yyyy-MM-dd').format(selectedStartDate!)}부터 ${DateFormat('yyyy-MM-dd').format(selectedEndDate!)}까지 $enteredSubject을 할거야 활동시간은 ${DateFormat('HH:mm').format(DateTime(selectedStartDate!.year, selectedStartDate!.month, selectedStartDate!.day, selectedStartTime!.hour, selectedStartTime!.minute))}부터 ${DateFormat('HH:mm').format(DateTime(selectedEndDate!.year, selectedEndDate!.month, selectedEndDate!.day, selectedEndTime!.hour, selectedEndTime!.minute))}까지고 일정은 여유있게 계획을 json 형식으로 출력하되, 각 일정마다 날짜의 key는 "date"로, 시작 시간의 key는 "startTime"으로, 종료 시간의 key는 "endTime"으로, 일정 내용의 key는 "content"로 구성하여 1시간 단위로 자세하게 출력해줘';
                           Navigator.push(
                             context,
                             MaterialPageRoute(
