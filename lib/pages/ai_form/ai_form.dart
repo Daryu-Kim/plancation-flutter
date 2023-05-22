@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:plancation/pages/ai_form/ai_result.dart';
 
 class AIFormPage extends StatefulWidget {
-  const AIFormPage({super.key});
+  const AIFormPage({Key? key}) : super(key: key);
 
   @override
   _AIFormPageState createState() => _AIFormPageState();
@@ -16,6 +16,7 @@ class _AIFormPageState extends State<AIFormPage> {
 
   String? enteredSubject;
   final TextEditingController _controller = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -109,9 +110,11 @@ class _AIFormPageState extends State<AIFormPage> {
                                         .add(const Duration(minutes: -5)),
                                     maximumDate: selectedEndDate,
                                     onDateTimeChanged: (DateTime pickedDate) {
-                                      setState(() {
-                                        selectedStartDate = pickedDate;
-                                      });
+                                      setState(
+                                        () {
+                                          selectedStartDate = pickedDate;
+                                        },
+                                      );
                                     },
                                   ),
                                 );
@@ -124,6 +127,7 @@ class _AIFormPageState extends State<AIFormPage> {
                                 color: Theme.of(context).colorScheme.tertiary),
                           ),
                         ),
+                        const Text('-'),
                         CupertinoButton(
                           onPressed: () {
                             showCupertinoModalPopup(
@@ -165,7 +169,7 @@ class _AIFormPageState extends State<AIFormPage> {
                       color: Theme.of(context).colorScheme.outline,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 32),
                   Text(
                     '활동 시간',
                     style: TextStyle(
@@ -218,7 +222,7 @@ class _AIFormPageState extends State<AIFormPage> {
                           },
                           child: Text(
                             selectedStartTime != null
-                                ? DateFormat('HH : mm').format(DateTime(
+                                ? DateFormat('HH:mm').format(DateTime(
                                     selectedStartDate!.year,
                                     selectedStartDate!.month,
                                     selectedStartDate!.day,
@@ -228,6 +232,7 @@ class _AIFormPageState extends State<AIFormPage> {
                                 : '시간 선택',
                           ),
                         ),
+                        const Text('-'),
                         CupertinoButton(
                           onPressed: () {
                             showCupertinoModalPopup(
@@ -260,7 +265,7 @@ class _AIFormPageState extends State<AIFormPage> {
                           },
                           child: Text(
                             selectedEndTime != null
-                                ? DateFormat('HH : mm').format(DateTime(
+                                ? DateFormat('HH:mm').format(DateTime(
                                     selectedEndDate!.year,
                                     selectedEndDate!.month,
                                     selectedEndDate!.day,
@@ -282,7 +287,7 @@ class _AIFormPageState extends State<AIFormPage> {
                       color: Theme.of(context).colorScheme.outline,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 32),
                   Text(
                     '계획 주제',
                     style: TextStyle(
@@ -298,21 +303,27 @@ class _AIFormPageState extends State<AIFormPage> {
                     onChanged: (value) {
                       enteredSubject = value;
                     },
-                    controller: null,
+                    controller: _controller,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
+                    textInputAction: TextInputAction.done,
+                    onEditingComplete: () {
+                      FocusScope.of(context).unfocus();
+                    },
                     decoration: InputDecoration(
-                        hintText: "Ex) 제주도 여행, 개발일정, 발표준비 등",
-                        hintStyle: TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.outlineVariant),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.outline,
-                              width: 2,
-                              style: BorderStyle.solid),
-                        )),
+                      hintText: "Ex) 제주도 여행, 개발일정, 발표준비 등",
+                      hintStyle: TextStyle(
+                        color: Theme.of(context).colorScheme.outlineVariant,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.outline,
+                          width: 2,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 18,
@@ -334,9 +345,8 @@ class _AIFormPageState extends State<AIFormPage> {
                     height: 48,
                     child: FilledButton(
                         onPressed: () {
-                          // String prompt = _controller.text;
                           String prompt =
-                              '$selectedStartDate 부터 $selectedEndDate 까지 $enteredSubject을 할거야 활동시간은 $selectedStartTime 부터 $selectedEndTime 까지고 일정은 여유있게 계획 세워줘';
+                              '${DateFormat('yyyy-MM-dd').format(selectedStartDate!)}부터 ${DateFormat('yyyy-MM-dd').format(selectedEndDate!)}까지 $enteredSubject을 할거야 활동시간은 ${DateFormat('HH:mm').format(DateTime(selectedStartDate!.year, selectedStartDate!.month, selectedStartDate!.day, selectedStartTime!.hour, selectedStartTime!.minute))}부터 ${DateFormat('HH:mm').format(DateTime(selectedEndDate!.year, selectedEndDate!.month, selectedEndDate!.day, selectedEndTime!.hour, selectedEndTime!.minute))}까지고 일정은 여유있게 계획 세워줘';
                           Navigator.push(
                             context,
                             MaterialPageRoute(
