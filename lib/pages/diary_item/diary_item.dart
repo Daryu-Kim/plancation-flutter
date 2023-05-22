@@ -21,11 +21,85 @@ class DiaryItemPage extends StatefulWidget {
 }
 
 class DiaryItemPageState extends State<DiaryItemPage> {
+  showManageModal() {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 217 - 24,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.background,
+              borderRadius: BorderRadius.circular(16)
+            ),
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),
+                    shape: BoxShape.rectangle,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  width: double.infinity,
+                  height: 48,
+                  child: const Text(
+                    "게시물 관리",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: null,
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: double.infinity,
+                    height: 72,
+                    child: Text(
+                      "수정",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                ),
+                InkWell(
+                  onTap: null,
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: double.infinity,
+                    height: 72,
+                    child: Text(
+                      "삭제",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     Logger().e(widget.authorImagePath);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,8 +134,8 @@ class DiaryItemPageState extends State<DiaryItemPage> {
                 Container(
                   alignment: Alignment.centerRight,
                   width: 64,
-                  child: const TextButton(
-                      onPressed: null,
+                  child: TextButton(
+                      onPressed: showManageModal,
                       child: Text(
                         "관리",
                         style: TextStyle(

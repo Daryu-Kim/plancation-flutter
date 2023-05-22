@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:plancation/styles/app_bar_style.dart';
 import 'package:plancation/styles/body_style.dart';
 import 'package:http/http.dart' as http;
@@ -27,6 +28,7 @@ Future<String> generateText(String prompt) async {
 
   Map<String, dynamic> newresponse =
       jsonDecode(utf8.decode(response.bodyBytes));
+  Logger().e(newresponse);
 
   return newresponse['choices'][0]['text'];
 }

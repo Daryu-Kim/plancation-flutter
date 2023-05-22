@@ -1,5 +1,4 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plancation/modules/another.dart';
@@ -27,7 +26,7 @@ class HomePageState extends State<HomePage> {
       DateTime currentTime = DateTime.now();
       bool backButton = backPressedTime == null ||
           currentTime.difference(backPressedTime!) > const Duration(seconds: 3);
-      
+
       if (backButton) {
         backPressedTime = currentTime;
         infoSnackBar(context, "한번 더 뒤로가기를 누르면 종료됩니다.");
@@ -37,7 +36,7 @@ class HomePageState extends State<HomePage> {
       SystemNavigator.pop();
     }
 
-    return                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Scaffold(
+    return Scaffold(
         body: WillPopScope(
           onWillPop: onWillPop,
           child: IndexedStack(
@@ -50,7 +49,7 @@ class HomePageState extends State<HomePage> {
               HomeMyComponent(),
             ],
           ),
-    ),
+        ),
         bottomNavigationBar: CurvedNavigationBar(
           animationCurve: Curves.easeInOut,
           animationDuration: const Duration(milliseconds: 200),

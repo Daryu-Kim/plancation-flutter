@@ -76,14 +76,14 @@ class _DiaryFormState extends State<DiaryForm> {
         await ImageSelector().getDiaryImage(ImageSource.gallery);
     setState(() {
       isPhotoSelected = true;
-      diaryImagePath = "";
+      diaryImagePath = null;
       diaryImageFile = selectedImage;
     });
   }
 
   photoRemoved() {
     diaryImageFile = null;
-    diaryImagePath = "";
+    diaryImagePath = null;
     setState(() {
       isPhotoSelected = false;
     });
