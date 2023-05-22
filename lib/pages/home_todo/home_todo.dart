@@ -18,6 +18,25 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
   DateTime firstDay = DateTime(now.year, now.month - 3, now.day);
   DateTime lastDay = DateTime(now.year, now.month + 3, now.day);
 
+  void showBottomSheet() => showModalBottomSheet(
+        context: context,
+        builder: (context) => const TodoNew(),
+        // shape: const RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.vertical(
+        //   top: Radius.circular(25.0),
+        // )),
+        // <Widget>[
+        //   ListTile(
+        //     leading: const Icon(Icons.share),
+        //     onTap: () {},
+        //   ),
+        //   ListTile(
+        //     leading: const Icon(Icons.link),
+        //     onTap: () {},
+        //   )
+        // ],
+      );
+
   @override
   void initState() {
     super.initState();
@@ -64,6 +83,15 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
                   //헤더부분
                   headerStyle: const HeaderStyle(
                     formatButtonVisible: false,
+                    leftChevronIcon: Icon(
+                      Icons.chevron_left,
+                      size: 24,
+                    ),
+                    rightChevronIcon: Icon(
+                      Icons.chevron_right,
+                      size: 24,
+                    ),
+                    headerPadding: EdgeInsets.zero,
                   ),
 
                   calendarStyle: CalendarStyle(
@@ -78,6 +106,12 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
                         ),
                         color: Theme.of(context).colorScheme.tertiary),
 
+                    defaultTextStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+
                     //오늘날짜 데코
                     todayDecoration: BoxDecoration(
                         borderRadius: const BorderRadius.only(
@@ -85,6 +119,10 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
                           bottomRight: Radius.circular(16),
                         ),
                         color: Theme.of(context).colorScheme.tertiary),
+                    todayTextStyle: const TextStyle(
+                        color: Color.fromARGB(255, 255, 221, 117),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
 
                     //선택한 날짜 데코
                     selectedDecoration: BoxDecoration(
@@ -93,6 +131,36 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
                           bottomRight: Radius.circular(8),
                         ),
                         color: Theme.of(context).colorScheme.primary),
+
+                    //해당월과 다른날짜들 데코
+                    outsideDaysVisible: true,
+                    outsideDecoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(16),
+                      ),
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+
+                    outsideTextStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+
+                    //주말 데코
+                    weekendDecoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(16),
+                      ),
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+                    weekendTextStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
 
                   //캘린더 요일부분
@@ -126,36 +194,14 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
                             )),
                         child: Text(
                           text,
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600),
                         ),
                       );
                     },
                   ),
-                  // headerStyle: const HeaderStyle(
-                  //   leftChevronIcon: Icon(
-                  //     Icons.chevron_left,
-                  //     size: 24,
-                  //   ),
-                  //   rightChevronIcon: Icon(
-                  //     Icons.chevron_right,
-                  //     size: 24,
-                  //   ),
-                  //   headerPadding: EdgeInsets.zero,
-                  //   formatButtonVisible: true,
-                  // ),
-                  // calendarStyle: CalendarStyle(
-                  //   outsideDecoration: BoxDecoration(color: Colors.red),
-                  //   selectedDecoration: const BoxDecoration(
-                  //     color: Colors.red,
-                  //     shape: BoxShape.rectangle,
-                  //   ),
-                  //   selectedTextStyle: const TextStyle(
-                  //       color: Color.fromRGBO(238, 230, 226, 1)),
-                  //   todayDecoration: BoxDecoration(
-                  //     color: Theme.of(context).colorScheme.tertiary,
-                  //     shape: BoxShape.circle,
-                  //   ),
-                  // ),
                 ),
               ],
             )),
@@ -174,18 +220,4 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
       ),
     );
   }
-
-  void showBottomSheet() => showModalBottomSheet(
-      context: context, builder: (context) => const TodoNew()
-      // <Widget>[
-      //   ListTile(
-      //     leading: const Icon(Icons.share),
-      //     onTap: () {},
-      //   ),
-      //   ListTile(
-      //     leading: const Icon(Icons.link),
-      //     onTap: () {},
-      //   )
-      // ],
-      );
 }
