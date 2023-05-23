@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -13,17 +15,20 @@ class AIResultPage extends StatefulWidget {
 }
 
 class AIResultPageState extends State<AIResultPage> {
-  String generatedText = '';
+  List<Map<String, dynamic>> events = [];
+  dynamic token;
 
   @override
   void initState() {
     super.initState();
     Logger().e(widget.prompt);
-    generateText(widget.prompt).then((text) {
-      setState(() {
-        generatedText = text;
-      });
-    });
+    generateText(widget.prompt).then(
+      (text) {
+        setState(() {
+          token = jsonDecode(text.substring(3));
+        });
+      },
+    );
   }
 
   @override
@@ -64,10 +69,68 @@ class AIResultPageState extends State<AIResultPage> {
       ),
       body: Container(
         padding: BodyStyle().bodyPadding,
+        // child: ListView.builder(
+        //     itemCount: token == null ? 0 : token.length,
+        //     itemBuilder: (BuildContext context, int index) {
+        //       return Card(
+        //         child: Text(token[index]['content']),
+        //       );
+        //     }),
         child: ListView.builder(
-          itemCount: 1,
-          itemBuilder: (context, index) {
-            return Text(generatedText);
+          itemCount: token == null ? 0 : token.length,
+          itemBuilder: (BuildContext context, int index) {
+            String date = token[index]['date'];
+            String startTime = token[index]['startTime'];
+            String endTime = token[index]['endTime'];
+            String content = token[index]['content'];
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (index > 0 && token[index - 1]['date'] != date ||
+                    index == 0) ...[
+                  const SizedBox(height: 20),
+                  Text(
+                    date,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 10),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$startTime - $endTime',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        content,
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
           },
         ),
       ),
