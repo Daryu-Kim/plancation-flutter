@@ -5,7 +5,7 @@ import 'package:plancation/styles/app_bar_style.dart';
 import 'package:plancation/styles/body_style.dart';
 import 'package:http/http.dart' as http;
 
-const apiKey = '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';
+const apiKey = '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';
 const apiUrl = 'https://api.openai.com/v1/completions';
 
 Future<String> generateText(String prompt) async {
@@ -18,7 +18,7 @@ Future<String> generateText(String prompt) async {
     body: jsonEncode({
       "model": "text-davinci-003",
       'prompt': prompt,
-      'max_tokens': 3000,
+      'max_tokens': 10000,
       'temperature': 0,
       'top_p': 1,
       'frequency_penalty': 0,
