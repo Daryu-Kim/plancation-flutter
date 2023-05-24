@@ -105,3 +105,23 @@ setBodyHeightNotIncludeBNB(BuildContext context) {
     return null;
   }
 }
+
+setBodyHeightNotIncludeAll(BuildContext context) {
+  if (Platform.isAndroid) {
+    return MediaQuery.of(context).size.height - 24;
+  } else if (Platform.isIOS) {
+    return MediaQuery.of(context).size.height - 44;
+  } else {
+    return null;
+  }
+}
+
+setBodyHeightIncludeBigAppBar(BuildContext context) {
+  if (Platform.isAndroid) {
+    return MediaQuery.of(context).size.height - 192;
+  } else if (Platform.isIOS) {
+    return MediaQuery.of(context).size.height - 212;
+  } else {
+    return null;
+  }
+}

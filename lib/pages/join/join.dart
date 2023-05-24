@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:plancation/styles/body_style.dart';
 import 'package:word_break_text/word_break_text.dart';
 import 'join.style.dart';
 import '../../modules/another.dart';
@@ -101,8 +102,8 @@ class _JoinPageState extends State<JoinPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height - 24 - 168,
-          padding: const EdgeInsets.only(top: 28, bottom: 48, left: 24, right: 24),
+          height: setBodyHeightIncludeBigAppBar(context),
+          padding: BodyStyle().bodyPadding,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
