@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:plancation/modules/another.dart';
 
 import '../ai_form/ai_form.dart';
 
@@ -57,9 +58,9 @@ class _HomeAIPageState extends State<HomeAIPage>
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height - 172,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          height: setBodyHeightIncludeBNB(context),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -64,7 +64,7 @@ class HomePageState extends State<HomePage> {
             Icon(Icons.account_circle,
                 color: Theme.of(context).colorScheme.background),
           ],
-          height: 52,
+          height: 64,
           color: Theme.of(context).colorScheme.secondary,
           backgroundColor: Theme.of(context).colorScheme.background,
           onTap: (index) {

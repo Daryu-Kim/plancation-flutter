@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
+import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
 import 'package:plancation/modules/firebase_storage.dart';
 import 'package:plancation/modules/image_picker.dart';
+import 'package:plancation/styles/body_style.dart';
 
 class DiaryForm extends StatefulWidget {
   const DiaryForm({
@@ -152,8 +154,8 @@ class _DiaryFormState extends State<DiaryForm> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height - 84,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          height: setBodyHeightNotIncludeBNB(context),
+          padding: BodyStyle().bodyPadding,
           child: Column(
             children: [
               Row(
