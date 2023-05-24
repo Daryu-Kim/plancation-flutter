@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:plancation/modules/another.dart';
 import 'package:plancation/pages/ai_form/ai_result.dart';
+
+import '../../styles/body_style.dart';
 
 class AIFormPage extends StatefulWidget {
   const AIFormPage({Key? key}) : super(key: key);
@@ -64,8 +67,8 @@ class _AIFormPageState extends State<AIFormPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height - 84,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          height: setBodyHeightNotIncludeBNB(context),
+          padding: BodyStyle().bodyPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -346,7 +349,7 @@ class _AIFormPageState extends State<AIFormPage> {
                     child: FilledButton(
                         onPressed: () {
                           String prompt =
-                              '${DateFormat('yyyy-MM-dd').format(selectedStartDate!)}부터 ${DateFormat('yyyy-MM-dd').format(selectedEndDate!)}까지 $enteredSubject을 할거야 활동시간은 ${DateFormat('HH:mm').format(DateTime(selectedStartDate!.year, selectedStartDate!.month, selectedStartDate!.day, selectedStartTime!.hour, selectedStartTime!.minute))}부터 ${DateFormat('HH:mm').format(DateTime(selectedEndDate!.year, selectedEndDate!.month, selectedEndDate!.day, selectedEndTime!.hour, selectedEndTime!.minute))}까지고 일정은 여유있게 계획을 json 형식으로 출력하되, 각 일정마다 날짜의 key는 "date"로, 시작 시간의 key는 "startTime"으로, 종료 시간의 key는 "endTime"으로, 일정 내용의 key는 "content"로 구성하여 1시간 단위로 자세하게 출력해줘';
+                              '${DateFormat('yyyy-MM-dd').format(selectedStartDate!)}부터 ${DateFormat('yyyy-MM-dd').format(selectedEndDate!)}까지 $enteredSubject을 할거야 활동시간은 ${DateFormat('HH:mm').format(DateTime(selectedStartDate!.year, selectedStartDate!.month, selectedStartDate!.day, selectedStartTime!.hour, selectedStartTime!.minute))}부터 ${DateFormat('HH:mm').format(DateTime(selectedEndDate!.year, selectedEndDate!.month, selectedEndDate!.day, selectedEndTime!.hour, selectedEndTime!.minute))}까지고 일정은 여유있게 계획을 json 형식으로 출력하되, 배열 시작 전의 키 값은 지우고 각 일정마다 날짜의 key는 "date"로, 시작 시간의 key는 "startTime"으로, 종료 시간의 key는 "endTime"으로, 일정 내용의 key는 "content"로 구성하여 1시간 단위로 자세하게 출력해줘';
                           Navigator.push(
                             context,
                             MaterialPageRoute(

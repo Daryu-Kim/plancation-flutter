@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:plancation/modules/another.dart';
+import 'package:plancation/styles/body_style.dart';
 
 class DiaryItemPage extends StatefulWidget {
   const DiaryItemPage(
@@ -149,8 +151,8 @@ class DiaryItemPageState extends State<DiaryItemPage> {
       ),
       body: SingleChildScrollView(
           child: Container(
-        height: MediaQuery.of(context).size.height - 84,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            height: setBodyHeightNotIncludeBNB(context),
+            padding: BodyStyle().bodyPadding,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

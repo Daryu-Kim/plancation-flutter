@@ -9,6 +9,9 @@ import 'package:plancation/modules/firebase_storage.dart';
 import 'package:plancation/modules/image_picker.dart';
 import 'package:plancation/pages/login_main/login_main.dart';
 
+import '../../modules/another.dart';
+import '../../styles/body_style.dart';
+
 class HomeMyComponent extends StatefulWidget {
   const HomeMyComponent({super.key});
 
@@ -106,9 +109,9 @@ class _HomeMyComponent extends State<HomeMyComponent> {
           ),
         ),
         body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height - 172,
+            child: Container(
+              height: setBodyHeightIncludeBNB(context),
+              padding: BodyStyle().bodyPadding,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,

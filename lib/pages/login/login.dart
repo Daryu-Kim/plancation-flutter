@@ -3,10 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
+import 'package:plancation/modules/another.dart';
 import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/pages/find_pw/find_pw.dart';
 import 'package:plancation/pages/home.dart';
 import 'package:plancation/pages/join/join.dart';
+import 'package:plancation/styles/body_style.dart';
 import '../../modules/firebase_firestore.dart';
 import 'login.style.dart';
 
@@ -64,8 +66,8 @@ class _LoginPageState extends State<LoginPage> {
       child: SafeArea(
         child: Container(
             alignment: AlignmentDirectional.center,
-            height: MediaQuery.of(context).size.height - 24,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            height: setBodyHeightNotIncludeAll(context),
+            padding: BodyStyle().bodyPadding,
             child: Column(
               children: [
                 Flexible(

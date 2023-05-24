@@ -6,6 +6,9 @@ import 'package:logger/logger.dart';
 import 'package:plancation/pages/home_calendar/home_calendar.style.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../modules/another.dart';
+import '../../styles/body_style.dart';
+
 class HomeCalendarComponent extends StatefulWidget {
   const HomeCalendarComponent({super.key});
 
@@ -63,9 +66,9 @@ class HomeCalendarState extends State<HomeCalendarComponent> {
           ),
         ),
         body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height - 172,
+            child: Container(
+              height: setBodyHeightIncludeBNB(context),
+              padding: BodyStyle().bodyPadding,
               child: TableCalendar(
                 firstDay: DateTime(
                     currentDateTime.year - 1, currentDateTime.month, 1),

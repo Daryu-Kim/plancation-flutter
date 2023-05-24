@@ -33,7 +33,7 @@ class HomePageState extends State<HomePage> {
         return false;
       }
       return true;
-      SystemNavigator.pop();
+      SystemNavigator.pop(); 
     }
 
     return Scaffold(

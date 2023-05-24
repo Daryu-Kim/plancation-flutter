@@ -57,6 +57,7 @@ const containerTitleTextStyle = TextStyle(
     fontSize: 20,
     color: CupertinoColors.white,
     fontWeight: FontWeight.w600
+    
 );
 
 const containerSubTitleTextStyle = TextStyle(

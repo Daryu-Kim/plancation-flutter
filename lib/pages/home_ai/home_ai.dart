@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plancation/modules/another.dart';
 
+import '../../styles/body_style.dart';
 import '../ai_form/ai_form.dart';
 
 class HomeAIPage extends StatefulWidget {
@@ -59,8 +60,8 @@ class _HomeAIPageState extends State<HomeAIPage>
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           height: setBodyHeightIncludeBNB(context),
+          padding: BodyStyle().bodyPadding,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,

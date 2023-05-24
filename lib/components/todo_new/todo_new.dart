@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 // import 'package:plancation/modules/firebase_storage.dart';
 import 'package:plancation/modules/firebase_firestore.dart';
+import 'package:plancation/styles/body_style.dart';
 
 class TodoForm extends StatefulWidget {
   const TodoForm({super.key});
@@ -297,8 +298,7 @@ class _TodoFormState extends State<TodoForm> {
                     padding: EdgeInsets.zero,
                     // color: Colors.blue,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 18, horizontal: 46),
+                      padding: BodyStyle().bodyPadding,
                       decoration: BoxDecoration(
                         border: Border.all(
                             color: Theme.of(context).colorScheme.outlineVariant,

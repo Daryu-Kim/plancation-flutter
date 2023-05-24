@@ -7,6 +7,7 @@ import 'package:plancation/modules/firebase_login.dart';
 import 'package:plancation/pages/home.dart';
 import 'package:plancation/pages/join/join.dart';
 import 'package:plancation/pages/login/login.dart';
+import 'package:plancation/styles/body_style.dart';
 import 'package:word_break_text/word_break_text.dart';
 import 'login_main.style.dart';
 
@@ -52,7 +53,7 @@ class LoginMainPage extends StatelessWidget {
             child: Container(
               height: setBodyHeightNotIncludeAll(context),
               alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              padding: BodyStyle().bodyPadding,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

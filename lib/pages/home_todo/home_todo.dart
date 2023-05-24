@@ -2,6 +2,8 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:plancation/modules/another.dart';
+import 'package:plancation/styles/body_style.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../components/todo_new/todo_new.dart';
 import '../../components/event_list/todo_list.dart';
@@ -67,9 +69,9 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height - 172,
+        child: Container(
+          height: setBodyHeightIncludeBNB(context),
+          padding: BodyStyle().bodyPadding,
           child: Column(
             children: [
               TableCalendar(

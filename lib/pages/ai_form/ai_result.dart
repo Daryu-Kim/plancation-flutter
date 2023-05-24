@@ -6,6 +6,8 @@ import 'package:logger/logger.dart';
 import 'package:plancation/pages/ai_form/ai_loading.dart';
 import 'package:plancation/styles/body_style.dart';
 
+import '../../modules/another.dart';
+
 class AIResultPage extends StatefulWidget {
   final String prompt;
   const AIResultPage(this.prompt, {super.key});
@@ -68,6 +70,7 @@ class AIResultPageState extends State<AIResultPage> {
         ),
       ),
       body: Container(
+        height: setBodyHeightNotIncludeBNB(context),
         padding: BodyStyle().bodyPadding,
         // child: ListView.builder(
         //     itemCount: token == null ? 0 : token.length,

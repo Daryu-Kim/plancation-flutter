@@ -101,6 +101,7 @@ class HomeDiaryPageState extends State<HomeDiaryPage> with WidgetsBindingObserve
         ),
       ),
       body: Container(
+        height: setBodyHeightIncludeBNB(context),
         padding: BodyStyle().bodyPadding,
         alignment: BodyStyle().bodyAlignTopCenter,
         child: Column(
