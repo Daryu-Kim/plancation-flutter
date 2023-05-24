@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../components/todo_new/todo_new.dart';
+import '../../components/event_list/todo_list.dart';
 
 DateTime now = DateTime.now();
 
@@ -68,143 +69,154 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         child: SizedBox(
-            height: MediaQuery.of(context).size.height - 172,
-            child: Column(
-              children: [
-                TableCalendar(
-                  focusedDay: now,
-                  firstDay: firstDay,
-                  lastDay: lastDay,
-                  calendarFormat: CalendarFormat.week,
-                  // 시작요일은 월요일
-                  startingDayOfWeek: StartingDayOfWeek.monday,
-                  headerVisible: true,
+          height: MediaQuery.of(context).size.height - 172,
+          child: Column(
+            children: [
+              TableCalendar(
+                focusedDay: now,
+                firstDay: firstDay,
+                lastDay: lastDay,
+                calendarFormat: CalendarFormat.week,
+                // 시작요일은 월요일
+                startingDayOfWeek: StartingDayOfWeek.monday,
+                headerVisible: true,
 
-                  //헤더부분
-                  headerStyle: const HeaderStyle(
-                    formatButtonVisible: false,
-                    leftChevronIcon: Icon(
-                      Icons.chevron_left,
-                      size: 24,
-                    ),
-                    rightChevronIcon: Icon(
-                      Icons.chevron_right,
-                      size: 24,
-                    ),
-                    headerPadding: EdgeInsets.zero,
+                //헤더부분
+                headerStyle: const HeaderStyle(
+                  formatButtonVisible: false,
+                  leftChevronIcon: Icon(
+                    Icons.chevron_left,
+                    size: 24,
                   ),
+                  rightChevronIcon: Icon(
+                    Icons.chevron_right,
+                    size: 24,
+                  ),
+                  headerPadding: EdgeInsets.zero,
+                ),
 
-                  calendarStyle: CalendarStyle(
-                    cellMargin: const EdgeInsets.symmetric(horizontal: 6),
-                    cellPadding: EdgeInsets.zero,
+                calendarStyle: CalendarStyle(
+                  cellMargin: const EdgeInsets.symmetric(horizontal: 6),
+                  cellPadding: EdgeInsets.zero,
 
-                    //기본세팅
-                    defaultDecoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(16),
-                          bottomRight: Radius.circular(16),
-                        ),
-                        color: Theme.of(context).colorScheme.tertiary),
-
-                    defaultTextStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-
-                    //오늘날짜 데코
-                    todayDecoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(16),
-                          bottomRight: Radius.circular(16),
-                        ),
-                        color: Theme.of(context).colorScheme.tertiary),
-                    todayTextStyle: const TextStyle(
-                        color: Color.fromARGB(255, 255, 221, 117),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-
-                    //선택한 날짜 데코
-                    selectedDecoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(8),
-                          bottomRight: Radius.circular(8),
-                        ),
-                        color: Theme.of(context).colorScheme.primary),
-
-                    //해당월과 다른날짜들 데코
-                    outsideDaysVisible: true,
-                    outsideDecoration: BoxDecoration(
+                  //기본세팅
+                  defaultDecoration: BoxDecoration(
                       borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(16),
                         bottomRight: Radius.circular(16),
                       ),
-                      color: Theme.of(context).colorScheme.tertiary,
-                    ),
+                      color: Theme.of(context).colorScheme.tertiary),
 
-                    outsideTextStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  defaultTextStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
 
-                    //주말 데코
-                    weekendDecoration: BoxDecoration(
+                  //오늘날짜 데코
+                  todayDecoration: BoxDecoration(
                       borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(16),
                         bottomRight: Radius.circular(16),
                       ),
-                      color: Theme.of(context).colorScheme.tertiary,
-                    ),
-                    weekendTextStyle: const TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.tertiary),
+                  todayTextStyle: const TextStyle(
+                      color: Color.fromARGB(255, 255, 221, 117),
                       fontSize: 18,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.bold),
+
+                  //선택한 날짜 데코
+                  selectedDecoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(8),
+                        bottomRight: Radius.circular(8),
+                      ),
+                      color: Theme.of(context).colorScheme.primary),
+
+                  //해당월과 다른날짜들 데코
+                  outsideDaysVisible: true,
+                  outsideDecoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(16),
+                      bottomRight: Radius.circular(16),
                     ),
+                    color: Theme.of(context).colorScheme.tertiary,
                   ),
 
-                  //캘린더 요일부분
-                  calendarBuilders: CalendarBuilders(
-                    dowBuilder: (context, day) {
-                      var text = DateFormat.E().format(day);
+                  outsideTextStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
 
-                      if (day.weekday == DateTime.sunday) {
-                        text = '일';
-                      } else if (day.weekday == DateTime.monday) {
-                        text = '월';
-                      } else if (day.weekday == DateTime.tuesday) {
-                        text = '화';
-                      } else if (day.weekday == DateTime.wednesday) {
-                        text = '수';
-                      } else if (day.weekday == DateTime.thursday) {
-                        text = '목';
-                      } else if (day.weekday == DateTime.friday) {
-                        text = '금';
-                      } else if (day.weekday == DateTime.saturday) {
-                        text = '토';
-                      }
-                      return Container(
-                        alignment: Alignment.center,
-                        margin: const EdgeInsets.symmetric(horizontal: 6),
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.tertiary,
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              topLeft: Radius.circular(20),
-                            )),
-                        child: Text(
-                          text,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      );
-                    },
+                  //주말 데코
+                  weekendDecoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(16),
+                      bottomRight: Radius.circular(16),
+                    ),
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
+                  weekendTextStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-              ],
-            )),
+
+                //캘린더 요일부분
+                calendarBuilders: CalendarBuilders(
+                  dowBuilder: (context, day) {
+                    var text = DateFormat.E().format(day);
+
+                    if (day.weekday == DateTime.sunday) {
+                      text = '일';
+                    } else if (day.weekday == DateTime.monday) {
+                      text = '월';
+                    } else if (day.weekday == DateTime.tuesday) {
+                      text = '화';
+                    } else if (day.weekday == DateTime.wednesday) {
+                      text = '수';
+                    } else if (day.weekday == DateTime.thursday) {
+                      text = '목';
+                    } else if (day.weekday == DateTime.friday) {
+                      text = '금';
+                    } else if (day.weekday == DateTime.saturday) {
+                      text = '토';
+                    }
+                    //날짜 요일 스타일링
+                    return Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.symmetric(horizontal: 6),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            topLeft: Radius.circular(20),
+                          )),
+                      child: Text(
+                        text,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              //todo 리스트보여주기
+              const TodoList(),
+              const SizedBox(
+                height: 18,
+              ),
+              const TodoList(),
+            ],
+          ),
+        ),
       ),
       //플로팅버튼
       floatingActionButton: FloatingActionButton(

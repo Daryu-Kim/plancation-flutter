@@ -246,14 +246,14 @@ class StoreManage {
           .doc(calendarID)
           .collection("Events")
           .add({
-        'eventSTime': startTime,
-        'eventETime': endTime,
-        'eventTitle': todoTitle,
-        'eventUsers': selectUsers, //할일 유저의 uid?
+        'eventSTime': startTime, //시작날짜와 시간
+        'eventETime': endTime, //종료날짜와 시간
+        'eventTitle': todoTitle, //할 일 제목
+        'eventUsers': [selectUsers], //할 일 이벤트 참여자 고유 uid를 담아야돼요
         'eventAlerts': alert, // 알림
         'eventAuthorID': AuthManage().getUser()!.uid, //이벤트 제작자 고유 ID
         'eventTodo': false, //false 면 할 일, true 면 일정
-        'eventCheckdUsers': [], // 할 일 체크 초기설정 [] 빈 배열
+        'eventCheckedUsers': [], // 할 일 체크 초기설정 [] 빈 배열 - 완료되면 완료된 사람의 Uid 담기
       });
 
       return "";
@@ -263,3 +263,19 @@ class StoreManage {
     }
   }
 }
+
+// //할 일 만든 작자 가져오기
+// Future<dynamic> getTodoAuthorName(String authorID) async {
+//   try {
+//     await FirebaseFirestore.instance
+//         .collection('Users')
+//         .doc(authorID)
+//         .get()
+//         .then((value) {
+//       return value.get('userName');
+//     });
+//   } catch (e) {
+//     Logger().e(e);
+//     return;
+//   }
+// }

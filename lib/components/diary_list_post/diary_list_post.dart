@@ -74,7 +74,8 @@ class DiaryListPostState extends State<DiaryListPost> {
 
   Future<void> deleteBtnTap(context) async {
     if (widget.diaryData['postAuthorID'] == AuthManage().getUser()!.uid) {
-      await StoreManage().deleteDiary(widget.diaryData['postID'], widget.diaryData['postImagePath']);
+      await StoreManage().deleteDiary(
+          widget.diaryData['postID'], widget.diaryData['postImagePath']);
       submitSnackBar(context, "기록이 삭제되었습니다!");
     } else {
       errorSnackBar(context, "본인의 기록만 삭제할 수 있습니다!");
@@ -155,7 +156,8 @@ class DiaryListPostState extends State<DiaryListPost> {
                     bottomRight: Radius.circular(6)),
                 color: Theme.of(context).colorScheme.tertiaryContainer,
                 shape: BoxShape.rectangle),
-            child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            child:
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -190,28 +192,31 @@ class DiaryListPostState extends State<DiaryListPost> {
                   children: [
                     Row(
                       children: [
-                        calendarUsersCount != 1 ?
-                        Row(
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 2, horizontal: 8),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  borderRadius:
-                                  BorderRadius.circular(100),
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary),
-                              child: authorName.isNotEmpty ? Text(authorName,
-                                  style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700)) : const SizedBox(),
-                            ),
-                            const SizedBox(width: 4)
-                          ],
-                        ) : const SizedBox(),
+                        calendarUsersCount != 1
+                            ? Row(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 2, horizontal: 8),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.rectangle,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .inversePrimary),
+                                    child: authorName.isNotEmpty
+                                        ? Text(authorName,
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w700))
+                                        : const SizedBox(),
+                                  ),
+                                  const SizedBox(width: 4)
+                                ],
+                              )
+                            : const SizedBox(),
                         Flexible(
                           fit: FlexFit.tight,
                           child: Text(widget.diaryData['postTitle'],

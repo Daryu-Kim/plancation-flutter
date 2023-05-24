@@ -23,74 +23,72 @@ class DiaryItemPage extends StatefulWidget {
 class DiaryItemPageState extends State<DiaryItemPage> {
   showManageModal() {
     showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            height: 217 - 24,
-            decoration: BoxDecoration(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 217 - 24,
+          decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.background,
-              borderRadius: BorderRadius.circular(16)
-            ),
-            child: Column(
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),
-                    shape: BoxShape.rectangle,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                  width: double.infinity,
-                  height: 48,
-                  child: const Text(
-                    "게시물 관리",
-                    style: TextStyle(
+              borderRadius: BorderRadius.circular(16)),
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(16),
+                      topLeft: Radius.circular(16)),
+                  shape: BoxShape.rectangle,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+                width: double.infinity,
+                height: 48,
+                child: const Text(
+                  "게시물 관리",
+                  style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
-                      fontWeight: FontWeight.w700
-                    ),
+                      fontWeight: FontWeight.w700),
+                ),
+              ),
+              InkWell(
+                onTap: null,
+                child: Container(
+                  alignment: Alignment.center,
+                  width: double.infinity,
+                  height: 72,
+                  child: Text(
+                    "수정",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700),
                   ),
                 ),
-                InkWell(
-                  onTap: null,
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: double.infinity,
-                    height: 72,
-                    child: Text(
-                      "수정",
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700
-                      ),
-                    ),
+              ),
+              Divider(
+                height: 1,
+                color: Theme.of(context).colorScheme.outlineVariant,
+              ),
+              InkWell(
+                onTap: null,
+                child: Container(
+                  alignment: Alignment.center,
+                  width: double.infinity,
+                  height: 72,
+                  child: Text(
+                    "삭제",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700),
                   ),
                 ),
-                Divider(
-                  height: 1,
-                  color: Theme.of(context).colorScheme.outlineVariant,
-                ),
-                InkWell(
-                  onTap: null,
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: double.infinity,
-                    height: 72,
-                    child: Text(
-                      "삭제",
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -136,7 +134,7 @@ class DiaryItemPageState extends State<DiaryItemPage> {
                   width: 64,
                   child: TextButton(
                       onPressed: showManageModal,
-                      child: Text(
+                      child: const Text(
                         "관리",
                         style: TextStyle(
                             color: CupertinoColors.white,
@@ -162,72 +160,72 @@ class DiaryItemPageState extends State<DiaryItemPage> {
                 children: [
                   widget.calendarUsersCount != 1
                       ? Row(
-                    mainAxisAlignment:  MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
                               width: 56,
                               height: 56,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
                                 child: widget.authorImagePath != null
-                                    ? Image.network(
-                                        widget.authorImagePath!,
+                                    ? Image.network(widget.authorImagePath!,
                                         height: 56,
                                         width: 56,
                                         fit: BoxFit.cover)
                                     : CircleAvatar(
-                                  backgroundColor: Theme.of(context).colorScheme.primary,
-                                      child: Text(
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        child: Text(
                                           widget.authorName.length < 3
                                               ? widget.authorName
-                                              : widget.authorName.substring(0, 3),
+                                              : widget.authorName
+                                                  .substring(0, 3),
                                           style: TextStyle(
                                               fontSize: 20,
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .background),
                                         ),
-                                    ),
-                              ),
-                            ),
-                          const SizedBox(width: 12),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 2,
-                                    horizontal: 8
-                                ),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: Theme.of(context).colorScheme.primary
-                                ),
-                                child: Text(
-                                  widget.authorName,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                      widget.diaryData['postTitle'],
-                                      maxLines: 1,
-                                      softWrap: false,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 18,
                                       ),
                               ),
-                            ],
-                          )
-                        ],
-                      )
+                            ),
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 2, horizontal: 8),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
+                                  child: Text(
+                                    widget.authorName,
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  widget.diaryData['postTitle'],
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        )
                       : const SizedBox(),
                   // Container(
                   //   padding:
