@@ -4,10 +4,19 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/pages/home_calendar/home_calendar.style.dart';
-import '../../components/calendar/calendar.dart';
+import 'package:table_calendar/table_calendar.dart';
 
-class HomeCalendarComponent extends StatelessWidget {
+class HomeCalendarComponent extends StatefulWidget {
   const HomeCalendarComponent({super.key});
+
+  @override
+  HomeCalendarState createState() => HomeCalendarState();
+}
+
+class HomeCalendarState extends State<HomeCalendarComponent> {
+  DateTime currentDateTime = DateTime.now();
+  List<String> days = ['_', '월', '화', '수', '목', '금', '토', '일'];
+  List calendarEvents = ["asdf", "ad", "qwer", "zxcv"];
 
   void refresh() {
     print("Refresh!");
@@ -53,12 +62,64 @@ class HomeCalendarComponent extends StatelessWidget {
             ),
           ),
         ),
-        body: Container(
-          height: MediaQuery.of(context).size.height - 172,
-          padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: 24, vertical: 16),
-          child: const Calendar(),
-        ),
+        body: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height - 172,
+              child: TableCalendar(
+                firstDay: DateTime(
+                    currentDateTime.year - 1, currentDateTime.month, 1),
+                lastDay: DateTime(currentDateTime.year + 10, 12, 0),
+                focusedDay: currentDateTime,
+                headerVisible: false,
+                calendarFormat: CalendarFormat.month,
+                daysOfWeekHeight: 36,
+                rowHeight: (MediaQuery.of(context).size.height - 172 - 36) / 6,
+                calendarStyle: CalendarStyleSheet().calendarStyle(context),
+                availableGestures: AvailableGestures.horizontalSwipe,
+                onDaySelected: (selectedDay, focusedDay) {
+                  Logger().e(selectedDay);
+                },
+                calendarBuilders: CalendarBuilders(
+                  defaultBuilder: (context, day, focusedDay) {
+                    if (day.weekday == DateTime.sunday) {
+                      return Center(
+                        child: Text(day.day.toString(),
+                            style: CalendarStyleSheet().sundayTextStyle),
+                      );
+                    } else if (day.weekday == DateTime.saturday) {
+                      return Center(
+                        child: Text(day.day.toString(),
+                            style: CalendarStyleSheet().saturdayTextStyle),
+                      );
+                    } else {
+                      return Center(
+                        child: Text(day.day.toString(),
+                            style: CalendarStyleSheet().defaultTextStyle),
+                      );
+                    }
+                  },
+                  dowBuilder: (context, day) {
+                    if (day.weekday == DateTime.sunday) {
+                      return Center(
+                        child: Text(days[day.weekday],
+                            style: CalendarStyleSheet().sundayTextStyle),
+                      );
+                    } else if (day.weekday == DateTime.saturday) {
+                      return Center(
+                        child: Text(days[day.weekday],
+                            style: CalendarStyleSheet().saturdayTextStyle),
+                      );
+                    } else {
+                      return Center(
+                        child: Text(days[day.weekday],
+                            style: CalendarStyleSheet().defaultTextStyle),
+                      );
+                    }
+                  },
+                ),
+              ),
+            )),
         floatingActionButton: SpeedDial(
           backgroundColor: Theme.of(context).colorScheme.primary,
           activeChild: Icon(
