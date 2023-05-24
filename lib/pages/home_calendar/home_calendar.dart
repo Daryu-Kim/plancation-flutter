@@ -77,7 +77,7 @@ class HomeCalendarState extends State<HomeCalendarComponent> {
                 headerVisible: false,
                 calendarFormat: CalendarFormat.month,
                 daysOfWeekHeight: 36,
-                rowHeight: (MediaQuery.of(context).size.height - 172 - 36) / 6,
+                rowHeight: setBodyHeightIncludeBNB(context) / 7,
                 calendarStyle: CalendarStyleSheet().calendarStyle(context),
                 availableGestures: AvailableGestures.horizontalSwipe,
                 onDaySelected: (selectedDay, focusedDay) {
