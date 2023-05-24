@@ -46,10 +46,11 @@ class LoginMainPage extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
+          bottom: false,
           child: WillPopScope(
             onWillPop: onWillPop,
             child: Container(
-              height: MediaQuery.of(context).size.height - 24,
+              height: setBodyHeightNotIncludeAll(context),
               alignment: Alignment.center,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: Column(
