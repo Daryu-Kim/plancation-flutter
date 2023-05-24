@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 // import 'package:plancation/modules/firebase_storage.dart';
+import 'package:plancation/modules/firebase_firestore.dart';
 
 class TodoForm extends StatefulWidget {
   const TodoForm({super.key});
@@ -39,9 +40,13 @@ class _TodoFormState extends State<TodoForm> {
   // TextEditingController titleFieldController = TextEditingController();
   String todoTitle = "";
 
+  var fromDate = DateFormat('yyyy-MM-dd\nHH:mm').format(DateTime.now());
+  var toDate = DateFormat('yyyy-MM-dd\nHH:mm').format(DateTime.now());
+
   @override
   void initState() {
     super.initState();
+
     selectedStartDate = DateTime.now();
     selectedEndDate = DateTime.now().add(const Duration(days: 1));
     // selectedStartTime = TimeOfDay.now();
@@ -65,12 +70,13 @@ class _TodoFormState extends State<TodoForm> {
     });
   }
 
-  // Future<void> submitTodo(context) async {
-  //   isTitleEntered == true
-  //       ? await StoreManage().createTodo(
-  //           selectedStartDate, selectedEndDate, todoTitle, member, notice)
-  //       : null;
-  // }
+  Future<void> submitTodo(context) async {
+    isTitleEntered == true
+        ? await StoreManage()
+            .createTodo(fromDate, toDate, todoTitle, member, notice)
+        : null;
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +123,7 @@ class _TodoFormState extends State<TodoForm> {
 
         actions: [
           TextButton(
-              onPressed: () {},
+              onPressed: () => submitTodo(context),
               child: const Text(
                 '등록',
                 style: TextStyle(
@@ -327,9 +333,9 @@ class _TodoFormState extends State<TodoForm> {
                                   minimumDate: DateTime.now()
                                       .add(const Duration(minutes: -5)),
                                   // maximumDate: selectedEndDate,
-                                  onDateTimeChanged: (DateTime newTime) {
+                                  onDateTimeChanged: (DateTime pickedDate) {
                                     setState(() {
-                                      selectedEndDate = newTime;
+                                      selectedEndDate = pickedDate;
                                       print(selectedEndDate);
                                     });
                                   },
@@ -357,11 +363,6 @@ class _TodoFormState extends State<TodoForm> {
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: PopupMenuButton(
-                //이게 왜 안먹는지 모르겠어서 패딩으로 묶었습니다;;; 진짜 화나네
-                // padding: const EdgeInsets.symmetric(
-                //   vertical: 20,
-                //   horizontal: 14,
-                // ),
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Padding(
