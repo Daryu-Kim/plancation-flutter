@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:plancation/modules/firebase_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-bool isValidEmailFormat(email) {
+isValidEmailFormat(email) {
   return RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(email);
@@ -81,5 +83,25 @@ Future<String> getCalendarID() async {
   } catch (e) {
     Logger().e(e);
     return "";
+  }
+}
+
+setBodyHeightIncludeBNB(BuildContext context) {
+  if (Platform.isAndroid) {
+    return MediaQuery.of(context).size.height - 148;
+  } else if (Platform.isIOS) {
+    return MediaQuery.of(context).size.height - 168;
+  } else {
+    return null;
+  }
+}
+
+setBodyHeightNotIncludeBNB(BuildContext context) {
+  if (Platform.isAndroid) {
+    return MediaQuery.of(context).size.height - 84;
+  } else if (Platform.isIOS) {
+    return MediaQuery.of(context).size.height - 104;
+  } else {
+    return null;
   }
 }
