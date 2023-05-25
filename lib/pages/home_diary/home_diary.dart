@@ -17,7 +17,8 @@ class HomeDiaryPage extends StatefulWidget {
   HomeDiaryPageState createState() => HomeDiaryPageState();
 }
 
-class HomeDiaryPageState extends State<HomeDiaryPage> with WidgetsBindingObserver {
+class HomeDiaryPageState extends State<HomeDiaryPage>
+    with WidgetsBindingObserver {
   String calendarID = "";
   List postSnapshot = List.empty(growable: true);
   Timestamp currentTimestamp = Timestamp.now();
@@ -41,14 +42,17 @@ class HomeDiaryPageState extends State<HomeDiaryPage> with WidgetsBindingObserve
 
   Future<void> getPostData(Timestamp timestamp) async {
     List tempList = List.empty(growable: true);
+    // like 'let list = []'
     String tempCalendarID = await getCalendarID();
-    Timestamp endRange = Timestamp.fromDate(timestamp.toDate().add(const Duration(days: 1)));
+    Timestamp endRange =
+        Timestamp.fromDate(timestamp.toDate().add(const Duration(days: 1)));
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("Calendars")
         .doc(tempCalendarID)
         .collection("Posts")
-        .where("postTime", isGreaterThanOrEqualTo: timestamp)
-        .where("postTime", isLessThan: endRange)
+        .where("postTime",
+            isGreaterThanOrEqualTo: timestamp) // 2023-05-23 00:00 <= current
+        .where("postTime", isLessThan: endRange) // current < 2023-05-24 00:00
         .orderBy('postTime', descending: true)
         .get();
 
@@ -117,45 +121,44 @@ class HomeDiaryPageState extends State<HomeDiaryPage> with WidgetsBindingObserve
                 getPostData(currentTimestamp);
                 Logger().e(selectedDate);
               },
-
               activeBackgroundDayColor: Theme.of(context).colorScheme.tertiary,
               dayColor: Theme.of(context).colorScheme.primary,
               showYears: true,
             ),
             const SizedBox(height: 24),
             postSnapshot.isNotEmpty
-                    ? Flexible(
-              fit: FlexFit.tight,
-                      child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: postSnapshot.length,
-                          itemBuilder: (ctx, index) => DiaryListPost(
-                            diaryData: postSnapshot[index],
-                            calendarID: calendarID,
-                          ),
-                        ),
-                    )
-                    : Flexible(
-              fit: FlexFit.tight,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/svgs/notification_important.svg',
-                            width: 96,
-                            color: Theme.of(context).colorScheme.tertiary,
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            "기록이 없습니다!",
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.tertiary,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20),
-                          )
-                        ],
+                ? Flexible(
+                    fit: FlexFit.tight,
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: postSnapshot.length,
+                      itemBuilder: (ctx, index) => DiaryListPost(
+                        diaryData: postSnapshot[index],
+                        calendarID: calendarID,
                       ),
                     ),
+                  )
+                : Flexible(
+                    fit: FlexFit.tight,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/svgs/notification_important.svg',
+                          width: 96,
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "기록이 없습니다!",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.tertiary,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20),
+                        )
+                      ],
+                    ),
+                  ),
           ],
         ),
       ),

@@ -23,7 +23,7 @@ class StoreManage {
         'calenderID': uid,
         'calendarTitle': "개인",
         'calendarUsers': [uid],
-        'calendarAuthorID': uid
+        'calendarAuthorID': uid,
       });
     } on FirebaseException catch (e) {
       Logger().e(e);
@@ -124,6 +124,8 @@ class StoreManage {
       return "";
     }
   }
+
+// fromDate ( date :  Date ) : Timestamp
 
   Future<String> modifyDiary(String id, String title, String content) async {
     try {
@@ -229,8 +231,8 @@ class StoreManage {
   }
 
 //할 일 추가
-  Future<String> createTodo(String startTime, String endTime, String todoTitle,
-      String selectUsers, String alert) async {
+  Future<bool> createTodo(DateTime startTime, DateTime endTime,
+      String todoTitle, String selectUsers, String alert) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String calendarID = "";
@@ -246,8 +248,8 @@ class StoreManage {
           .doc(calendarID)
           .collection("Events")
           .add({
-        'eventSTime': startTime, //시작날짜와 시간
-        'eventETime': endTime, //종료날짜와 시간
+        'eventSTime': Timestamp.fromDate(startTime), //시작날짜와 시간
+        'eventETime': Timestamp.fromDate(endTime), //종료날짜와 시간
         'eventTitle': todoTitle, //할 일 제목
         'eventUsers': [selectUsers], //할 일 이벤트 참여자 고유 uid를 담아야돼요
         'eventAlerts': alert, // 알림
@@ -256,10 +258,10 @@ class StoreManage {
         'eventCheckedUsers': [], // 할 일 체크 초기설정 [] 빈 배열 - 완료되면 완료된 사람의 Uid 담기
       });
 
-      return "";
+      return true;
     } catch (e) {
       Logger().e(e);
-      return "";
+      return false;
     }
   }
 }
