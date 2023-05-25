@@ -1,12 +1,14 @@
 import 'dart:core';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/styles/body_style.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../components/todo_new/todo_new.dart';
+
 import '../../components/event_list/todo_list.dart';
+import '../../components/todo_new/todo_new.dart';
 
 DateTime now = DateTime.now();
 
@@ -23,7 +25,11 @@ class _HomeTodoPageState extends State<HomeTodoPage> {
 
   void showBottomSheet() => showModalBottomSheet(
         context: context,
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(20.0),
+        // ),
         builder: (context) => const TodoForm(),
+
         // shape: const RoundedRectangleBorder(
         //     borderRadius: BorderRadius.vertical(
         //   top: Radius.circular(25.0),

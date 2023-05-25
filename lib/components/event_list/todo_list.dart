@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../components/todo_new/todo_new.dart';
 
 class TodoList extends StatefulWidget {
@@ -112,26 +113,27 @@ class TodoListState extends State<TodoList> {
         ],
       ),
       //todo리스트 컨테이너 스타일링
-      child: Container(
-        padding: const EdgeInsets.only(right: 8.0, left: 8.0),
+      child: SizedBox(
+        // padding: const EdgeInsets.only(right: 8.0, left: 8.0),
         height: 80,
         child: Card(
           elevation: 0,
           color: Colors.white,
           shape: RoundedRectangleBorder(
-              side: const BorderSide(color: Colors.black, width: 0.5),
+              side: BorderSide(
+                  color: Theme.of(context).colorScheme.tertiary, width: 1),
               borderRadius: BorderRadius.circular(5)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(15),
                       bottomLeft: Radius.circular(15)),
-                  color: Colors.deepPurple,
+                  color: Theme.of(context).colorScheme.tertiary,
                 ),
-                width: 6,
+                width: 7,
               ),
               const SizedBox(
                 width: 20,
