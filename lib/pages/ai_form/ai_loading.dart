@@ -5,7 +5,7 @@ import 'package:plancation/styles/app_bar_style.dart';
 import 'package:plancation/styles/body_style.dart';
 import 'package:http/http.dart' as http;
 
-const apiKey = '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';
+const apiKey = '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';
 const apiUrl = 'https://api.openai.com/v1/completions';
 
 Future<String> generateText(String prompt) async {
