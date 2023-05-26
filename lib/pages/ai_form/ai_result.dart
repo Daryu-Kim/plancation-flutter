@@ -5,7 +5,6 @@ import 'package:logger/logger.dart';
 import 'package:plancation/pages/ai_form/ai_loading.dart';
 import 'package:plancation/styles/body_style.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
 import '../../modules/another.dart';
 
 class AIResultPage extends StatefulWidget {
@@ -82,79 +81,102 @@ class AIResultPageState extends State<AIResultPage> {
 
             return Slidable(
               endActionPane: ActionPane(
+                extentRatio: 0.4,
                 motion: const ScrollMotion(),
                 children: [
                   const SizedBox(width: 8),
-                  SlidableAction(
-                    onPressed: null,
-                    borderRadius: const BorderRadius.only(
+                  SizedBox(
+                    width: 68,
+                    height: 68,
+                    child: SlidableAction(
+                      onPressed: null,
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(6),
-                        topLeft: Radius.circular(6)),
-                    icon: Icons.abc,
-                    label: "수정",
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor:
-                        Theme.of(context).colorScheme.primaryContainer,
+                        topLeft: Radius.circular(6),
+                      ),
+                      icon: Icons.abc,
+                      label: "수정",
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor:
+                          Theme.of(context).colorScheme.primaryContainer,
+                    ),
                   ),
-                  SlidableAction(
-                    borderRadius: const BorderRadius.only(
+                  SizedBox(
+                    width: 68,
+                    height: 68,
+                    child: SlidableAction(
+                      borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(6),
-                        topRight: Radius.circular(6)),
-                    onPressed: null,
-                    icon: Icons.delete,
-                    label: "삭제",
-                    backgroundColor:
-                        Theme.of(context).colorScheme.errorContainer,
-                    foregroundColor: Theme.of(context).colorScheme.error,
-                  )
+                        topRight: Radius.circular(6),
+                      ),
+                      onPressed: null,
+                      icon: Icons.delete,
+                      label: "삭제",
+                      backgroundColor:
+                          Theme.of(context).colorScheme.errorContainer,
+                      foregroundColor: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
                 ],
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (index > 0 && token[index - 1]['date'] != date ||
-                      index == 0) ...[
-                    const SizedBox(height: 20),
-                    Text(
-                      date,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (index > 0 && token[index - 1]['date'] != date ||
+                        index == 0) ...[
+                      Text(
+                        date,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          left: BorderSide(
+                              color: Theme.of(context).colorScheme.tertiary,
+                              width: 8),
+                          right: BorderSide(
+                              color: Theme.of(context).colorScheme.tertiary,
+                              width: 1),
+                          top: BorderSide(
+                              color: Theme.of(context).colorScheme.tertiary,
+                              width: 1),
+                          bottom: BorderSide(
+                              color: Theme.of(context).colorScheme.tertiary,
+                              width: 1),
+                        ),
+                        // borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 10),
+                          Text(
+                            '${startTime.startsWith('12') ? "오후 $startTime" : "오전 $startTime"} - \n ${endTime.startsWith('12') ? "오후 $endTime" : "오전 $endTime"}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            content,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
-                  const SizedBox(height: 10),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.tertiary,
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '$startTime - $endTime',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          content,
-                          style: const TextStyle(
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
             );
           },
