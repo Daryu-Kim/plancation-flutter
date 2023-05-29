@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:plancation/modules/firebase_firestore.dart';
 
 class TodoForm extends StatefulWidget {
   const TodoForm({super.key});
@@ -24,13 +23,13 @@ class _TodoFormState extends State<TodoForm> {
   String member3 = '백승호';
   String member4 = '나';
 
+  //알림 Map
+  List<String> alertValue = ["이벤트 당일", "1일 전", "1주 전", "매일", "없음"];
+  List<bool> alertBools = List.empty(growable: true);
+
   //알림 목록 변수
-  String notice = '없음';
-  String notice1 = '이벤트당일';
-  String notice2 = '1일전';
-  String notice3 = '1주전';
-  String notice4 = '매일';
-  String notice5 = '없음';
+
+  late String selectedAlert = alertValue[4];
 
   DateTime? selectedStartDate, selectedEndDate;
   TimeOfDay? selectedStartTime, selectedEndTime;
@@ -58,12 +57,12 @@ class _TodoFormState extends State<TodoForm> {
   }
 
   //등록 버튼을 눌렀을 때
-  submitTodo(context) {
-    StoreManage()
-        .createTodo(
-            selectedStartDate!, selectedEndDate!, todoTitle, member, notice)
-        .then((value) => Navigator.pop(context));
-  }
+  // submitTodo(context) {
+  //   StoreManage()
+  //       .createTodo(selectedStartDate!, selectedEndDate!, todoTitle, member,
+  //           selectedAlert)
+  //       .then((value) => Navigator.pop(context));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -389,26 +388,41 @@ class _TodoFormState extends State<TodoForm> {
               ),
 
               //알림 버튼목록
-
               Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                 decoration: BoxDecoration(
                   border: Border.all(
                       color: Theme.of(context).colorScheme.outlineVariant,
                       width: 1,
                       style: BorderStyle.solid),
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: PopupMenuButton(
-                  //이게 왜 안먹는지 모르겠어서 패딩으로 묶었습니다;;; 진짜 화나네
-                  // padding: const EdgeInsets.symmetric(
-                  //   vertical: 20,
-                  //   horizontal: 14,
-                  // ),
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(14),
-                    child: Row(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      for (final value in alertValue)
+                        PopupMenuItem(
+                          value: value,
+                          child: Text(value),
+                        )
+                    ];
+                  },
+                  onSelected: (value) {
+                    List<bool> tempList = List.empty(growable: true);
+                    for (int i = 0; i < alertValue.length; i++) {
+                      tempList.add(alertValue[i] == value);
+                    }
+                    setState(() {
+                      selectedAlert = value.toString();
+                      alertBools = tempList;
+                    });
+                  },
+                  child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
@@ -420,46 +434,77 @@ class _TodoFormState extends State<TodoForm> {
                           ),
                         ),
                         Text(
-                          notice,
+                          selectedAlert,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.outlineVariant,
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      value: notice1,
-                      child: Text(notice1),
-                    ),
-                    PopupMenuItem(
-                      value: notice2,
-                      child: Text(notice2),
-                    ),
-                    PopupMenuItem(
-                      value: notice3,
-                      child: Text(notice3),
-                    ),
-                    PopupMenuItem(
-                      value: notice4,
-                      child: Text(notice4),
-                    ),
-                    PopupMenuItem(
-                      value: notice5,
-                      child: Text(notice5),
-                    ),
-                  ],
-                  onSelected: (String newvalue) {
-                    setState(() {
-                      notice = newvalue;
-                      print(notice);
-                    });
-                  },
+                      ]),
                 ),
-              ),
+              )
+
+              // Container(
+              //   decoration: BoxDecoration(
+              //     border: Border.all(
+              //         color: Theme.of(context).colorScheme.outlineVariant,
+              //         width: 1,
+              //         style: BorderStyle.solid),
+              //     borderRadius: BorderRadius.circular(8.0),
+              //   ),
+              //   child: PopupMenuButton(
+              //     //이게 왜 안먹는지 모르겠어서 패딩으로 묶었습니다;;; 진짜 화나네
+              //     // padding: const EdgeInsets.symmetric(
+              //     //   vertical: 20,
+              //     //   horizontal: 14,
+              //     // ),
+              //     shape: const RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.all(Radius.circular(12))),
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(14),
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           const Text(
+              //             '알림',
+              //             style: TextStyle(
+              //               color: Color.fromARGB(255, 86, 86, 86),
+              //               fontSize: 14,
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //           ),
+              //           Text(
+              //             selectedAlert,
+              //             style: TextStyle(
+              //               color: Theme.of(context).colorScheme.outlineVariant,
+              //               fontSize: 14,
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     itemBuilder: (context) {
+              //       List<Widget> tempWidgets = List.empty(growable: true);
+              //       for (int i = 0; i < alertValue.length; i++) {
+              //         tempWidgets.add(PopupMenuItem(
+              //           value: alertValue[i],
+              //           child: Text(alertValue[i]),
+              //         ));
+              //       }
+              //       return tempWidgets;
+              //     },
+              //     onSelected: (String selectedValue) {
+              //       setState(() {
+              //         selectedAlert = selectedValue;
+              //         for (int i = 0; i < alertValue.length; i++) {
+              //           alertBools[i] = alertValue[i] == selectedValue;
+              //         }
+              //       });
+              //     },
+              //   ),
+              // ),
             ],
           ),
         ),

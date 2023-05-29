@@ -232,7 +232,7 @@ class StoreManage {
 
 //할 일 추가
   Future<bool> createTodo(DateTime startTime, DateTime endTime,
-      String todoTitle, String selectUsers, String alert) async {
+      String todoTitle, String selectUsers, Map alert) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String calendarID = "";
@@ -243,7 +243,7 @@ class StoreManage {
         calendarID = AuthManage().getUser()!.uid;
       }
 
-      FirebaseFirestore.instance
+      final credential = await FirebaseFirestore.instance
           .collection("Calendars")
           .doc(calendarID)
           .collection("Events")
@@ -254,9 +254,16 @@ class StoreManage {
         'eventUsers': [selectUsers], //할 일 이벤트 참여자 고유 uid를 담아야돼요
         'eventAlerts': alert, // 알림
         'eventAuthorID': AuthManage().getUser()!.uid, //이벤트 제작자 고유 ID
-        'eventTodo': false, //false 면 할 일, true 면 일정
+        'eventTodo': true, //true 면 할 일, false 면 일정
         'eventCheckedUsers': [], // 할 일 체크 초기설정 [] 빈 배열 - 완료되면 완료된 사람의 Uid 담기
       });
+      await FirebaseFirestore.instance
+          .collection("Calendars")
+          .doc(calendarID)
+          .collection("Events")
+          .doc(credential.id)
+          .update(
+              {'eventID': credential.id}); //eventID 랜덤으로 들어갔던 것도 업데이트로 필드에 추가하기
 
       return true;
     } catch (e) {
