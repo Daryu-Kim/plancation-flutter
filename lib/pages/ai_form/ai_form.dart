@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:plancation/modules/another.dart';
 import 'package:plancation/pages/ai_form/ai_result.dart';
 
@@ -101,7 +102,16 @@ class _AIFormPageState extends State<AIFormPage> {
                             showCupertinoModalPopup(
                               context: context,
                               builder: (BuildContext context) {
-                                return SizedBox(
+                                return Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).colorScheme.background,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(8),
+                                      topRight: Radius.circular(8),
+                                    )
+
+                                  ),
                                   height: 300,
                                   child: CupertinoDatePicker(
                                     backgroundColor: Theme.of(context)

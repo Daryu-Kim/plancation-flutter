@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
+import 'package:plancation/components/todo_new/todo_new.dart';
 import 'package:plancation/pages/home_calendar/home_calendar.style.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -34,31 +35,64 @@ class HomeCalendarState extends State<HomeCalendarComponent> {
             child: Container(
               height: 60,
               color: Theme.of(context).colorScheme.secondary,
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                      onPressed: () {},
-                      iconSize: 36,
-                      padding: const EdgeInsets.all(0),
-                      icon: SvgPicture.asset(
-                        'assets/svgs/menu_icon.svg',
-                      )),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      Text('April', style: containerTitleTextStyle),
-                      Text('2023'),
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          alignment: AlignmentDirectional.center,
+                          child: SvgPicture.asset(
+                            'assets/svgs/menu_icon.svg',
+                            width: 24,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("내 캘린더", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 14)),
+                          Text('2023 April', style: containerTitleTextStyle),
+                        ],
+                      ),
                     ],
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    iconSize: 36,
-                    padding: const EdgeInsets.all(0),
-                    icon: const Icon(Icons.account_circle),
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          alignment: AlignmentDirectional.center,
+                          child: SvgPicture.asset(
+                            'assets/svgs/search_icon.svg',
+                            width: 24,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          alignment: AlignmentDirectional.center,
+                          child: SvgPicture.asset(
+                            'assets/svgs/alert_icon.svg',
+                            width: 24,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -147,7 +181,7 @@ class HomeCalendarState extends State<HomeCalendarComponent> {
                 'assets/svgs/todo_add.svg',
                 color: Theme.of(context).colorScheme.surface,
               ),
-              onTap: () => Logger().d("할일 추가 클릭됨."),
+              onTap: () => showModalBottomSheet(context: context, builder: (context) => const TodoForm()),
             ),
             SpeedDialChild(
               shape: const CircleBorder(),

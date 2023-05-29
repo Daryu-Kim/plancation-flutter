@@ -133,48 +133,50 @@ class AIResultPageState extends State<AIResultPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          left: BorderSide(
-                              color: Theme.of(context).colorScheme.tertiary,
-                              width: 8),
-                          right: BorderSide(
-                              color: Theme.of(context).colorScheme.tertiary,
-                              width: 1),
-                          top: BorderSide(
-                              color: Theme.of(context).colorScheme.tertiary,
-                              width: 1),
-                          bottom: BorderSide(
-                              color: Theme.of(context).colorScheme.tertiary,
-                              width: 1),
+                    ] else ...[
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            left: BorderSide(
+                                color: Theme.of(context).colorScheme.tertiary,
+                                width: 8),
+                            right: BorderSide(
+                                color: Theme.of(context).colorScheme.tertiary,
+                                width: 1),
+                            top: BorderSide(
+                                color: Theme.of(context).colorScheme.tertiary,
+                                width: 1),
+                            bottom: BorderSide(
+                                color: Theme.of(context).colorScheme.tertiary,
+                                width: 1),
+                          ),
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                        // borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 10),
-                          Text(
-                            '${startTime.startsWith('12') ? "오후 $startTime" : "오전 $startTime"} - \n ${endTime.startsWith('12') ? "오후 $endTime" : "오전 $endTime"}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 10),
+                            Text(
+                              '${double.parse(startTime.substring(0, 2)) > 12 ? "오후 ${(double.parse(startTime.substring(0, 2))-12).floor().toString().padLeft(2, '0')}${startTime.substring(2)}" : "오전 $startTime"} - \n ${endTime.startsWith('12') ? "오후 $endTime" : "오전 $endTime"}',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            content,
-                            style: const TextStyle(
-                              fontSize: 14,
+                            const SizedBox(width: 8),
+                            Text(
+                              content,
+                              style: const TextStyle(
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
+                          ],
+                        ),
+                      )
+                    ]
+                    ,
                   ],
                 ),
               ),

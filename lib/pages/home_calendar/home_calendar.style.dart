@@ -54,7 +54,7 @@ class CalendarStyleSheet {
 
 
 const containerTitleTextStyle = TextStyle(
-    fontSize: 20,
+    fontSize: 18,
     color: CupertinoColors.white,
     fontWeight: FontWeight.w600
     
