@@ -55,11 +55,15 @@ class HomeCalendarState extends State<HomeCalendarComponent> {
                         ),
                       ),
                       const SizedBox(width: 16),
-                      const Column(
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("내 캘린더", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 14)),
+                        children: const [
+                          Text("내 캘린더",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                  fontSize: 14)),
                           Text('2023 April', style: containerTitleTextStyle),
                         ],
                       ),
@@ -101,62 +105,62 @@ class HomeCalendarState extends State<HomeCalendarComponent> {
         ),
         body: SingleChildScrollView(
             child: Container(
-              height: setBodyHeightIncludeBNB(context),
-              padding: BodyStyle().bodyPadding,
-              child: TableCalendar(
-                firstDay: DateTime(
-                    currentDateTime.year - 1, currentDateTime.month, 1),
-                lastDay: DateTime(currentDateTime.year + 10, 12, 0),
-                focusedDay: currentDateTime,
-                headerVisible: false,
-                calendarFormat: CalendarFormat.month,
-                daysOfWeekHeight: 36,
-                rowHeight: setBodyHeightIncludeBNB(context) / 7,
-                calendarStyle: CalendarStyleSheet().calendarStyle(context),
-                availableGestures: AvailableGestures.horizontalSwipe,
-                onDaySelected: (selectedDay, focusedDay) {
-                  Logger().e(selectedDay);
-                },
-                calendarBuilders: CalendarBuilders(
-                  defaultBuilder: (context, day, focusedDay) {
-                    if (day.weekday == DateTime.sunday) {
-                      return Center(
-                        child: Text(day.day.toString(),
-                            style: CalendarStyleSheet().sundayTextStyle),
-                      );
-                    } else if (day.weekday == DateTime.saturday) {
-                      return Center(
-                        child: Text(day.day.toString(),
-                            style: CalendarStyleSheet().saturdayTextStyle),
-                      );
-                    } else {
-                      return Center(
-                        child: Text(day.day.toString(),
-                            style: CalendarStyleSheet().defaultTextStyle),
-                      );
-                    }
-                  },
-                  dowBuilder: (context, day) {
-                    if (day.weekday == DateTime.sunday) {
-                      return Center(
-                        child: Text(days[day.weekday],
-                            style: CalendarStyleSheet().sundayTextStyle),
-                      );
-                    } else if (day.weekday == DateTime.saturday) {
-                      return Center(
-                        child: Text(days[day.weekday],
-                            style: CalendarStyleSheet().saturdayTextStyle),
-                      );
-                    } else {
-                      return Center(
-                        child: Text(days[day.weekday],
-                            style: CalendarStyleSheet().defaultTextStyle),
-                      );
-                    }
-                  },
-                ),
-              ),
-            )),
+          height: setBodyHeightIncludeBNB(context),
+          padding: BodyStyle().bodyPadding,
+          child: TableCalendar(
+            firstDay:
+                DateTime(currentDateTime.year - 1, currentDateTime.month, 1),
+            lastDay: DateTime(currentDateTime.year + 10, 12, 0),
+            focusedDay: currentDateTime,
+            headerVisible: false,
+            calendarFormat: CalendarFormat.month,
+            daysOfWeekHeight: 36,
+            rowHeight: setBodyHeightIncludeBNB(context) / 7,
+            calendarStyle: CalendarStyleSheet().calendarStyle(context),
+            availableGestures: AvailableGestures.horizontalSwipe,
+            onDaySelected: (selectedDay, focusedDay) {
+              Logger().e(selectedDay);
+            },
+            calendarBuilders: CalendarBuilders(
+              defaultBuilder: (context, day, focusedDay) {
+                if (day.weekday == DateTime.sunday) {
+                  return Center(
+                    child: Text(day.day.toString(),
+                        style: CalendarStyleSheet().sundayTextStyle),
+                  );
+                } else if (day.weekday == DateTime.saturday) {
+                  return Center(
+                    child: Text(day.day.toString(),
+                        style: CalendarStyleSheet().saturdayTextStyle),
+                  );
+                } else {
+                  return Center(
+                    child: Text(day.day.toString(),
+                        style: CalendarStyleSheet().defaultTextStyle),
+                  );
+                }
+              },
+              dowBuilder: (context, day) {
+                if (day.weekday == DateTime.sunday) {
+                  return Center(
+                    child: Text(days[day.weekday],
+                        style: CalendarStyleSheet().sundayTextStyle),
+                  );
+                } else if (day.weekday == DateTime.saturday) {
+                  return Center(
+                    child: Text(days[day.weekday],
+                        style: CalendarStyleSheet().saturdayTextStyle),
+                  );
+                } else {
+                  return Center(
+                    child: Text(days[day.weekday],
+                        style: CalendarStyleSheet().defaultTextStyle),
+                  );
+                }
+              },
+            ),
+          ),
+        )),
         floatingActionButton: SpeedDial(
           backgroundColor: Theme.of(context).colorScheme.primary,
           activeChild: Icon(
@@ -181,7 +185,8 @@ class HomeCalendarState extends State<HomeCalendarComponent> {
                 'assets/svgs/todo_add.svg',
                 color: Theme.of(context).colorScheme.surface,
               ),
-              onTap: () => showModalBottomSheet(context: context, builder: (context) => const TodoForm()),
+              onTap: () => showModalBottomSheet(
+                  context: context, builder: (context) => const TodoForm()),
             ),
             SpeedDialChild(
               shape: const CircleBorder(),

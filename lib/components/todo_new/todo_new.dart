@@ -389,8 +389,6 @@ class _TodoFormState extends State<TodoForm> {
 
               //알림 버튼목록
               Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                 decoration: BoxDecoration(
                   border: Border.all(
                       color: Theme.of(context).colorScheme.outlineVariant,
@@ -398,50 +396,52 @@ class _TodoFormState extends State<TodoForm> {
                       style: BorderStyle.solid),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: PopupMenuButton(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  itemBuilder: (BuildContext context) {
-                    return [
-                      for (final value in alertValue)
-                        PopupMenuItem(
-                          value: value,
-                          child: Text(value),
-                        )
-                    ];
-                  },
-                  onSelected: (value) {
-                    List<bool> tempList = List.empty(growable: true);
-                    for (int i = 0; i < alertValue.length; i++) {
-                      tempList.add(alertValue[i] == value);
-                    }
-                    setState(() {
-                      selectedAlert = value.toString();
-                      alertBools = tempList;
-                    });
-                  },
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          '알림',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 86, 86, 86),
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: PopupMenuButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    itemBuilder: (BuildContext context) {
+                      return [
+                        for (final value in alertValue)
+                          PopupMenuItem(
+                            value: value,
+                            child: Text(value),
+                          )
+                      ];
+                    },
+                    onSelected: (value) {
+                      List<bool> tempList = List.empty(growable: true);
+                      for (int i = 0; i < alertValue.length; i++) {
+                        tempList.add(alertValue[i] == value);
+                      }
+                      setState(() {
+                        selectedAlert = value.toString();
+                        alertBools = tempList;
+                      });
+                    },
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            '알림',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 86, 86, 86),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Text(
-                          selectedAlert,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.outlineVariant,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                          Text(
+                            selectedAlert,
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).colorScheme.outlineVariant,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ]),
+                        ]),
+                  ),
                 ),
               )
 
